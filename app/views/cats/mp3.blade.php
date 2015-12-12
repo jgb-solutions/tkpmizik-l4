@@ -4,7 +4,7 @@
 
 	<div class="col-sm-8">
 
-		<h2 class="text-center">Browsing all {{ $cat->name }} Musics</h2>
+		<h2 class="text-center">Navige tout mizik {{ $cat->name }} yo</h2>
 
 		<hr>
 
