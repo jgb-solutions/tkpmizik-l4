@@ -66,7 +66,7 @@ Route::get('/u/{id}', 'UserController@getUserPublic');
 
 Route::get('/tweet', function()
 {
-    return Twitter::postTweet(array('status' => 'This is my tweet from my new laravel twitter application', 'format' => 'json'));
+    return Twitter::postTweet(array('status' => Input::get('message'), 'format' => 'json'));
     // return Twitter::getUserTimeline(array('screen_name' => 'tikwenpam', 'count' => 1, 'format' => 'json'));
 });
 
@@ -77,7 +77,12 @@ Route::get('/tweet', function()
 
 
 
-Route::get('fbposts', function()
+// Route::get('fbposts', function()
+// {
+// 	return View::make('fbposts');
+// });
+
+Route::get('events', function()
 {
-	return View::make('fbposts');
+	Event::fire('sendMail', array('email' => 'jgbneatdesign@gmail.com') );
 });

@@ -339,5 +339,19 @@ class MP3Controller extends BaseController
 	        	'format' => 'json'
 	        ));
 		});
+
+		Event::listen('sendMail', function( $email )
+		{
+			$data['name'] 			= 'Ti Kwen Pam Mizik';
+			$data['email'] 			= $email;
+			$data['mailMessage'] 	= 'Message send from TKPMizik';
+
+			Mail::queue('mail', $data, function( $message ) use ($data)
+			{
+				$message->to( Config::get('site.email'), Config::get('site.name') )
+						->subject('Ou gen yon nouvo imel KG.')
+						->replyTo( $data['email'] );
+			});
+		});
 	}
 }
