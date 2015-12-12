@@ -86,3 +86,19 @@ Route::get('events', function()
 {
 	Event::fire('sendMail', array('email' => 'jgbneatdesign@gmail.com') );
 });
+
+Event::listen('sendMail', function( $email )
+{
+	// return Redirect::to('/');
+	// print_r($email);
+	$data['name'] 			= 'Ti Kwen Pam Mizik';
+	$data['email'] 			= $email;
+	$data['mailMessage'] 	= 'Message send from TKPMizik';
+
+	Mail::queue('mail', $data, function( $message ) use ($data)
+	{
+		$message->to( $data['email'], $data['name'] )
+				->subject('Ou gen yon nouvo imel Ti Kwen Pam Mizik.')
+				->replyTo( $data['email'] );
+	});
+});

@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'mail',
+	'driver' => 'smtp',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'smtp.gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'tikwenpam@gmail.com', 'name' => 'Ti Kwen Pam'),
+	'from' => array('address' => 'mizik@tikwenpam.net', 'name' => Config::get('site.name')),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => 'tkpmizik@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => 'tkp898989',
 
 	/*
 	|--------------------------------------------------------------------------
