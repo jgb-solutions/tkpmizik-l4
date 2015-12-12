@@ -18,7 +18,7 @@ class CeateMp3sMp4sTable extends Migration {
 			$table->integer('category_id');
 			$table->integer('mp3_id');
 			$table->integer('mp4_id');
-		})
+		});
 	}
 
 	/**
