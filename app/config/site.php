@@ -4,7 +4,7 @@ return array(
 
 	'name' 				=> 'Ti Kwen Pam Mizik',
 
-	'url'				=> 'http://tkpmizik.dev',
+	'url'				=> $_ENV['SITE_URL'],
 
 	'description' 		=> 'Rezo Sosyal Mizik Ayisyen',
 
