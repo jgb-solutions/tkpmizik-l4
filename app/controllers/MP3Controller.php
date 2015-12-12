@@ -114,7 +114,7 @@ class MP3Controller extends BaseController
 	        $mp3_writter->WriteTags();
 
 	        // Fireing the Twitter event to tweet automatically
-	        Event::fire('tweet_music', [ $mp3 ] ));
+	        Event::fire('tweet_music', [ $mp3 ]);
 
 			return Redirect::to('mp3/' . $mp3->id );
 
