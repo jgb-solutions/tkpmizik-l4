@@ -6,7 +6,7 @@ return array(
 
 	'url'				=> 'http://tkpmizik.dev',
 
-	'description' 		=> 'Mete. Tande. Telechaje Mizik. - Mete. Gade. Telechaje Videyo YouTube.',
+	'description' 		=> 'Rezo Sosyal Mizik Ayisyen',
 
 	'mp3_upload_path' 	=> 'uploads/mp3s',
 
