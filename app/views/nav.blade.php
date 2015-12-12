@@ -138,7 +138,7 @@
 					>
 
 					<span class="glyphicon glyphicon-user"></span>
-					Alo, {{ Auth::user()->name }}! <b class="caret"></b></a>
+					Alo, {{ Auth::user()->name }} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="/user">
