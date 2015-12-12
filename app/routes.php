@@ -64,11 +64,11 @@ Route::any('ajax', 'AJAXController@postIndex');
 
 Route::get('/u/{id}', 'UserController@getUserPublic');
 
-// Route::get('/tweet', function()
-// {
-//     // return Twitter::postTweet(array('status' => 'This is my tweet from my new laravel twitter application', 'format' => 'json'));
-//     return Twitter::getUserTimeline(array('screen_name' => 'tikwenpam', 'count' => 1, 'format' => 'json'));
-// });
+Route::get('/tweet', function()
+{
+    // return Twitter::postTweet(array('status' => 'This is my tweet from my new laravel twitter application', 'format' => 'json'));
+    return Twitter::getUserTimeline(array('screen_name' => 'tikwenpam', 'count' => 1, 'format' => 'json'));
+});
 
 // Route::get('/vote', function()
 // {

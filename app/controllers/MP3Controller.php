@@ -113,11 +113,8 @@ class MP3Controller extends BaseController
 	        $mp3_writter->tag_data = $mp3_data;
 	        $mp3_writter->WriteTags();
 
-	        // Auto-Post Tweet
-	        // Twitter::postTweet(array(
-	        // 	'status' => $mp3->name . ' ' . Config::get('site.url') . '/mp3/' . $mp3->id,
-	        // 	'format' => 'json'
-	        // ));
+	        // Fireing the Twitter event to tweet automatically
+	        Event::fire('tweet_music', [ $mp3 ] ));
 
 			return Redirect::to('mp3/' . $mp3->id );
 
@@ -330,5 +327,17 @@ class MP3Controller extends BaseController
 	    }
 
 	    return round( $size, $round ) . $sizes[ $i ];
+	}
+
+	public function eventListener()
+	{
+		Event::listen('tweet_music', function( $mp3 )
+		{
+			//Auto-Post Tweet
+	        Twitter::postTweet(array(
+	        	'status' => $mp3->name . ' ' . Config::get('site.url') . '/mp3/' . $mp3->id,
+	        	'format' => 'json'
+	        ));
+		});
 	}
 }
