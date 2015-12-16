@@ -54,7 +54,7 @@ class AJAXController extends BaseController
 			// ->orderBy('download', 'desc')
 			->orderByRaw('RAND()') // get random rows from the DB
 			->take( 10 )
-			->get(array('id', 'name', 'play', 'download', 'image'));
+			->get(array('id', 'name', 'views', 'download'));
 
 		$mp3results->each( function( $mp3 )
 		{
@@ -77,8 +77,8 @@ class AJAXController extends BaseController
 
 		$results = $mp3results->merge( $mp4results );
 		$shuffle_results = $results->shuffle();
-		return $shuffle_results;
 
+		return $shuffle_results;
 	}
 
 	private function searchMP3( $query )

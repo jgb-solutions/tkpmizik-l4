@@ -23,7 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password');
 
-	protected $fillable = array('email', 'password', 'name', 'admin', 'image');
+	protected $fillable = array('email', 'password', 'name', 'admin', 'image', 'telephone');
 
 	public function getAuthIdentifier()
 	{
@@ -50,7 +50,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('MP4', 'user_id');
 	}
 
-	public static function is_Admin()
+	public static function is_admin()
 	{
 		return Auth::user()->admin == 1;
 	}

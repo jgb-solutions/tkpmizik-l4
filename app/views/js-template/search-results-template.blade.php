@@ -9,8 +9,8 @@
 		</strong>
 	</td>
 	<td>
-		<span class="glyphicon glyphicon-play"></span>
-		<strong><%= play %></strong>
+		<span class="glyphicon glyphicon-eye-open"></span>
+		<strong><%= views %></strong>
 	</td>
 	<td>
 		<span class="glyphicon glyphicon-download"></span>

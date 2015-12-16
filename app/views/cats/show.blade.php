@@ -4,7 +4,7 @@
 
 	<div class="col-sm-8">
 
-		<h2 class="text-center">Navige Tout Mizik {{ $cat->name }} Yo</h2>
+		<h2 class="text-center">Navige Tout {{ $cat->name }} Yo</h2>
 
 		<hr>
 
@@ -45,7 +45,7 @@
 
 		@else
 
-		<h3 class="text-center">No {{ $cat->name }} Musics yet</h3>
+		<h3 class="text-center">Poko gen mizik {{ $cat->name }}</h3>
 
 		@endif
 

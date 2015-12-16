@@ -21,11 +21,11 @@ class MP3Controller extends BaseController
 		);
 
 		$messages = [
-			'name.required' 	=> 'Non an obligatwa. Fòk ou mete li.',
-			'name.min'			=> 'Fòk non an pa pi piti pase 6 karaktè. Ajoute plis pase 6.',
-			'mp3.required' 		=> 'Fòk ou chwazi yon fichye MP3.',
-			'image.required' 	=> 'Fòk ou chwazi yon imaj pou asosye ak mizik la.',
-			'image.image'		=> 'Fòk ou chwazi yon bon imaj.'
+			'name.required' 	=> Config::get('site.validate.name.requried'),
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'mp3.required' 		=> Config::get('site.validate.mp3.required'),
+			'image.required' 	=> Config::get('site.validate.image.required'),
+			'image.image'		=> Config::get('site.validate.image.image')
 		];
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
@@ -68,33 +68,31 @@ class MP3Controller extends BaseController
 				->save( $imageuploadpath . '/thumbs/tiny/' . $imagename );
 		}
 
-		$admin_id = User::where('admin', 1)->first()->id;
-		$user_id = ( Auth::check() ) ? Auth::user()->id : $admin_id;
+		$admin_id = User::whereAdmin( 1 )->first()->id;
+		$user_id  = ( Auth::check() ) ? Auth::user()->id : $admin_id;
 
 		if ( $mp3success && $imagesuccess )
 		{
-
-			$mp3 = MP3::create(array(
-				'name' 			=> $name,
-				'mp3name'		=> $mp3name,
-				'image' 		=> $imagename,
-				'user_id'		=> $user_id,
-				'category_id' 	=> Input::get('cat'),
-				'size'			=> $mp3size
-			));
+			$mp3 			 = new MP3;
+			$mp3->name 		 = ucwords( $name );
+			$mp3->mp3name	 = $mp3name;
+			$mp3->image 	 = $imagename;
+			$mp3->user_id 	 = $user_id;
+			$mp3->category_id = Input::get('cat');
+			$mp3->size 		 = $mp3size;
+			$mp3->save();
 
 
 			/*********** GETID3 **************/
 	        $mp3_handler = new \getID3;
-	        $mp3_handler->setOption( array('encoding'=> 'UTF-8') );
+	        $mp3_handler->setOption(['encoding'=> 'UTF-8']);
 
-	        $mp3_writter = new getid3_writetags;
+	        $mp3_writter 					= new getid3_writetags;
 	        $mp3_writter->filename          = Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name;
 	        $mp3_writter->tagformats        = array('id3v1', 'id3v2.3');
 	        $mp3_writter->overwrite_tags    = true;
 	        $mp3_writter->tag_encoding      = 'UTF-8';
 	        $mp3_writter->remove_other_tags = true;
-
 
 	        $mp3_data['title'][]   = $mp3->name;
 	        $mp3_data['artist'][]  = Config::get('site.name') . ' --|-- ' . Config::get('site.url'); //$mp3_artist;
@@ -103,12 +101,10 @@ class MP3Controller extends BaseController
 	        // $mp3_data['genre'][]   = $mp3_genre;
 	        $mp3_data['comment'][] = Config::get('site.name') . ' --|-- ' . Config::get('site.url');
 
-
 	        $mp3_data['attached_picture'][0]['data'] = file_get_contents('images/logo_tkp.jpg' );
 	        $mp3_data['attached_picture'][0]['picturetypeid'] = "image/jpg";
 	        $mp3_data['attached_picture'][0]['description'] = "Ti Kwen Pam --|-- Mizik, Videyo, News!";
 	        $mp3_data['attached_picture'][0]['mime'] = "image/jpg";
-
 
 	        $mp3_writter->tag_data = $mp3_data;
 	        $mp3_writter->WriteTags();
@@ -150,24 +146,31 @@ class MP3Controller extends BaseController
 
 		return View::make('mp3.show')
 			    ->with('mp3', $mp3)
-			    ->with('title', $authorName .  $mp3->name)
-			    ->with('related', $related);
+			    ->with('title', $mp3->name)
+			    ->with('related', $related)
+			    ->with('author', $authorName);
 	}
 
 	public function edit( $id )
 	{
-		$mp3 = MP3::whereId( $id )->first();
-		$cats = Category::orderBy('name')->get();
+		if ( Auth::check() )
+		{
+			$mp3 = MP3::whereId( $id )->first();
 
-		if( Auth::check() && Auth::user()->id == $mp3->user_id || User::is_Admin() ) {
-			return View::make('mp3.put')
-			    ->with( 'mp3', $mp3 )
-			    ->with( 'title', $mp3->name )
-			    ->with( 'cats', $cats );
+			if ( Auth::user()->id == $mp3->user_id || User::is_admin() )
+			{
+				$cats = Category::orderBy('name')->get();
+
+				$title = 'Modifye ' . $mp3->name;
+				return View::make('mp3.put')
+				    ->with( 'mp3', $mp3 )
+				    ->with( 'title', $title )
+				    ->with( 'cats', $cats );
+			}
 		}
 
-		return Redirect::to('/mp3')
-				->with('message', 'You don\'t have the rights to edit this music');
+		return Redirect::to('/login')
+				->with('message', 'Fòk ou konekte sou sit la pou w ka wè paj ou mande a.');
 	}
 
 	public function update( $id )
@@ -178,8 +181,8 @@ class MP3Controller extends BaseController
 		);
 
 		$messages = [
-			'name.min'			=> 'Fòk non an pa pi piti pase 6 karaktè. Ajoute plis pase 6.',
-			'image.image'		=> 'Fòk ou chwazi yon bon imaj.'
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'image.image'		=> Config::get('site.validate.image.image')
 		];
 
 		$validator = Validator::make( Input::all(), $rules, $messages );

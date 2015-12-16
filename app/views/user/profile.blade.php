@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+ 	{{ $title }}
+@stop
+
 @include('user.profile-stats')
 
 <div class="col-sm-8">
@@ -12,7 +16,7 @@
       			<span aria-hidden="true">×</span>
       			<span class="sr-only">Fèmen</span>
       		</button>
-      		<h2>{{ Session::get('message') }}</h2>
+      		<h3>{{ Session::get('message') }}</h3>
     	</div>
 	@endif
 
@@ -28,7 +32,7 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3>Ou genyen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
+	<h3 class="text-center">Ou genyen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
 
 	<hr>
 

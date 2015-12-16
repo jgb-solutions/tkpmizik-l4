@@ -38,7 +38,7 @@ class SearchController extends BaseController
 		return View::make('search.index')
 			->with( 'results', $results )
 			->with( 'query', $query )
-			->with( 'title', $query );
+			->with( 'title', 'Rezilta pou: ' . $query );
 	}
 
 	public function searchMP3( $query )

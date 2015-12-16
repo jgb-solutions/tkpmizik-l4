@@ -4,31 +4,8 @@
 	{{ $title }}
 @stop
 
-@section('seo')
+@include('inc.seo')
 
-	{{-- SEO --}}
-	<meta name="description" content="{{ $mp3->description }}"/>
-	<link rel="canonical" href="{{ Config::get('site.url') }}/mp3/{{ $mp3->id }}" />
-
-	{{-- Open Graph --}}
-	<meta property="og:title" content="{{ $title }}" />
-	<meta property="og:description" content="{{ $mp3->description }}" />
-	<meta property="og:url" content="{{ Config::get('site.url') }}/mp3/{{ $mp3->id }}" />
-	<meta property="fb:admins" content="504535793062337" />
-	<meta property="og:image" content="/uploads/images/{{ $mp3->image }}" />
-	<meta property="og:site_name" content="{{ $mp3->name }}" />
-
-	{{-- Twitter Graph --}}
-	<meta name="twitter:card" content="summary"/>
-	<meta name="twitter:description" content="{{ $mp3->description }}"/>
-	<meta name="twitter:title" content="{{ $title }}"/>
-	<meta name="twitter:domain" content="{{ Config::get('site.url') }}/mp3/{{ $mp3->id }}"/>
-	<meta name="twitter:site" content="{{ Config::get('site.twitter') }}"/>
-	<meta name="twitter:image" content="/uploads/images/{{ $mp3->image }}"/>
-	<meta name="twitter:creator" content="{{ Config::get('site.twitter') }}"/>
-	{{-- /SEO --}}
-
-@stop
 @section('content')
 
 <div class="col-sm-8">
@@ -80,11 +57,11 @@
 
 	  	@if ( Auth::check() )
 
-	  		@if( Auth::user()->id == $mp3->user_id || User::is_Admin() )
+	  		@if( Auth::user()->id == $mp3->user_id || User::is_admin() )
 
 			<a
 				href="/mp3/delete/{{ $mp3->id }}"
-				onclick="return confirm('Ou Vle Efase {{ $mp3->name }} tout bon?')"
+				onclick='return confirm("Ou Vle Efase {{ $mp3->name }} tout bon?")'
 				class="btn btn-danger">
 				<span class="glyphicon glyphicon-trash"></span>
 				<span class="hidden-484">Efase</span>

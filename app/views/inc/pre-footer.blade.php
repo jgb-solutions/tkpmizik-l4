@@ -1,27 +1,11 @@
-<div class="col-sm-4">
-	@include('modules.latest-musics')
-</div>
-
-<div class="col-sm-4">
-	@include('modules.latest-videos')
-</div>
-
-<div class="col-sm-4">
-	@include('modules.categories')
-</div>
+@include('modules.latest-musics')
+@include('modules.latest-videos')
+@include('modules.categories')
 
 <div class="col-sm-12 bg-success padding1">
 	<div class="row">
-		<div class="col-sm-4">
-			@include('modules.top-musics')
-		</div>
-
-		<div class="col-sm-4">
-			@include('modules.top-videos')
-		</div>
-		<div class="col-sm-4">
-			@include('modules.top-users')
-
-		</div>
+		@include('modules.top-musics')
+		@include('modules.top-videos')
+		@include('modules.top-users')
 	</div>
 </div>

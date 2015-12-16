@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+	{{ $title }}
+@stop
+
 @include('user.profile-stats')
 
 <div class="col-sm-8">
@@ -10,7 +14,7 @@
 		<div class="alert alert-info fade in" role="alert">
       		<button type="button" class="close" data-dismiss="alert">
       			<span aria-hidden="true">×</span>
-      			<span class="sr-only">Close</span>
+      			<span class="sr-only">Fèmen</span>
       		</button>
       		<h1>{{ Session::get('message') }}</h1>
     	</div>
@@ -28,7 +32,7 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3 class="text-center">Navige Tout Mizik Ou Yo</h3>
+	<h3 class="text-center">{{ $title }}</h3>
 
 	<hr>
 

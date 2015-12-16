@@ -6,22 +6,23 @@
 
 @section('content')
 
-	<div class="col-sm-8">
+<div class="col-sm-8">
 
-		<h2 class="text-center">{{ $title }}</h2>
-		<hr>
-
-		@if( count( $mp3s ) > 0 )
-
+	@if ( count( $mp3s ) > 0 )
+			<h2 class="text-center">
+				<span class="glyphicon glyphicon-music"></span>
+				{{ $title }}
+			</h2>
+			<hr>
 		@include('mp3.grid-12')
-
-		@endif
 
 		<div class="text-center">
 			{{ $mp3s->links() }}
 		</div>
+	@else
+		<h2 class="text-center">Poko gen videyo (-_-)</h2>
+	@endif
 
-
-	</div>
+</div>
 
 @stop

@@ -107,22 +107,18 @@
 				</a>
 
 				<ul class="dropdown-menu">
+					<?php $pages = Page::all(); //Page::remember->get(); ?>
 
+					@foreach ( $pages as $page )
 					<li>
 						<a
-							href="/about">
+							href="/p/{{ $page->slug }}">
 							<span class="glyphicon glyphicon-flash"></span>
-							Kiyès Nou Ye
+							{{ $page->title }}
 						</a>
 					</li>
+					@endforeach
 
-					<li>
-						<a
-							href="/contact">
-							<span class="glyphicon glyphicon-flash"></span>
-							Kontakte Nou
-						</a>
-					</li>
 				</ul>
 			</li>
 

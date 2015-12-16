@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+	{{ $title }}
+@stop
+
 <div class="col-sm-8 col-sm-offset-2">
 
 	@if ( Session::has('message') )
@@ -14,44 +18,73 @@
     	</div>
 	@endif
 
-	<div class="bg-danger">
+	<h2 class="text-center">{{ $title }}</h2>
+	<hr>
 
-		@if( $errors )
-			<ul class="list-unstyled">
-				@foreach ( $errors->all('<li>:message</li>') as $error )
-					{{ $error }}
-				@endforeach
-			</ul>
-		@endif
+	@if( count( $errors ) > 0 )
 
+	<div class="panel panel-default">
+		<ul class="list-group bg-danger">
+			@foreach ( $errors->all('<li class="list-group-item transparent"><b>:message</b></li>') as $error )
+				{{ $error }}
+			@endforeach
+		</ul>
 	</div>
 
-	{{ Form::open(array('method' => 'PUT', 'enctype' => 'multipart/form-data' )) }}
+	@endif
+
+	{{ Form::open(['method' => 'PUT', 'enctype' => 'multipart/form-data', 'class' => 'form-horizontal' ]) }}
 
 		<div class="form-group">
-			<label for="regname">Name</label>
-			<input name="name" type="name" class="form-control" id="regname" placeholder="Enter your name" required value="{{ Auth::user()->name }}">
-		</div>
-		<div class="form-group">
-			<label for="regemail">Email address</label>
-			<input name="email" type="email" class="form-control" id="regemail" placeholder="Enter email" required value="{{ Auth::user()->email }}">
-		</div>
-		<div class="form-group">
-			<label for="regpassword">New Password</label>
-			<input name="password" type="password" class="form-control" id="regpassword" placeholder="Enter your new Password">
-		</div>
-		<div class="form-group">
-			<label for="regpasswordconfirm">Re-enter your new Password</label>
-			<input name="password_confirm" type="password" class="form-control" id="regpasswordconfirm" placeholder="Re-enter your new Password">
+			<label for="regname" class="control-label col-sm-4">Non Ou</label>
+			<div class="col-sm-8">
+				<input name="name" type="name" class="form-control" id="regname" placeholder="Antre non ou" required value="{{ $user->name }}">
+			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="image">Profile Image</label>
-			<input type="file" name="image" id="image" class="form-control">
+			<label for="regemail" class="control-label col-sm-4">Adrès Imel Ou</label>
+			<div class="col-sm-8">
+				<input name="email" type="email" class="form-control" id="regemail" placeholder="Antre Imel ou" required value="{{ $user->email }}">
+			</div>
 		</div>
 
-		<button type="submit" class="btn btn-primary">Update Profile</button>
+		<div class="form-group">
+			<label for="regpassword" class="control-label col-sm-4">Nouvo Modpas</label>
+			<div class="col-sm-8">
+				<input name="password" type="password" class="form-control" id="regpassword" placeholder="Antre yon nouvo modpas">
+			</div>
+		</div>
 
+		<div class="form-group">
+			<label for="regpasswordconfirm" class="control-label col-sm-4">Konfime Modpas la</label>
+			<div class="col-sm-8">
+				<input name="password_confirm" type="password" class="form-control" id="regpasswordconfirm" placeholder="Antre nouvo modpas ou a ankò">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="image" class="control-label col-sm-4">Imaj Pwofil Ou</label>
+			<div class="col-sm-8">
+				<input type="file" name="image" id="image" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="telephone" class="control-label col-sm-4">Nimewo Telefòn ou</label>
+			<div class="col-sm-8">
+				<input name="telephone" type="tel" class="form-control" id="telephone" placeholder="Antre nimwwo telefòn ou" value="{{ $user->telephone }}">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<button type="submit" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-edit"></span>
+					Modifye
+				</button>
+			</div>
+		</div>
 	{{ Form::close() }}
 
 	<br>

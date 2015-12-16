@@ -12,6 +12,19 @@ class PageController extends BaseController
 			->with('mp4s', $mp4s);
 	}
 
+	public function getPage( $slug )
+	{
+		$page = Page::whereSlug( $slug )->first();
+
+		if ( $page )
+		{
+			return View::make("pages.page")
+					->with('page', $page);
+		}
+
+		return Redirect::to('/404');
+	}
+
 	public function getAbout()
 	{
 		return View::make('pages.about')

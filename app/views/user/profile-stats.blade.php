@@ -1,14 +1,25 @@
 <div class="col-sm-4">
 	<h2 class="text-center">
 
-		<?php $user = Auth::user(); ?>
 		@if( $user->image )
 		<img
 			class="img-responsive img-circle img-bordered img-centered"
 			src="/uploads/images/thumbs/{{ $user->image}}"
 		>
 		@endif
-		<small>{{ ucwords( $user->name ) }}</small>
+		<small>
+			{{ ucwords( $user->name ) }}<br>
+			<small>
+				<a
+					class="btn btn-success"
+					href="tel:{{ $user->telephone }}"
+					target="_blank">
+					<strong>
+					  <i class="fa fa-whatsapp fa-lg"></i> {{ $user->telephone }}
+					</strong>
+				</a>
+			</small>
+		</small>
 	</h2>
 	<hr>
 

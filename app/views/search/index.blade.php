@@ -1,12 +1,19 @@
 @extends('layout.main')
 
+@section('title')
+	{{ $title }}
+@stop
+
 @section('content')
 
 	<div class="col-sm-8">
 
 		@if( count( $results ) > 0 )
 
-		<h2 class="text-center">Nou jwenn {{ $results->count() }} rezilta pou: "{{ $query }}"</h2>
+		<h2 class="text-center">
+			Nou jwenn {{ $results->count() }} rezilta pou: "{{ $query }}"
+		</h2>
+		<hr>
 
 		@include('search.grid-12')
 

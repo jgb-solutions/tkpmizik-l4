@@ -18,7 +18,7 @@
 
 		@else
 
-		<h3 class="text-center">No {{ $cat->name }} Musics yet</h3>
+		<h3 class="text-center">Po gen mizik {{ $cat->name }}</h3>
 
 		@endif
 

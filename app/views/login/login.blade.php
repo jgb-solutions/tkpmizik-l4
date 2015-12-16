@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="col-sm-8 col-sm-offset-2">
-	<h1 class="text-center">Please Login</h1>
+	<h1 class="text-center">Tanpri konekte w</h1>
 
 	<hr>
 
@@ -11,19 +11,22 @@
 		<div class="alert alert-warning fade in" role="alert">
 					<button type="button" class="close" data-dismiss="alert">
 						<span aria-hidden="true">×</span>
-						<span class="sr-only">Close</span>
+						<span class="sr-only">Fèmen</span>
 					</button>
-					<h2>{{ Session::get('message') }}</h2>
+					<h3>{{ Session::get('message') }}</h3>
 			</div>
 	@endif
 
-	<div class="bg-danger">
 
 		@if( Session::has('error') )
-			{{ Session::get('error') }}
+		<div class="panel panel-default">
+			<ul class="list-group bg-danger">
+				<li class="list-group-item transparent">
+					<b>{{ Session::get('error') }}</b>
+				</li>
+				</ul>
+			</div>
 		@endif
-
-	</div>
 
 	@include('login.form-login')
 

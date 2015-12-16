@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+	{{ $title }}
+@stop
+
 @include('user.profile-stats')
 
 <div class="col-sm-8">
@@ -28,7 +32,7 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3 class="text-center">Navige Tout Videyo Ou Yo</h3>
+	<h3 class="text-center">{{ $title }}</h3>
 
 	<hr>
 

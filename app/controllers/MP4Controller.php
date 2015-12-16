@@ -8,7 +8,7 @@ class MP4Controller extends BaseController
 
 		return View::make('mp4.index')
 			->with( 'mp4s', $mp4s )
-			->with('title', 'Browsing all Videos');
+			->with('title', 'Navige Tout Videyo Yo');
 	}
 
 	public function getCreate()

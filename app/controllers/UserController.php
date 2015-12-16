@@ -22,7 +22,8 @@ class UserController extends BaseController
 				->with('message', 'Byenvini ankò, ' . explode(' ', Auth::user()->name )[0] . '!');
 		} else {
 			return Redirect::to('/login')
-				->with('error', 'Email or Password not correct. Please enter yours and try login again.')->withInput();
+				->with('error', 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò.')
+				->withInput();
 		}
 	}
 
@@ -38,10 +39,23 @@ class UserController extends BaseController
 		$rules = array(
 			'name' 		=> 'required|min:6',
 			'email' 	=> 'required|email|different:name',
-			'password' 	=> 'required|same:password_confirm'
+			'password' 	=> 'required|same:password_confirm|min:6',
+			'telephone'	=> 'numeric'
 		);
 
-		$validator = Validator::make( Input::all(), $rules );
+		$messages = [
+			'name.required' 	=> Config::get('site.validate.name.required'),
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'email.required' 	=> Config::get('site.validate.email.required'),
+			'email.email' 		=> Config::get('site.validate.email.email'),
+			'email.different' 	=> Config::get('site.validate.email.different'),
+			'password.required' => Config::get('site.validate.password.required'),
+			'password.min' 		=> Config::get('site.validate.password.min')		,
+			'password.same' 	=> Config::get('site.validate.password.same'),
+			'telephone.numeric' => Config::get('site.validate.telephone.numeric')
+		];
+
+		$validator = Validator::make( Input::all(), $rules, $messages );
 
 		if ( $validator->fails() )
 		{
@@ -53,6 +67,7 @@ class UserController extends BaseController
 		$name 		= Input::get('name');
 		$email 		= Input::get('email');
 		$password 	= Input::get('password');
+		$telephone 	= Input::get('telephone');
 
 		$test_email = User::where('email', $email )->first();
 
@@ -60,14 +75,15 @@ class UserController extends BaseController
 		{
 			return Redirect::to('/register')
 							->withInput()
-							->with('message', 'This email is already taken. If it\'s yours, please <a href="/login">Login</a>. Otherwise choose another one');
+							->with('message', 'Imel sa a itilize deja. Si se pou ou li ye, tanpri <a href="/login">konekte ou</a>. Sinon chwazi yon lòt imel.');
 		}
 
 		$user = new User;
 
-		$user->name 	= $name;
-		$user->password = Hash::make( $password );
-		$user->email 	= $email;
+		$user->name 		= $name;
+		$user->password 	= Hash::make( $password );
+		$user->email 		= $email;
+		$user->telephone 	= $telephone;
 
 		$user->save();
 
@@ -75,12 +91,13 @@ class UserController extends BaseController
 
 		if ( Auth::attempt( $credentials ) )
 		{
+			$message = 'Byenvini, ' . explode(' ', Auth::user()->name )[0] . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
 			return Redirect::to( '/user' )
-							->with('message', 'Welcome, ' . explode(' ', Auth::user()->name )[0] ) . '!';
+							->with('message', $message);
 		} else
 		{
 			return Redirect::to('/login')
-							->with('error', 'Email or Password not correct. Please enter yours and try login again.')
+							->with('error', 'Imel oubyen modpas ou pa kòrèk. Tanpri antre yo byen epi eseye konekte w ankò.')
 							->withInput();
 		}
 
@@ -97,21 +114,22 @@ class UserController extends BaseController
 
 	public function getUser()
 	{
-		$user_id 			= Auth::user()->id;
+		$user 				= Auth::user();
 
-		$mp3s 				= MP3::whereUserId( $user_id )->take( 5 )->get();
-		$mp4s 				= MP4::whereUserId( $user_id )->take( 5 )->get();
-		$mp3count 			= MP3::whereUserId( $user_id )->count();
-		$mp4count 			= MP4::whereUserId( $user_id )->count();
-		$mp3ViewsCount 		= MP3::whereUserId( $user_id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user_id )->sum('views');
-		$mp3playcount 		= MP3::whereUserId( $user_id )->sum('play');
-		$mp3downloadcount 	= MP3::whereUserId( $user_id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user_id )->sum('download');
-		$firstname 			= explode(' ', Auth::user()->name )[0];
+		$mp3s 				= MP3::whereUserId( $user->id )->orderBy('created_at', 'desc')->take( 5 )->get();
+		$mp4s 				= MP4::whereUserId( $user->id )->orderBy('created_at', 'desc')->take( 5 )->get();
+		$mp3count 			= MP3::whereUserId( $user->id )->count();
+		$mp4count 			= MP4::whereUserId( $user->id )->count();
+		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
+		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
+		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
+		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
+		$firstname 			= explode(' ', $user->name )[0];
 
 		return View::make('user.profile')
-					->with('title', 'Your profile' )
+					->with('user', $user )
+					->with('title', 'Pwofil ou' )
 					->with( 'mp3s', $mp3s )
 					->with( 'mp4s', $mp4s )
 					->with( 'firstname', $firstname )
@@ -130,7 +148,7 @@ class UserController extends BaseController
 
 		$mp3count 			= MP3::whereUserId( $user->id )->count();
 		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp3s 				= MP3::whereUserId( $user->id )->paginate( 10 );
+		$mp3s 				= MP3::whereUserId( $user->id )->orderBy('created_at', 'desc')->paginate( 10 );
 		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
 		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
 		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
@@ -140,7 +158,7 @@ class UserController extends BaseController
 		$firstname 			= explode(' ', $user->name )[0];
 
 		return View::make('user.mp3')
-					->with('title', $user->name . '\'s profile' )
+					->with('title', 'Navige Tout Mizik Ou Yo' )
 					->with( 'mp3s', $mp3s )
 					->with( 'firstname', $firstname )
 					->with( 'mp3count', $mp3count )
@@ -149,7 +167,8 @@ class UserController extends BaseController
 					->with( 'mp3downloadcount', $mp3downloadcount )
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount);
+					->with('mp4ViewsCount', $mp4ViewsCount)
+					->with( 'user', $user );
 	}
 
 	public function getUserMP4s()
@@ -158,7 +177,7 @@ class UserController extends BaseController
 
 		$mp3count 			= MP3::whereUserId( $user->id )->count();
 		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp4s 				= MP4::whereUserId( $user->id )->paginate( 10 );
+		$mp4s 				= MP4::whereUserId( $user->id )->orderBy('created_at', 'desc')->paginate( 10 );
 		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
 		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
 		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
@@ -168,22 +187,26 @@ class UserController extends BaseController
 		$firstname 			= explode(' ', $user->name )[0];
 
 		return View::make('user.mp4')
-			->with('title', $user->name . '\'s profile' )
-			->with( 'mp4s', $mp4s )
-			->with( 'firstname', $firstname )
-			->with( 'mp3count', $mp3count )
-			->with( 'mp4count', $mp4count )
-			->with( 'mp3playcount', $mp3playcount )
-			->with( 'mp3downloadcount', $mp3downloadcount )
-			->with( 'mp4downloadcount', $mp4downloadcount )
+			->with('title', 'Navige Tout Videyo Ou Yo')
+			->with('mp4s', $mp4s)
+			->with('firstname', $firstname)
+			->with('mp3count', $mp3count)
+			->with('mp4count', $mp4count)
+			->with('mp3playcount', $mp3playcount)
+			->with('mp3downloadcount', $mp3downloadcount)
+			->with('mp4downloadcount', $mp4downloadcount)
 			->with('mp3ViewsCount', $mp3ViewsCount)
-			->with('mp4ViewsCount', $mp4ViewsCount);
+			->with('mp4ViewsCount', $mp4ViewsCount)
+			->with('user', $user);
 	}
 
 	public function getUserEdit()
 	{
+		$user = Auth::user();
+
 		return View::make('user.profile-edit')
-			->with( 'title', 'You\'re Editing your profile' );
+			->with( 'title', 'Modifye Pwofil Ou')
+			->withUser( $user );
 	}
 
 	public function putUser()
@@ -192,13 +215,28 @@ class UserController extends BaseController
 			'name' 		=> 'required|min:6',
 			'email' 	=> 'required|email|different:name',
 			'password' 	=> 'min:6|same:password_confirm',
-			'image'		=> 'image'
+			'image'		=> 'image',
+			'telephone'	=> 'numeric'
 		];
 
-		$validator = Validator::make( Input::all(), $rules );
+		$messages = [
+			'name.required' 	=> Config::get('site.validate.name.required'),
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'email.required' 	=> Config::get('site.validate.email.required'),
+			'email.email' 		=> Config::get('site.validate.email.email'),
+			'email.different' 	=> Config::get('site.validate.email.different'),
+			'password.min' 		=> Config::get('site.validate.password.min'),
+			'password.same' 	=> Config::get('site.validate.password.same'),
+			'image.image'		=> Config::get('site.validate.image.image'),
+			'telephone.numeric'	=> Config::get('site.validate.telephone.numeric')
+		];
+
+		$validator = Validator::make( Input::all(), $rules, $messages );
 
 		if ( $validator->fails() )
 		{
+			$user = Auth::user();
+
 			return Redirect::to( Request::url() )
 							->withErrors( $validator );
 		}
@@ -207,6 +245,7 @@ class UserController extends BaseController
 		$email 		= Input::get('email');
 		$password 	= Input::get('password');
 		$image 		= Input::file('image');
+		$telephone	= Input::get('telephone');
 
 		if ( isset( $image ) )
 		{
@@ -244,6 +283,9 @@ class UserController extends BaseController
 		if ( !empty( $image ) )
 			$user->image = $imagename;
 
+		if ( !empty( $telephone ) )
+			$user->telephone = $telephone;
+
 		$user->save();
 
 		return Redirect::to('/user')
@@ -269,7 +311,7 @@ class UserController extends BaseController
 
 		return View::make('user.profile-public')
 					->with(	'user', $user )
-					->with(	'title', $user->name . '\'s profile' )
+					->with(	'title', "Pwofil $user->name" )
 					->with( 'mp3s', $mp3s )
 					->with( 'mp4s', $mp4s )
 					->with( 'firstname', $firstname )

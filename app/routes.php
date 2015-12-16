@@ -1,15 +1,12 @@
 <?php
 
 Route::get('/', 'PageController@getIndex');
-Route::get('/about', 'PageController@getAbout');
-Route::get('/contact', 'PageController@getContact');
-
+Route::get('/p/{slug}', 'PageController@getPage');
 Route::get('/search', 'SearchController@getIndex');
 
 Route::get('login', 'UserController@getLogin');
 Route::post('login', 'UserController@postLogin');
 Route::get('/logout', 'UserController@getLogout');
-
 Route::get('/register', 'UserController@getRegister');
 Route::post('/register', 'UserController@postRegister');
 
@@ -102,3 +99,12 @@ Event::listen('sendMail', function( $email )
 				->replyTo( $data['email'] );
 	});
 });
+
+Route::group(array(
+	'prefix' => 'admin',
+	'before' => 'auth.admin'),
+	function()
+	{
+		Route::controller('/', 'AdminController');
+	}
+);

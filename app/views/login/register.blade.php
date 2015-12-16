@@ -3,7 +3,7 @@
 @section('content')
 
 	<div class="col-sm-8 col-sm-offset-2">
-	<h1 class="text-center">Register A New Account</h1>
+	<h1 class="text-center">Kreye yon nouvo kont</h1>
 
 	<hr>
 
@@ -11,23 +11,23 @@
 		<div class="alert alert-warning fade in" role="alert">
       		<button type="button" class="close" data-dismiss="alert">
       			<span aria-hidden="true">×</span>
-      			<span class="sr-only">Close</span>
+      			<span class="sr-only">Fèmen</span>
       		</button>
       		<h2>{{ Session::get('message') }}</h2>
     	</div>
 	@endif
 
-	<div class="bg-danger">
+	@if( count( $errors ) > 0 )
 
-		@if( $errors )
-			<ul class="list-unstyled">
-				@foreach ( $errors->all('<li>:message</li>') as $error )
-					{{ $error }}
-				@endforeach
-			</ul>
-		@endif
-
+	<div class="panel panel-default">
+		<ul class="list-group bg-danger">
+			@foreach ( $errors->all('<li class="list-group-item transparent"><b>:message</b></li>') as $error )
+				{{ $error }}
+			@endforeach
+		</ul>
 	</div>
+
+	@endif
 
 	@include('login.form-register')
 

@@ -69,7 +69,8 @@ App::down(function()
 
 App::missing(function()
 {
-	return View::make('404');
+	return View::make('pages.404')
+				->with('title', 'Woy! Erè 404.');
 });
 
 /*

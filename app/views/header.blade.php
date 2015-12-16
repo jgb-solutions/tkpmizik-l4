@@ -59,6 +59,8 @@
 		</div>
 <div class="row">
 
+	@section('search-results')
+
 	<div class="col-sm-12" id="searchResultsDiv">
 		<p>@include('search-form')</p>
 
@@ -72,3 +74,5 @@
 
 		{{-- <hr class="noMarginTopBottom"> --}}
 	</div>
+
+	@show

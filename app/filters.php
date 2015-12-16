@@ -40,8 +40,23 @@ Route::filter('auth', function()
 			return Response::make('Unauthorized', 401);
 		} else {
 			return Redirect::guest('login')
-				->with('message', 'You need to login to access this page. Sorry!');
+				->with('message', Config::get('site.message.konekte'));
 		}
+	}
+});
+
+Route::filter('auth.admin', function()
+{
+	if ( ! Auth::check() )
+	{
+		return Redirect::to('/login')
+						->with('message', Config::get('site.message.konekte'));
+	}
+
+	if ( ! Auth::user()->is_admin() )
+	{
+		return Redirect::to('/user')
+						->with('message', Config::get('site.message.admin'));
 	}
 });
 
@@ -87,11 +102,11 @@ Route::filter('csrf', function()
 });
 
 
-Route::filter('checksize', function()
-{
-	$size = Request::segment(3);
+// Route::filter('checksize', function()
+// {
+// 	$size = Request::segment(3);
 
-	if ( $size < 12 || $size > 24 ) {
-		return 'Size is not in the allowed range of 12 - 24';
-	}
-});
+// 	if ( $size < 12 || $size > 24 ) {
+// 		return 'Size is not in the allowed range of 12 - 24';
+// 	}
+// });
