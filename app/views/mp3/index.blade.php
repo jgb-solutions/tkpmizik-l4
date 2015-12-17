@@ -20,7 +20,7 @@
 			{{ $mp3s->links() }}
 		</div>
 	@else
-		<h2 class="text-center">Poko gen videyo (-_-)</h2>
+		<h2 class="text-center">Poko gen mizik (-_-)</h2>
 	@endif
 
 </div>
