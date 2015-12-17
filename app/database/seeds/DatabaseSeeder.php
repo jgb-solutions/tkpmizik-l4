@@ -26,7 +26,7 @@ class UserTableSeeder extends Seeder {
         	'name'	    => 'Jean Gérard Bousiquot',
         	'email'     => 'jgbneatdesign@gmail.com',
         	'password'  => Hash::make('tkp898989'),
-            'telephone' => '+50936478199'
+            'telephone' => '+50936478199',
         	'admin'	    => 1
         ]);
     }
