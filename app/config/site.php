@@ -34,6 +34,9 @@ return array(
 		],
 		'mp3'		=> [
 			'required'	=> 'Fòk ou chwazi yon fichye MP3.'
+		],
+		'slug'		=> [
+			'required' 	=> 'Slug la obligatwa. Fòk ou mete li.'
 		]
 	],
 

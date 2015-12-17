@@ -26,11 +26,16 @@ class CatController extends BaseController
 	{
 		$rules = ['name' => 'required', 'slug' => 'required'];
 
-		$validator = Validator::make( Input::all(), $rules );
+		$messages = [
+			'name.required' => Config::get('site.validate.name.required'),
+			'slug.required' => Config::get('site.validate.slug.required')
+		];
+
+		$validator = Validator::make( Input::all(), $rules, $messages );
 
 		if ( $validator->fails() )
 		{
-			return Redirect::to( Request::url() )
+			return Redirect::to('/admin/cat')
 							->withErrors( $validator );
 		}
 
@@ -42,7 +47,7 @@ class CatController extends BaseController
 		$category->slug = $slug;
 		$category->save();
 
-		return Redirect::to( Request::url() );
+		return Redirect::to('/admin/cat');
 
 	}
 

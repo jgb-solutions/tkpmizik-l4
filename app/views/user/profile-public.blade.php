@@ -28,13 +28,13 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3 class="text-center">{{ $firstname }} gen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
+	<h3 class="text-center">{{ $first_name }} gen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
 
 	<hr>
 
 	@if ( $mp3count > 0 )
 
-	<h3 class="text-center">Mizik {{ $firstname }} Yo</h3>
+	<h3 class="text-center">Mizik {{ $first_name }} Yo</h3>
 	<hr>
 
 	@include('mp3.grid-12')
@@ -56,13 +56,13 @@
 	@if ( $mp4count > 0 )
 
 		<hr>
-		<h3 class="text-center">Videyo {{ $firstname }} Yo</h3>
+		<h3 class="text-center">Videyo {{ $first_name }} Yo</h3>
 
 		@include('mp4.grid-12')
 
 	@else
 		&nbsp;<hr>
-		<h3 class="text-center">{{ $firstname }} poko gen videyo.</h3>
+		<h3 class="text-center">{{ $first_name }} poko gen videyo.</h3>
 
 	@endif
 

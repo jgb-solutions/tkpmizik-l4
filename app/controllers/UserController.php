@@ -200,16 +200,24 @@ class UserController extends BaseController
 			->with('user', $user);
 	}
 
-	public function getUserEdit()
+	public function getUserEdit($id = null)
 	{
-		$user = Auth::user();
+		$user = ( $id ) ? User::find($id) : Auth::user();
+
+		if ( $user->admin == 1 )
+		{
+			$title = 'Modifye pwofil ou';
+		} else
+		{
+			$title = 'Modifye pwofil ' . $user->name;
+		}
 
 		return View::make('user.profile-edit')
-			->with( 'title', 'Modifye Pwofil Ou')
+			->withTitle($title)
 			->withUser( $user );
 	}
 
-	public function putUser()
+	public function putUser($id = null)
 	{
 		$rules = [
 			'name' 		=> 'required|min:6',
@@ -269,7 +277,7 @@ class UserController extends BaseController
 			}
 		}
 
-		$user = User::find( Auth::user()->id );
+		$user = ( User::find($id) ) ?: User::find( Auth::user()->id );
 
 		if ( !empty( $name ) )
 			$user->name = $name;
@@ -287,6 +295,10 @@ class UserController extends BaseController
 			$user->telephone = $telephone;
 
 		$user->save();
+
+		if ( Auth::user()->is_admin() )
+			return Redirect::to('/admin/users')
+							->withMessage("Pwofil $user->name nan mete a jou avèk siskè!");
 
 		return Redirect::to('/user')
 			->with('message', 'Pwofil ou mete a jou avèk siskè!');
@@ -307,14 +319,14 @@ class UserController extends BaseController
 		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
 		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
 
-		$firstname 			= ucwords( explode(' ', $user->name )[0] );
+		$first_name 			= ucwords( explode(' ', $user->name )[0] );
 
 		return View::make('user.profile-public')
 					->with(	'user', $user )
 					->with(	'title', "Pwofil $user->name" )
 					->with( 'mp3s', $mp3s )
 					->with( 'mp4s', $mp4s )
-					->with( 'firstname', $firstname )
+					->withFirstName($first_name)
 					->with( 'mp3count', $mp3count )
 					->with( 'mp4count', $mp4count )
 					->with( 'mp3playcount', $mp3playcount )
@@ -322,5 +334,10 @@ class UserController extends BaseController
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
 					->with('mp4ViewsCount', $mp4ViewsCount);
+	}
+
+	public function deleteUser($id = null)
+	{
+		return 'yeah man.';
 	}
 }

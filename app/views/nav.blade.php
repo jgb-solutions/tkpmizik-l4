@@ -160,6 +160,16 @@
 								Modifye Pwofil Ou
 							</a>
 						</li>
+
+						@if ( Auth::user()->is_admin() )
+						<li>
+							<a href="/admin">
+								<i class="fa fa-bar-chart-o"></i>
+								Administrasyon
+							</a>
+						</li>
+						@endif
+
 						<li>
 							<a href="/logout">
 								<span class="glyphicon glyphicon-log-out"></span>
