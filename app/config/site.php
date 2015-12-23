@@ -26,22 +26,39 @@ return array(
 			'min'		=> 'Fòk modpas la pa pi piti pase 6 karaktè. Ajoute plis pase 6.'
 		],
 		'image'		=> [
-			'image.required' 	=> 'Fòk ou chwazi yon imaj pou asosye ak mizik la.',
-			'image.image'		=> 'Fòk ou chwazi yon bon imaj.'
+			'required' 	=> 'Fòk ou chwazi yon imaj pou asosye ak mizik la.',
+			'image'		=> 'Imaj ou chwazi a pa bon. Fòk ou chwazi yon bon imaj.'
 		],
 		'telephone'	=> [
 			'numeric'	=> 'Fòk nimewo telefòn ou antre a gen chif sèlman. Li pa dwe gen espas oubyen lòt karaktè.'
 		],
 		'mp3'		=> [
-			'required'	=> 'Fòk ou chwazi yon fichye MP3.'
+			'required'	=> 'Fòk ou chwazi yon fichye MP3.',
+			'mimes'		=> 'Fòk fòma mizik la MP3. Tanpri chwazi yon bon fòma.',
+			'size'		=> 'Fòk mizik la pa depase 100 MB.'
 		],
 		'slug'		=> [
 			'required' 	=> 'Slug la obligatwa. Fòk ou mete li.'
+		],
+
+		'code'		=> [
+			'required'	=> 'Fòk ou antre yon kòd sou mizik la.',
+			'min'		=> 'Kòd ou antre a pa ase bon. Fòk li pa pi piti pase 8 karaktè.'
 		]
 	],
 
 	'message'		=> [
 		'konekte'	=>	'Fòk ou konekte pou w aksede ak paj ou vle a.',
-		'admin'		=> 'Ou pa otorize pou w aksede ak paj ou vle a.'
+		'admin'		=> 	'Ou pa otorize pou w aksede ak paj ou vle a.',
+		'kod-mizik'	=> 	'Fòk ou antre yon kòd sou mizik peye a pou w ka vann li. Konsa moun ki pa gen kòd la pap ka telechaje li.',
+		'aktive'	=> 	'Fòk ou kontakte administratè sit la pou pibliye mizik la pou ou pou w ka vann li. Rele/ekri <a hef="tel:+509 3647 8199">+509 3647 8199</a> pou sa.',
+		'login'		=> 	'Fòk ou konekte sou sit la pou w ka wè paj ou mande a.',
+		'update' 	=> 	'Mizik la mete a jou avèk sisksè!',
+		'bought-success' => 'Ou fèk achte sa a avèk siksè.',
+		'bought-already' => 'Ou achte mizik sa a deja.',
+		'bought-failed' => 'Kòd ou antre a pa bon. Antre bon kòd mizik la epi eseye ankò.',
+		'errors'	=> [
+			'login'	=> 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò. Si w pa gen yon kont sou sit la ou ka jis <a href="/register">kreye youn</a>.'
+		]
 	]
 );

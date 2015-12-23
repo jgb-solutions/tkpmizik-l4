@@ -21,6 +21,7 @@ module.exports = function( grunt )
 				files: {
 					'public/js/build/compile.min.js': [
 						'public/js/lib/jquery.min.js',
+						'public/js/lib/jquery.form.min.js',
 						'public/js/lib/bootstrap.min.js',
 						'public/js/lib/underscore.min.js',
 						'public/js/lib/backbone.min.js',

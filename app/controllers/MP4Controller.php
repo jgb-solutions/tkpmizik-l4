@@ -60,7 +60,7 @@ class MP4Controller extends BaseController
 				Image::make( $image_upload_path . '/' . $image_name )
 					->resize( 100, null, function( $constraint )
 					{
-						$conastraint->aspectratio();
+						$constraint->aspectratio();
 					})
 					->save( $image_upload_path . '/thumbs/tiny/' . $image_name );
 			}

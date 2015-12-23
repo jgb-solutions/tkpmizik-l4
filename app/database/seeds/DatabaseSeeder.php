@@ -61,12 +61,12 @@ class CategoryTableSeeder extends Seeder
         ]);
 
         Category::create([
-            'name'  => 'RnB',
-            'slug'  => 'rnb'
+            'name'  => 'R&B',
+            'slug'  => 'rb'
         ]);
 
         Category::create([
-            'name'  => 'Rap-Kreyòl',
+            'name'  => 'Rap Kreyòl',
             'slug'  => 'rap-kreyol'
         ]);
 
@@ -94,8 +94,27 @@ class CategoryTableSeeder extends Seeder
             'name'  => 'Levanjil',
             'slug'  => 'levanjil'
         ]);
-    }
 
+        Category::create([
+            'name'  => 'DJ',
+            'slug'  => 'dj'
+        ]);
+
+        Category::create([
+            'name'  => 'Rabòday',
+            'slug'  => 'raboday'
+        ]);
+
+        Category::create([
+            'name'  => 'Rara',
+            'slug'  => 'rara'
+        ]);
+
+        Category::create([
+            'name'  => 'Reggaeton',
+            'slug'  => 'reggaeton'
+        ]);
+    }
 }
 
 class PageTableSeeder extends Seeder {

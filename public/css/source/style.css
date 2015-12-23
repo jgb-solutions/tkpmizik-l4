@@ -127,15 +127,13 @@ a.navbar-brand {
 	font-size: .75em
 }
 
-#mainSearchForm input,
-#mainSearchForm button,
-#kgSearchModalForm input,
-#kgSearchModalForm button {
+.mainSearchForm input,
+.mainSearchForm button {
 	height: 50px;
 	font-weight: bold;
 }
 
-#mainSearchForm input {
+.mainSearchForm input {
 	font-size: 1.5em;
 }
 
@@ -195,4 +193,18 @@ img.logo-mizik {
 
 #page-content {
 	font-size: 16px;
+}
+
+.hide {
+	display: none;
+}
+
+.progress {
+	height: 35px;
+}
+
+.progress-bar {
+	font-size: 18px;
+    font-weight: bold;
+    line-height: 35px;
 }

@@ -25,6 +25,9 @@ class CreateMp3sTable extends Migration {
 			$table->integer('views');
 			$table->integer('play');
 			$table->integer('download');
+			$table->boolean('publish')
+			$table->string('code');
+			$table->string('price', 4);
 			$table->mediumInteger('vote_up');
 			$table->mediumInteger('vote_down');
 			$table->timestamps();

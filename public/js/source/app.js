@@ -237,4 +237,93 @@ $(function()
 	// download_count();
 
 	vote();
+
+	// AJAX Upload
+
+	var options = {
+	    beforeSend: function()
+	    {
+	        //clear everything
+	        $('#progress').show();
+	        $('.progress-bar').html('0%');
+	        $('.progress-bar').width('0%');
+	        $('#upMessage').empty();
+	        submitButton = $('#submitButton');
+	        buttonText = submitButton.html();
+	        $ajaxLoaderImg	= '<img src="/images/ajax-loader.gif">';
+	        submitButton.html( $ajaxLoaderImg );
+	    },
+	    uploadProgress: function(event, position, total, percentComplete)
+	    {
+	        $('.progress-bar').width(percentComplete + '%');
+	        $('.progress-bar').html(percentComplete + '%');
+	    },
+	    success: function()
+	    {
+	        $('.progress-bar').width('100%');
+	        $('.progress-bar').html('100%');
+
+	        submitButton.html( buttonText );
+
+	    },
+	    complete: function(response)
+	    {
+	        console.log( response.responseText );
+
+	        var res = $.parseJSON( response.responseText );
+	        var messages = '';
+
+
+	        if ( res.success == true )
+	        {
+	        	console.log( res.url );
+	        	window.location = res.url;
+	        } else if ( res.errors !== undefined )
+	        {
+	        	$('#progress').slideUp();
+
+	        	if ( res.errors.name )
+	        	{
+	        		$.each( res.errors.name, function(index, val) {
+		    			// console.log( val );
+	    				messages += '<li class="list-group-item transparent">' + val + '</li>';
+	        		});
+	        	}
+
+	        	if ( res.errors.mp3 )
+	        	{
+	        		$.each( res.errors.mp3, function(index, val) {
+	        			 // console.log( val );
+	        			 messages += '<li class="list-group-item transparent">' + val + '</li>';
+	        		});
+	        	}
+
+    			if ( res.errors.image )
+    			{
+    				$.each( res.errors.image, function(index, val) {
+		    			// console.log( val );
+	    				messages += '<li class="list-group-item transparent">' + val + '</li>';
+	        		});
+    			}
+
+        		$('#upMessage').html( messages );
+	        }
+	    },
+	    error: function()
+	    {
+	        $("#message").html("<font color='red'> ERROR: unable to upload files</font>");
+
+	    }
+
+	};
+
+	$("#upForm").ajaxForm(options);
+
+	/********* Confirmation on file deletion **********/
+	$('input[name=del]').on('click', function()
+	{
+		$(this).siblings('small').toggleClass('hide');
+	});
+
+
 });

@@ -20,7 +20,9 @@ Route::group(array(
 		Route::get('/mp4', 'UserController@getUserMP4s');
 		Route::get('/edit', 'UserController@getUserEdit');
 		Route::put('/edit', 'UserController@putUser');
-		Route::get('delete/{id}', 'UserController@deleteUser');
+		Route::delete('/edit', 'UserController@deleteUser');
+		Route::get('/my-bought-mp3s', 'UserController@boughtMP3s');
+		Route::get('/my-bought-mp3s/{id}', 'UserController@boughtMP3s');
 	}
 );
 
@@ -33,13 +35,15 @@ Route::group(['prefix' => 'cat'], function()
 
 Route::get('/mp3/get/{id}', 'MP3Controller@getMP3')->where('id', '[0-9]+');
 
-Route::get('/mp3/delete/{id}', array(
+Route::get('/mp3/delete/{id}', [
 	'before' => 'auth',
 	'uses' => 'MP3Controller@destroy'
-));
+]);
 
 Route::get('/mp3/up', 'MP3Controller@getMP3Up');
 Route::get('/mp3/play/{id}', 'MP3Controller@getPlayMP3');
+Route::get('/mp3/buy/{id}', 'MP3Controller@getBuy');
+Route::post('/mp3/buy/{id}', 'MP3Controller@postBuy');
 Route::resource('mp3', 'MP3Controller');
 
 Route::get('/mp4/get/{id}', 'MP4Controller@getMP4')->where('id', '[0-9]+');
@@ -66,37 +70,6 @@ Route::get('/tweet', function()
     // return Twitter::getUserTimeline(array('screen_name' => 'tikwenpam', 'count' => 1, 'format' => 'json'));
 });
 
-// Route::get('/vote', function()
-// {
-// 	return Vote::all();
-// });
-
-
-
-// Route::get('fbposts', function()
-// {
-// 	return View::make('fbposts');
-// });
-
-// Route::get('events', function()
-// {
-// 	Event::fire('sendMail', array('email' => 'jgbneatdesign@gmail.com') );
-// });
-
-// Event::listen('sendMail', function( $email )
-// {
-// 	$data['name'] 			= 'Ti Kwen Pam Mizik';
-// 	$data['email'] 			= $email;
-// 	$data['mailMessage'] 	= 'Message send from TKPMizik';
-
-// 	Mail::queue('mail', $data, function( $message ) use ($data)
-// 	{
-// 		$message->to( $data['email'], $data['name'] )
-// 				->subject('Ou gen yon nouvo imel Ti Kwen Pam Mizik.')
-// 				->replyTo( $data['email'] );
-// 	});
-// });
-
 Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 {
 	Route::get('cat', 'CatController@getCreate');
@@ -110,3 +83,13 @@ Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 
 	Route::controller('/', 'AdminController');
 });
+
+// Route::get('/form', function()
+// {
+// 	return View::make('test.form');
+// });
+
+// Route::post('/form', function()
+// {
+// 	return Input::all();
+// });

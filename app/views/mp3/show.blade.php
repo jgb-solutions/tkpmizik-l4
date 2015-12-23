@@ -87,7 +87,7 @@
 	    		for="linktext"
 	    		class="col-sm-4 control-label">
 	    		<span class="glyphicon glyphicon-music"></span>
-	    		Music link: </label>
+	    		Lyen paj sa a: </label>
 	    	<div class="col-sm-8">
 	      	<input
 	      		onclick="return this.select()"
@@ -102,7 +102,7 @@
 	    		for="downloadlink"
 	    		class="col-sm-4 control-label">
 	    		<span class="glyphicon glyphicon-download-alt"></span>
-	    		Download link:
+	    		Telechajman:
 	    	</label>
 	    	<div class="col-sm-8">
 	      	<input

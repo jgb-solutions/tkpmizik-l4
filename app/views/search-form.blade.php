@@ -1,4 +1,4 @@
-<form role="search" action="/search" id="mainSearchForm">
+<form role="search" action="/search" id="mainSearchForm" class="mainSearchForm">
 	<div class="input-group">
 		<input
 			id="q"

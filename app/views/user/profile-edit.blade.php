@@ -18,7 +18,10 @@
     	</div>
 	@endif
 
-	<h2 class="text-center">{{ $title }}</h2>
+	<h2 class="text-center">
+		<span class="glyphicon glyphicon-edit"></span>
+		{{ $title }}
+	</h2>
 	<hr>
 
 	@if( count( $errors ) > 0 )
@@ -87,7 +90,34 @@
 		</div>
 	{{ Form::close() }}
 
-	<br>
+	<hr>
+
+	<h3 class="text-center">
+		<span class="glyphicon glyphicon-trash"></span>
+		Efase kont ou
+	</h3>
+	<hr>
+	{{ Form::open(['method' => 'DELETE' ]) }}
+
+	  <div class="checkbox">
+	    <label>
+	      <input type="checkbox" name="del"> Efase mizik ak videyo ou yo tou?
+	      	<br>
+	      	<small class="hide">
+	      		(Y'ap efase sou sit la, moun pap ka tande mizik ni gade videyo ou yo ankò. Men si ou kite yo, malgre ou pap ka modifye oubyen efase yo ankò apre ou fin efase kont ou an, lòt moun ak fanatik ou yo ka toujou gen aksè ak yo.)
+	      	</small>
+	    </label>
+	  </div>
+	  <p>
+	  	<button
+	  		type="submit"
+	  		class="btn btn-danger btn-lg btn-block"
+	  		onclick='return confirm("Ou Vle Efase kont ou tout bon?")'>
+	  		<span class="glyphicon glyphicon-trash"></span> Efase
+	  	</button>
+	  </p>
+
+	{{ Form::close() }}
 
 </div>
 

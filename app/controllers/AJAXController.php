@@ -49,7 +49,7 @@ class AJAXController extends BaseController
 			return $this->$fn( $query );
 		}
 
-		$mp3results = MP3::where('name', 'like', "%$query%")
+		$mp3results = MP3::wherePublish(1)->where('name', 'like', "%$query%")
 			// ->orderBy('play', 'desc')
 			// ->orderBy('download', 'desc')
 			->orderByRaw('RAND()') // get random rows from the DB
@@ -83,7 +83,7 @@ class AJAXController extends BaseController
 
 	private function searchMP3( $query )
 	{
-		$mp3results = MP3::where('name', 'like', '%' . $query . '%')
+		$mp3results = MP3::wherePublish(1)->where('name', 'like', '%' . $query . '%')
 			->orderBy('play', 'desc')
 			->orderBy('download', 'desc')
 			->take( 20 )

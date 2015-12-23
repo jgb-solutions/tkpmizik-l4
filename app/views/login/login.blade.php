@@ -1,9 +1,13 @@
 @extends('layout.nosidebar')
 
+@section('title')
+{{ $title }}
+@stop
+
 @section('content')
 
 <div class="col-sm-8 col-sm-offset-2">
-	<h1 class="text-center">Tanpri konekte w</h1>
+	<h1 class="text-center">{{ $title }}</h1>
 
 	<hr>
 

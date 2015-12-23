@@ -9,16 +9,20 @@
 		@endif
 		<small>
 			{{ ucwords( $user->name ) }}<br>
-			<small>
-				<a
-					class="btn btn-success"
-					href="tel:{{ $user->telephone }}"
-					target="_blank">
-					<strong>
-					  <i class="fa fa-whatsapp fa-lg"></i> {{ $user->telephone }}
-					</strong>
-				</a>
-			</small>
+
+			@if ( $user->telephone )
+				<small>
+					<a
+						class="btn btn-success"
+						href="tel:{{ $user->telephone }}"
+						target="_blank">
+						<strong>
+						  <i class="fa fa-whatsapp fa-lg"></i> {{ $user->telephone }}
+						</strong>
+					</a>
+				</small>
+			@endif
+
 		</small>
 	</h2>
 	<hr>

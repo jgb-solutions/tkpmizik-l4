@@ -65,7 +65,7 @@ class CatController extends BaseController
 
 		if ( $cat )
 		{
-			$mp3s = MP3::whereCategoryId( $cat->id )->take( 20 )->get();
+			$mp3s = MP3::wherePublish(1)->whereCategoryId( $cat->id )->take( 20 )->get();
 			$mp4s = MP4::whereCategoryId( $cat->id )->take( 20 )->get();
 
 			$mp3s->each( function( $mp3 )
@@ -97,7 +97,7 @@ class CatController extends BaseController
 	{
 		$cat = Category::whereSlug( $slug )->first();
 
-		$mp3s = MP3::whereCategoryId( $cat->id )->paginate( 10 );
+		$mp3s = MP3::wherePublish(1)->whereCategoryId( $cat->id )->paginate( 10 );
 
 		return View::make('cats.mp3')
 					->with('cat', $cat )

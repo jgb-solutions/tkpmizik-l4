@@ -6,10 +6,11 @@ class UserController extends BaseController
 	{
 		if ( ! Auth::check() )
 		{
-			return View::make('login.login');
+			return View::make('login.login')
+						->withTitle('Koneksyon');
 		}
-;
-		return Redirect::to('/');
+
+		return Redirect::to('/user');
 	}
 
 	public function postLogin()
@@ -18,11 +19,13 @@ class UserController extends BaseController
 
 		if ( Auth::attempt( $credentials ) )
 		{
+			if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
+
 			return Redirect::to( '/user' )
 				->with('message', 'Byenvini ankò, ' . explode(' ', Auth::user()->name )[0] . '!');
 		} else {
 			return Redirect::to('/login')
-				->with('error', 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò.')
+				->with('error', Config::get('site.message.errors.login'))
 				->withInput();
 		}
 	}
@@ -106,10 +109,11 @@ class UserController extends BaseController
 	public function getRegister()
 	{
 		if ( Auth::check() ) {
-			return Redirect::to('/');
+			return Redirect::to('/user');
 		}
 
-		return View::make('login.register');
+		return View::make('login.register')
+					->withTitle('Kreye yon kont');
 	}
 
 	public function getUser()
@@ -204,10 +208,9 @@ class UserController extends BaseController
 	{
 		$user = ( $id ) ? User::find($id) : Auth::user();
 
-		if ( $user->admin == 1 )
-		{
-			$title = 'Modifye pwofil ou';
-		} else
+		$title = 'Modifye pwofil ou';
+
+		if ( Auth::user()->is_admin() )
 		{
 			$title = 'Modifye pwofil ' . $user->name;
 		}
@@ -338,6 +341,108 @@ class UserController extends BaseController
 
 	public function deleteUser($id = null)
 	{
-		return 'yeah man.';
+		$del = Input::get('del');
+
+		if ( ! empty( $id ) && Auth::user()->is_admin() )
+		{
+			$admin = Auth::user();
+			$user = User::find($id);
+
+			$mp3s = MP3::whereUserId( $user->id )->get();
+			$mp4s = MP4::whereUserId( $user->id )->get();
+
+			foreach ($mp3s as $mp3)
+			{
+				$mp3->user_id = $admin->id;
+				$mp3->save();
+
+				Vote::whereObj('MP3')
+					->whereObjId( $mp3->id )
+					->whereUserId( $user->id )
+					->delete();
+			}
+
+			foreach ( $mp4s as $mp4)
+			{
+				$mp4->user_id = $admin->id;
+				$mp4->save();
+
+				Vote::whereObj('MP4')
+					->whereObjId( $mp4->id )
+					->whereUserId( $user->id )
+					->delete();
+			}
+
+
+
+
+			$user->delete();
+
+			return Redirect::back();
+		}
+
+		$user = Auth::user();
+		$admin = User::whereAdmin(1)->first();
+
+		$mp3s = MP3::whereUserId( $user->id )->get();
+		$mp4s = MP4::whereUserId( $user->id )->get();
+
+		foreach ($mp3s as $mp3)
+		{
+			Vote::whereObj('MP3')
+				->whereObjId( $mp3->id )
+				->whereUserId( $user->id )
+				->delete();
+
+			if ( $del )
+			{
+				$mp3->delete();
+
+				File::delete( Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name );
+				File::delete( Config::get('site.image_upload_path') . '/' . $mp3->image );
+				File::delete( Config::get('site.image_upload_path') . '/thumbs/' . $mp3->image );
+				File::delete( Config::get('site.image_upload_path') . '/tiny/' . $mp3->image );
+			} else
+			{
+				$mp3->user_id = $admin->id;
+				$mp3->save();
+			}
+
+		}
+
+		foreach ($mp4s as $mp4)
+		{
+			Vote::whereObj('MP4')
+				->whereObjId( $mp4->id )
+				->whereUserId( $user->id )
+				->delete();
+
+			if ( $del )
+			{
+				$mp4->delete();
+			} else
+			{
+				$mp4->user_id = $admin->id;
+				$mp4->save();
+			}
+		}
+
+		Auth::logout();
+
+		$user->delete();
+
+		$aff = '';
+
+		if ( $del )
+		{
+			$aff = 'Mizik ak Videyo ou yo efase tou avèk siskè. Ou ka <a href="/register">kreye yon nouvo kont</a> nenpòt lè ou vle.';
+		}
+		return Redirect::to('/')
+						->withMessage('Kont ou an efase avèk sikè. ' . $aff);
+	}
+
+	public function boughtMP3s()
+	{
+		return 'broughtMP3s';
 	}
 }

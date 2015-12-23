@@ -18,7 +18,11 @@
 		@include('inc.errors')
 
 
-		{{ Form::open(['method' => 'POST', 'url' => '/mp3', 'files' => true, 'class' => 'form-horizontal']) }}
+		{{ Form::open(['method' => 'POST', 'url' => '/mp3', 'files' => true, 'class' => 'form-horizontal', 'id' => 'upForm']) }}
+
+			@if ( Auth::user() )
+				@include('inc.free-paid')
+			@endif
 
 			<div class="form-group">
 				<label for="name" class="col-sm-4 control-label">Mete Non Mizik la</label>
@@ -28,23 +32,23 @@
 			</div>
 
 			<div class="form-group">
-				<label for="mp3" class="col-sm-4 control-label">Chwazi Mizik MP3 a</label>
+				<label for="mp3file" class="col-sm-4 control-label">Chwazi Mizik MP3 a</label>
 				<div class="col-sm-8">
-					<input required name="mp3" class="form-control" type="file" >
+					<input required name="mp3" class="form-control" type="file" id="mp3file">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="mp3" class="col-sm-4 control-label">Chwazi Yon Imaj</label>
+				<label for="imagefile" class="col-sm-4 control-label">Chwazi Yon Imaj</label>
 				<div class="col-sm-8">
-					<input required name="image" class="form-control" type="file" >
+					<input required name="image" class="form-control" type="file" id="imagefile">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="category" class="col-sm-4 control-label">Kategori Mizik la</label>
 				<div class="col-sm-8">
-					<select class="form-control" name="cat">
+					<select class="form-control" name="cat" id="category">
 
 					@foreach( $cats as $cat )
 
@@ -60,13 +64,26 @@
 				</div>
 			</div>
 
-			<div class="col-sm-8 col-sm-offset-4">
-				<p>
-					<button type="submit" class="btn btn-primary btn-lg">
-						<span class="glyphicon glyphicon-upload"></span>
-						Mete Mizik la
-					</button>
-				</p>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<p>
+						<button type="submit" class="btn btn-primary btn-lg" id="submitButton">
+							<span class="glyphicon glyphicon-upload"></span>
+							Mete Mizik la
+						</button>
+					</p>
+				</div>
+			</div>
+
+			<div class="form-group" id="progress">
+				<div class="col-sm-12">
+					@include('inc.progress-bar')
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<ul class="list-group bg-danger" id="upMessage">
+				</ul>
 			</div>
 
 		{{ Form::close() }}

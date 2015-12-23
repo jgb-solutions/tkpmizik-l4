@@ -54,4 +54,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return Auth::user()->admin == 1;
 	}
+
+	public static function owns($mp3Id)
+	{
+		return Auth::user()->id == $mp3Id;
+	}
 }
