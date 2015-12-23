@@ -101,6 +101,12 @@ class MP3Controller extends BaseController
 				$mp3->price = $price;
 			}
 
+			if ( ! $price )
+			{
+				$mp3->publish = 1;
+				$mp3->price = 'free';
+			}
+
 			if ( $price == 'paid')
 			{
 				$mp3->price = $price;
