@@ -77,9 +77,10 @@
 
 		{{-- <hr class="noMarginTopBottom"> --}}
 	</div>
-	@show
 
-	<div class="col-sm-12">
-		@include('inc.ads.top')
-		<hr>
-	</div>
+	{{-- Fist ad --}}
+	<hr>
+	@include('inc.ads.top')
+	<hr>
+
+	@show
