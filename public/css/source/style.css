@@ -199,6 +199,10 @@ img.logo-mizik {
 	display: none;
 }
 
+#progress,
+.hide-panel {
+	display: none;
+}
 .progress {
 	height: 35px;
 }

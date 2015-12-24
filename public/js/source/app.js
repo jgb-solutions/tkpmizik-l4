@@ -281,6 +281,7 @@ $(function()
 	        } else if ( res.errors !== undefined )
 	        {
 	        	$('#progress').slideUp();
+	        	$('#upMessage').parent().removeClass('hide-panel');
 
 	        	if ( res.errors.name )
 	        	{

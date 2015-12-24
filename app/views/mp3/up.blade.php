@@ -81,7 +81,7 @@
 				</div>
 			</div>
 
-			<div class="panel panel-default">
+			<div class="panel panel-default hide-panel">
 				<ul class="list-group bg-danger" id="upMessage">
 				</ul>
 			</div>
