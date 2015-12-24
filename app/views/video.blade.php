@@ -1,5 +1,7 @@
 <div class="col-sm-12">
 
+	@include('inc.ads.bottom')
+
 	@if( count( $mp4s ) > 0 )
 
 	<h2 class="text-center text-uppercase"> <span class="glyphicon glyphicon-facetime-video"></span> Dènye Videyo</h2>

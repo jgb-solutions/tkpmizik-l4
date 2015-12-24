@@ -49,6 +49,9 @@
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
+
+	{{-- Google Adsense --}}
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
 
@@ -74,5 +77,9 @@
 
 		{{-- <hr class="noMarginTopBottom"> --}}
 	</div>
-
 	@show
+
+	<div class="col-sm-12">
+		@include('inc.ads.top')
+		<hr>
+	</div>
