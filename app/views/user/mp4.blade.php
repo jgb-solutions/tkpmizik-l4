@@ -32,8 +32,9 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3 class="text-center">{{ $title }}</h3>
-
+	<div class="row bg-black">
+		<h3 class="text-center">{{ $title }}</h3>
+	</div>
 	<hr>
 
 	@if( $mp4count > 0 )

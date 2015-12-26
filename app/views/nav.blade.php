@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse bg-black" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -126,6 +126,8 @@
 
 		<ul class="nav navbar-nav navbar-right">
 			@if ( Auth::check() )
+				<?php $user = Auth::user(); ?>
+
 				<li class="dropdown">
 					<a
 						href="#"
@@ -134,7 +136,7 @@
 					>
 
 					<span class="glyphicon glyphicon-user"></span>
-					Alo, {{ Auth::user()->name }} <b class="caret"></b></a>
+					Alo, {{ $user->name }} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="/user">
@@ -155,13 +157,19 @@
 							</a>
 						</li>
 						<li>
+						    <a href="/user/my-bought-mp3s">
+						    	<span class="glyphicon glyphicon-music"></span>
+						    	Mizik Ou Achte
+						    	<i class="fa fa-money"></i>
+						    </a>
+						<li>
 							<a href="/user/edit">
 								<span class="glyphicon glyphicon-edit"></span>
 								Modifye Pwofil Ou
 							</a>
 						</li>
 
-						@if ( Auth::user()->is_admin() )
+						@if ( $user->is_admin() )
 						<li>
 							<a href="/admin">
 								<i class="fa fa-bar-chart-o"></i>

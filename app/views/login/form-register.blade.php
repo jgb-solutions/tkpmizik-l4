@@ -1,4 +1,4 @@
-{{ Form::open(['url' => '/register', 'method' => 'post', 'class' => 'form-horizontal']) }}
+{{ Form::open(['url' => '/register', 'method' => 'post', 'class' => 'form-horizontal color-black']) }}
 	<div class="form-group">
 		<label for="regname" class="col-sm-4 control-label">Kòman Ou Rele?</label>
 		<div class="col-sm-8">

@@ -32,22 +32,22 @@
 
 	</div>
 	<hr class="visible-xs">
+
+	@if( $bought_count > 0 )
+
 	<div class="row bg-black">
 		<h3 class="text-center">{{ $title }}</h3>
 	</div>
-	<hr>
 
-	@if( $mp3count > 0 )
+	<hr>
 
 	@include('mp3.grid-12')
 
-	<div class="text-center">
-		{{ $mp3s->links() }}
-	</div>
-
 	@else
 
-	<h3 class="text-center">Nou regrèt, men ou poko gen mizik.</h3>
+	<div class="row bg-black">
+		<h3 class="text-center">Nou regrèt, men ou poko achte mizik.</h3>
+	</div>
 	<p class="text-center">
 		<a
 			href="/mp3/up"

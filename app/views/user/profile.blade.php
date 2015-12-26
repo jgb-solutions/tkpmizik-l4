@@ -32,7 +32,11 @@
 	</div>
 
 	<hr class="visible-xs">
-	<h3 class="text-center">Ou genyen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
+	<div class="row bg-black">
+		<h3 class="text-center">
+			Ou genyen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo
+		</h3>
+	</div>
 
 	<hr>
 

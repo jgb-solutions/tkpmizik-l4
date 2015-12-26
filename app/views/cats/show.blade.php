@@ -4,7 +4,9 @@
 
 	<div class="col-sm-8">
 
-		<h2 class="text-center">Navige Tout {{ $cat->name }} Yo</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">Navige Tout {{ $cat->name }} Yo</h2>
+		</div>
 
 		<hr>
 

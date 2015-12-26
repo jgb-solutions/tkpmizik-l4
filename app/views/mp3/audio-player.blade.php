@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row audio-image" style="background-image:url('/uploads/images/thumbs/{{ $mp3->image }}')">
 {{-- 	<div class="col-sm-6 col-sm-push-6 hidden-xs text-center">
 
 	@if ( $mp3->image )
@@ -12,7 +12,7 @@
 
 	</div> --}}
 
-	<div class="col-sm-12">
+	<div class="col-sm-12 audio-content">
 		<div class="ui360 ui360-vis">
 			<a href="/mp3/play/{{ $mp3->id }}" type="audio/mpeg"></a>
 		</div>

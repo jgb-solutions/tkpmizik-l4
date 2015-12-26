@@ -2,10 +2,11 @@
 	<h2 class="text-center">
 
 		@if( $user->image )
-		<img
+		<a href="/user">
+			<img
 			class="img-responsive img-circle img-bordered img-centered"
-			src="/uploads/images/thumbs/{{ $user->image}}"
-		>
+			src="/uploads/images/thumbs/{{ $user->image}}">
+		</a>
 		@endif
 		<small>
 			{{ ucwords( $user->name ) }}<br>
@@ -25,6 +26,20 @@
 
 		</small>
 	</h2>
+
+	@if ( $bought_count )
+	<hr>
+	<div class="list-group">
+	    <a href="/user/my-bought-mp3s" class="list-group-item">
+	    	<span class="badge">{{ $bought_count }}</span>
+	    <strong>
+	    	<span class="glyphicon glyphicon-music"></span>
+	    	Mizik Ou Achte
+	    	<i class="fa fa-money"></i>
+	    </strong>
+	    </a>
+	</div>
+	@endif
 	<hr>
 
 	<ul class="list-group">
@@ -38,7 +53,7 @@
 			<span class="pull-right badge">{{ $mp3ViewsCount }}</span>
 		</li>
 		<li class="list-group-item">
-			<span class="glyphicon glyphicon-facetime-video"></span>
+			<span class="glyphicon glyphicon-music"></span>
 			Total Mizik
 			<span class="pull-right badge">{{ $mp3count }}</span>
 		</li>

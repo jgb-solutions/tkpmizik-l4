@@ -6,10 +6,13 @@
 
 @section('content')
 
-<div class="col-sm-8 col-sm-offset-2">
-	<h1 class="text-center">{{ $title }}</h1>
-
+<div class="col-sm-12">
+	<div class="row bg-black">
+		<h1 class="text-center">{{ $title }}</h1>
+	</div>
 	<hr>
+</div>
+<div class="col-sm-8 col-sm-offset-2">
 
 	@if ( Session::has('message') )
 		<div class="alert alert-warning fade in" role="alert">

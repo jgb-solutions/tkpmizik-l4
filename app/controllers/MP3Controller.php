@@ -80,6 +80,13 @@ class MP3Controller extends BaseController
 					$constraint->aspectratio();
 				})
 				->save( $imageuploadpath . '/thumbs/tiny/' . $imagename );
+
+			Image::make( $imageuploadpath . '/' . $imagename )
+				->resize( 640, 360, function( $constraint )
+				{
+					$constraint->aspectratio();
+				})
+				->save( $imageuploadpath . '/show/' . $imagename );
 		}
 
 		$admin_id = User::whereAdmin(1)->first()->id;
@@ -424,9 +431,34 @@ class MP3Controller extends BaseController
 
 	}
 
-	public function getMP3( $id )
+	public function getMP3($id)
 	{
 		$mp3 = MP3::wherePublish(1)->whereId($id)->first();
+
+		if ( $mp3->price == 'paid')
+		{
+			if ( ! Auth::check() )
+			{
+				return Redirect::to('/login')
+								->withMessage( Config::get('site.message.login') );
+			}
+
+			if ( Auth::check() )
+			{
+				$user = Auth::user();
+
+				$bought = MP3Sold::whereUserId($user->id)
+								 ->whereMp3Id($mp3->id)
+								 ->first();
+
+				if ( ! $bought )
+				{
+					return Redirect::to("/mp3/buy/$mp3->id")
+									->withMessage( Config::get('site.message.must-buy') );
+				}
+
+			}
+		}
 
 		$mp3->download = $mp3->download + 1;
 		$mp3->save();
@@ -518,55 +550,49 @@ class MP3Controller extends BaseController
 
 	public function getBuy($id)
 	{
-		if ( Auth::user() )
+		$mp3 = MP3::wherePublish(1)
+				->wherePrice('paid')
+				->whereId($id)
+				->first();
+
+		if ( $mp3 )
 		{
-			$mp3 = MP3::wherePublish(1)
-					->wherePrice('paid')
-					->whereId($id)
-					->first();
+			$mp3->views += 1;
+			$mp3->save();
 
-			if ( $mp3 )
+			$bought = '';
+
+			if ( Auth::check() )
 			{
-				$mp3->views += 1;
-				$mp3->save();
+				$user = Auth::user();
 
-				$bought = '';
-
-				if ( Auth::check() )
-				{
-					$user = Auth::user();
-
-					$bought = MP3Sold::whereUserId($user->id)
-									  ->whereMp3Id($mp3->id)
-									  ->first();
-				}
-
-				$related = MP3::whereCategoryId($mp3->category_id)
-								->whereId($mp3->id)
-								->wherePublish(1)
-								->orderByRaw('RAND()') // get random rows from the DB
-								// ->orderBy('id', true)
-								->take( 3 )
-								// ->toSql();
-								->get(array('id', 'name', 'image', 'play', 'download', 'views'));
-				// return $related;
-
-				$author = $mp3->user->name . ' &mdash; ';
-
-				$title = "Achte $mp3->name";
-				return View::make('mp3.buy')
-					    ->withMp3($mp3)
-					    ->withTitle($title)
-					    ->withRelated($related)
-					    ->withAuthor($author)
-					    ->withBought($bought);
+				$bought = MP3Sold::whereUserId($user->id)
+								  ->whereMp3Id($mp3->id)
+								  ->first();
 			}
 
-			return Redirect::to('/404');
+			$related = MP3::whereCategoryId($mp3->category_id)
+							->whereId($mp3->id)
+							->wherePublish(1)
+							->orderByRaw('RAND()') // get random rows from the DB
+							// ->orderBy('id', true)
+							->take( 3 )
+							// ->toSql();
+							->get(array('id', 'name', 'image', 'play', 'download', 'views'));
+			// return $related;
+
+			$author = $mp3->user->name . ' &mdash; ';
+
+			$title = "Achte $mp3->name";
+			return View::make('mp3.buy')
+				    ->withMp3($mp3)
+				    ->withTitle($title)
+				    ->withRelated($related)
+				    ->withAuthor($author)
+				    ->withBought($bought);
 		}
 
-		return Redirect::to('/login')
-						->withMessage( Config::get('site.message.login') );
+		return Redirect::to('/404');
 	}
 
 	public function postBuy($id)
@@ -581,6 +607,12 @@ class MP3Controller extends BaseController
 			$bought = MP3Sold::whereUserId($user->id)
 							  ->whereMp3Id($mp3->id)
 							  ->first();
+
+			if ( $user->id == $mp3->user_id )
+			{
+				return Redirect::back()
+								->withMessage( Config::get('site.message.cant-buy') );
+			}
 
 			if ( $bought )
 			{
@@ -597,7 +629,7 @@ class MP3Controller extends BaseController
 
 				$sold->save();
 
-				return Redirect::to("/user/my-bought-mp3s/$mp3->id")
+				return Redirect::to("/user/my-bought-mp3s")
 								->withMessage( Config::get('site.message.bought-success') );
 			}
 			else

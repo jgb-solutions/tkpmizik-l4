@@ -22,7 +22,6 @@ Route::group(array(
 		Route::put('/edit', 'UserController@putUser');
 		Route::delete('/edit', 'UserController@deleteUser');
 		Route::get('/my-bought-mp3s', 'UserController@boughtMP3s');
-		Route::get('/my-bought-mp3s/{id}', 'UserController@boughtMP3s');
 	}
 );
 

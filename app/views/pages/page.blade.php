@@ -8,7 +8,9 @@
 
 <div class="col-sm-8">
 
-	<h1 class="text-center">{{ $page->title }}</h1>
+	<div class="row bg-black">
+		<h1 class="text-center">{{ $page->title }}</h1>
+	</div>
 	<hr>
 
 	<div id="page-content">{{ $page->content }}</div>

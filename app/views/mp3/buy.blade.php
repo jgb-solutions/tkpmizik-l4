@@ -19,7 +19,7 @@
 	      <strong>{{ Session::get('message') }}</strong>
 	    </div>
 	@endif
-
+	<div class="row bg-success">
 	<h2 class="text-center">
 		{{ $title }}
 		<br>
@@ -38,18 +38,26 @@
 			a {{ date('g:h a', strtotime( $mp3->created_at ) ) }}
 		</em>
 	</p>
-
-	@if ( ! $bought )
-	<hr>
-	<div class="row bg-info">
-		<img src="/uploads/images/{{ $mp3->image }}">
-		<div class="col-sm-12 padding1">
-			<p>
-				Mizik sa a pou vann. Li pa gratis. Sa vle di ou pap ka tande oubyen telechaje li gratis. Fòk ou antre kòd mizik la pou w ka ajoute li sou kont ou. Konsa w'ap kapab telechaje li otan de fwa ou vle sou kont ou Si w poko gen yon kont sou sit la ou ka <a href="/register">kreye youn</a>. Lè w fin antre kòd la ou pap bezwen rantre li ankò. Pou w jwenn kòd la pou w ka telechaje mizik la fòk ou kontakte <a href="/u/{{$mp3->user->id}}">{{ $mp3->user->name }}</a> nan imel li <a href="mailto:{{ $mp3->user->email }}&subject='Mwen vle achte mizik ou: {{ $mp3->name }}'">{{ $mp3->user->email }}</a> {{ $mp3->user->telephone ? "oubyen rele/ekri li sou <a href='tel:{$mp3->user->telephone}'>{$mp3->user->telephone}</a>" : '' }}. Mèsi paske w chwazi sipòte atis la pandan w'ap achte mizik li.
-			</p>
-		</div>
 	</div>
 
+
+
+	<hr>
+	<div class="row bg-info">
+		@if ( $mp3->image )
+			<img src="/uploads/images/show/{{ $mp3->image }}">
+		@endif
+
+		@if ( ! $bought )
+		<div class="col-sm-12 padding1">
+			<p>
+				Mizik sa a pou vann. Li pa gratis. Sa vle di ou pap ka tande oubyen telechaje li gratis. Fòk ou antre kòd mizik la pou w ka ajoute li sou kont ou. Konsa w'ap kapab telechaje li otan de fwa ou vle. Si w poko gen yon kont sou sit la ou ka <a href="/register">kreye youn</a>. Lè w fin antre kòd la ou pap bezwen rantre li ankò. Pou w jwenn kòd la pou w ka telechaje mizik la fòk ou kontakte <a href="/u/{{$mp3->user->id}}">{{ $mp3->user->name }}</a> nan imel li <a href="mailto:{{ $mp3->user->email }}&subject='Mwen vle achte mizik ou: {{ $mp3->name }}'">{{ $mp3->user->email }}</a> {{ $mp3->user->telephone ? "oubyen rele/ekri li sou <a href='tel:{$mp3->user->telephone}'>{$mp3->user->telephone}</a>" : '' }}. Mèsi paske w chwazi sipòte atis la pandan w'ap achte mizik li.
+			</p>
+		</div>
+		@endif
+	</div>
+
+	@if ( ! $bought )
 	<hr>
 	<form method="post" class="mainSearchForm">
 		<div class="input-group">
@@ -80,7 +88,7 @@
 		@if ( User::is_admin() || $bought )
 		<a
 	  		class="btn btn-success"
-	  		href="/user/my-bought-mp3s/{{ $mp3->id }}">
+	  		href="/mp3/get/{{ $mp3->id }}">
 	  		<span class="glyphicon glyphicon-download-alt"></span>
 	  		<span class="hidden-484">Telechaje</span>
 	  	</a>

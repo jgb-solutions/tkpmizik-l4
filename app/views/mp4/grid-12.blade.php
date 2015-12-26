@@ -14,12 +14,19 @@
 						</div>
 					</div>
 					<div class="col-sm-8 col-xs-8 right">
-						<h4 class="mTop6">{{ $mp4->name }}</h4>
+						<h4 class="mTop6">
+							@if ( $mp3->price == 'paid')
+							<i class="fa fa-money"></i>
+							@endif
+							{{ $mp3->name }}
+						</h4>
 						<p class="text-muted">
 				    		<span class="glyphicon glyphicon-eye-open"></span> Afichaj:
 				    		{{ $mp4->views }} <br>
+				    		@if( $mp3->price == 'free')
 				    		<span class="glyphicon glyphicon-headphones"></span> Ekout:
-				    		{{ $mp4->play }} <br>
+				    		{{ $mp3->play }} <br>
+				    		@endif
 				    		<span class="glyphicon glyphicon-download-alt"></span> Telechajman:
 				    		{{ $mp4->download }}
 				    	</p>

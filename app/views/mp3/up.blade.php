@@ -6,14 +6,17 @@
 
 @section('content')
 
-	<div class="col-sm-8 col-sm-offset-2">
-		<h1 class="text-center">
+	<div class="col-sm-12">
+		<div class="row bg-black">
+			<h1 class="text-center">
 			<span class="glyphicon glyphicon-music"></span>
 			{{ $title }}
 		</h1>
-
+		</div>
 		<hr>
+	</div>
 
+	<div class="col-sm-8 col-sm-offset-2">
 
 		@include('inc.errors')
 

@@ -14,7 +14,12 @@
 						</div>
 					</div>
 					<div class="col-sm-8 col-xs-8 right">
-						<h4 class="mTop6">{{ $type->name }}</h4>
+						<h4 class="mTop6">
+							@if ( $mp3->price == 'paid')
+							<i class="fa fa-money"></i>
+							@endif
+							{{ $mp3->name }}
+						</h4>
 						<p class="text-muted">
 				    		<span class="glyphicon glyphicon-eye-open"></span> Afichaj:
 				    		{{ $type->views }} <br>

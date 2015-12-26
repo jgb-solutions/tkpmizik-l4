@@ -54,9 +54,11 @@ return array(
 		'aktive'	=> 	'Fòk ou kontakte administratè sit la pou pibliye mizik la pou ou pou w ka vann li. Rele/ekri <a hef="tel:+509 3647 8199">+509 3647 8199</a> pou sa.',
 		'login'		=> 	'Fòk ou konekte sou sit la pou w ka wè paj ou mande a.',
 		'update' 	=> 	'Mizik la mete a jou avèk sisksè!',
-		'bought-success' => 'Ou fèk achte sa a avèk siksè.',
+		'bought-success' => 'Ou fèk achte yon nouvo mizik avèk siksè.',
 		'bought-already' => 'Ou achte mizik sa a deja.',
 		'bought-failed' => 'Kòd ou antre a pa bon. Antre bon kòd mizik la epi eseye ankò.',
+		'must-buy' 	=> 'Fòk ou achte mizik la pou w ka telechaje li. Si ou achte li deja, <a href="/login">konekte</a> w pou w ka telechaje li.',
+		'cant-buy' 	=> 'Ou pa gen dwa pou w achte mizik pa w ankò.',
 		'errors'	=> [
 			'login'	=> 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò. Si w pa gen yon kont sou sit la ou ka jis <a href="/register">kreye youn</a>.'
 		]

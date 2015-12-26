@@ -12,7 +12,13 @@
 
 	@if( count( $mp3s ) > 0 )
 
-	<h2 class="text-center text-uppercase"><span class="glyphicon glyphicon-music"></span> Dènye Mizik Yo</h2>
+	<div class="row bg-black">
+		<h2 class="text-center text-uppercase">
+		<span class="glyphicon glyphicon-music"></span>
+		Dènye Mizik Yo
+		</h2>
+	</div>
+
 	<hr>
 
 	@include('mp3.grid-6')

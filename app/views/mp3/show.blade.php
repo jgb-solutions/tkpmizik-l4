@@ -23,26 +23,28 @@
 
 	@include('mp3.audio-player')
 
-	<h2 class="text-center">
-		{{ $mp3->name }}
-		<br>
-		<small>
-			<span class="views_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->views }}</span>
-			<span class="glyphicon glyphicon-eye-open"></span> --|--
-			<span class="play_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->play }}</span>
-			<span class="glyphicon glyphicon-headphones"></span> --|--
-			<span class="download_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->download }}</span>
-			<span class="glyphicon glyphicon-download"></span>
-		</small>
-	</h2>
-	<p class="text-center text-muted">
-		<em>
-			Pa <a href="/u/{{ $mp3->user->id }}">{{ $mp3->user->name }}</a>
-			Nan <a href="/cat/{{ $mp3->category->slug }}">{{ $mp3->category->name }}</a>
-			 {{ date('d/m/Y', strtotime( $mp3->created_at ) ) }}
-			a {{ date('g:h a', strtotime( $mp3->created_at ) ) }}
-		</em>
-	</p>
+	<div class="row bg-black">
+		<h2 class="text-center">
+			{{ $mp3->name }}
+			<br>
+			<small>
+				<span class="views_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->views }}</span>
+				<span class="glyphicon glyphicon-eye-open"></span> --|--
+				<span class="play_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->play }}</span>
+				<span class="glyphicon glyphicon-headphones"></span> --|--
+				<span class="download_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->download }}</span>
+				<span class="glyphicon glyphicon-download"></span>
+			</small>
+		</h2>
+		<p class="text-center text-muted">
+			<em>
+				Pa <a href="/u/{{ $mp3->user->id }}">{{ $mp3->user->name }}</a>
+				Nan <a href="/cat/{{ $mp3->category->slug }}">{{ $mp3->category->name }}</a>
+				 {{ date('d/m/Y', strtotime( $mp3->created_at ) ) }}
+				a {{ date('g:h a', strtotime( $mp3->created_at ) ) }}
+			</em>
+		</p>
+	</div>
 
 	<hr>
 

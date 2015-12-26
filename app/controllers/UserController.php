@@ -131,6 +131,9 @@ class UserController extends BaseController
 		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
 		$firstname 			= explode(' ', $user->name )[0];
 
+		$bought = MP3Sold::whereUserId($user->id)
+						->count();
+
 		return View::make('user.profile')
 					->with('user', $user )
 					->with('title', 'Pwofil ou' )
@@ -143,7 +146,8 @@ class UserController extends BaseController
 					->with( 'mp3downloadcount', $mp3downloadcount )
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount);
+					->with('mp4ViewsCount', $mp4ViewsCount)
+					->withBoughtCount($bought);
 	}
 
 	public function getUserMP3s()
@@ -161,6 +165,9 @@ class UserController extends BaseController
 
 		$firstname 			= explode(' ', $user->name )[0];
 
+		$bought = MP3Sold::whereUserId($user->id)
+						->count();
+
 		return View::make('user.mp3')
 					->with('title', 'Navige Tout Mizik Ou Yo' )
 					->with( 'mp3s', $mp3s )
@@ -172,7 +179,8 @@ class UserController extends BaseController
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
 					->with('mp4ViewsCount', $mp4ViewsCount)
-					->with( 'user', $user );
+					->with( 'user', $user )
+					->withBoughtCount($bought);
 	}
 
 	public function getUserMP4s()
@@ -190,6 +198,9 @@ class UserController extends BaseController
 
 		$firstname 			= explode(' ', $user->name )[0];
 
+		$bought = MP3Sold::whereUserId($user->id)
+						->count();
+
 		return View::make('user.mp4')
 			->with('title', 'Navige Tout Videyo Ou Yo')
 			->with('mp4s', $mp4s)
@@ -201,7 +212,8 @@ class UserController extends BaseController
 			->with('mp4downloadcount', $mp4downloadcount)
 			->with('mp3ViewsCount', $mp3ViewsCount)
 			->with('mp4ViewsCount', $mp4ViewsCount)
-			->with('user', $user);
+			->with('user', $user)
+			->withBoughtCount($bought);
 	}
 
 	public function getUserEdit($id = null)
@@ -443,6 +455,45 @@ class UserController extends BaseController
 
 	public function boughtMP3s()
 	{
-		return 'broughtMP3s';
+		$user 				= Auth::user();
+
+		$mp3count 			= MP3::whereUserId( $user->id )->count();
+		$mp4count 			= MP4::whereUserId( $user->id )->count();
+		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
+		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
+		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
+		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
+		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+
+		$firstname 			= explode(' ', $user->name )[0];
+
+		$bought_mp3s = MP3Sold::whereUserId($user->id)
+						->get(['mp3_id']);
+		$mp3s = [];
+
+		foreach ($bought_mp3s as $bought_mp3)
+		{
+			$mp3_ids[] = $bought_mp3->mp3_id;
+		}
+
+		$mp3s = MP3::find($mp3_ids)->reverse();
+
+		$bought_mp3s_count = $bought_mp3s->count();
+
+		$title = "Ou achte $bought_mp3s_count mizik";
+
+		return View::make('user.bought-mp3')
+					->with('title', $title )
+					->with( 'mp3s', $mp3s )
+					->with( 'firstname', $firstname )
+					->with( 'mp3count', $mp3count )
+					->with( 'mp4count', $mp4count )
+					->with( 'mp3playcount', $mp3playcount )
+					->with( 'mp3downloadcount', $mp3downloadcount )
+					->with( 'mp4downloadcount', $mp4downloadcount )
+					->with('mp3ViewsCount', $mp3ViewsCount)
+					->with('mp4ViewsCount', $mp4ViewsCount)
+					->with( 'user', $user )
+					->withBoughtCount($bought_mp3s_count);
 	}
 }

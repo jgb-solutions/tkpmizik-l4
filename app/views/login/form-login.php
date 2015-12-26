@@ -1,4 +1,4 @@
-<form role="form" action="/login" method="post" class="form-horizontal">
+<form role="form" action="/login" method="post" class="form-horizontal color-black">
 	<div class="form-group">
 		<label for="email" class="col-sm-4 control-label">Adrès Imel</label>
 		<div class="col-sm-8">
