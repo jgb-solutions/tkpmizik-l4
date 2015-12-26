@@ -156,6 +156,10 @@
 
 	<hr>
 
+	@include('inc.ads.bottom')
+
+	<hr>
+
 	{{-- <p class="related">
 		<ul class="list list-unstyled">
 			@foreach ( $related as $rel )
