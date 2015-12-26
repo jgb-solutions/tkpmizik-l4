@@ -415,7 +415,7 @@ class MP3Controller extends BaseController
 					File::delete( Config::get('site.image_upload_path') . '/thumbs/' . $mp3->image );
 					File::delete( Config::get('site.image_upload_path') . '/tiny/' . $mp3->image );
 
-					if ( Auth::user()->is_admin() ) return Redirect::back();
+					if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
 
 					return Redirect::to('/mp3');
 				} else
