@@ -41,6 +41,7 @@ Route::get('/mp3/delete/{id}', [
 
 Route::get('/mp3/up', 'MP3Controller@getMP3Up');
 Route::get('/mp3/play/{id}', 'MP3Controller@getPlayMP3');
+Route::get('/mp3/buy', 'MP3Controller@listBuy');
 Route::get('/mp3/buy/{id}', 'MP3Controller@getBuy');
 Route::post('/mp3/buy/{id}', 'MP3Controller@postBuy');
 Route::resource('mp3', 'MP3Controller');
@@ -79,6 +80,8 @@ Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 	Route::get('user/edit/{id}', 'UserController@getUserEdit');
 	Route::put('user/edit/{id}', 'UserController@putUser');
 	Route::get('user/delete/{id}', 'UserController@deleteUser');
+
+	Route::put('pages/edit/{id}', 'AdminController@put_pages_edit');
 
 	Route::controller('/', 'AdminController');
 });

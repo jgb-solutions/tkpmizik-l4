@@ -13,9 +13,9 @@
 	@if( count( $mp3s ) > 0 )
 
 	<div class="row bg-black">
-		<h2 class="text-center text-uppercase">
-		<span class="glyphicon glyphicon-music"></span>
-		Dènye Mizik Yo
+		<h2 class="text-center">
+		<i class="fa fa-music"></i>
+		Dènye Mizik
 		</h2>
 	</div>
 
@@ -25,7 +25,7 @@
 
 	<p class="text-center">
 		<a href="/mp3" class="btn btn-lg btn-primary">
-			<span class="glyphicon glyphicon-music"></span>
+			<i class="fa fa-music"></i>
 			Navige Tout Mizik Yo
 		</a>
 	</p>

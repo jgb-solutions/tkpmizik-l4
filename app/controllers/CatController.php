@@ -81,6 +81,7 @@ class CatController extends BaseController
 			});
 
 			$results = $mp3s->merge( $mp4s );
+			$results = $results->shuffle();
 
 			return View::make('cats.show')
 						->with('results', $results )
@@ -140,9 +141,9 @@ class CatController extends BaseController
 
 	public function getDelete( $id )
 	{
-		Category::find( $id )->delete();
+		Category::find($id)->delete();
 
-		return Redirect::to( URL::previous() );
+		return Redirect::back();
 	}
 
 }

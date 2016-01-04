@@ -1,6 +1,6 @@
 <div class="list-group">
   	<li class="list-group-item active">
-    	<h4><span class="glyphicon glyphicon-th"></span> Kategori</h4>
+    	<h4><i class="fa fa-th-list"></i> Kategori</h4>
   	</li>
 
 	<?php $cats = Category::remember(60)->orderBy('name')->get(); ?>
@@ -14,7 +14,7 @@
 			<strong>
 
 				<a class="list-group-item" href="/cat/{{ $cat->slug }}">
-					<span class="glyphicon glyphicon-chevron-right"></span> {{ $cat->name }}
+					<i class="fa fa-chevron-right"></i> {{ $cat->name }}
 				</a>
 			</strong>
 

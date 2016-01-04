@@ -9,6 +9,9 @@ return array(
 	'image_upload_path' => 'uploads/images',
 	'twitter'			=> 'tkpmizik',
 	'404img'			=> '/images/404.png',
+	'logo_img'			=> 'images/logo_tkp.jpg',
+	'separator'			=> '--|--',
+	'email'				=> 'tkpmizik@gmail.com',
 
 	'validate'			=> [
 		'name'		=> [
@@ -59,6 +62,7 @@ return array(
 		'bought-failed' => 'Kòd ou antre a pa bon. Antre bon kòd mizik la epi eseye ankò.',
 		'must-buy' 	=> 'Fòk ou achte mizik la pou w ka telechaje li. Si ou achte li deja, <a href="/login">konekte</a> w pou w ka telechaje li.',
 		'cant-buy' 	=> 'Ou pa gen dwa pou w achte mizik pa w ankò.',
+		'cant-play' => 'Ou pa ka jwe yon mizik peye. Achte li pou w ka telechaje li epi aprè w\'ap ka tande li sou telefòn ou oubyen lòt aparèy.',
 		'errors'	=> [
 			'login'	=> 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò. Si w pa gen yon kont sou sit la ou ka jis <a href="/register">kreye youn</a>.'
 		]

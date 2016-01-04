@@ -8,7 +8,7 @@ class SearchController extends BaseController
 
 		$type = Input::get('type');
 
-		if ( isset( $type ) && ! empty( $type ) )
+		if ( isset($type) && ! empty($type) )
 		{
 			$fn = 'search' . $type;
 			return $this->$fn( $query );
@@ -34,6 +34,7 @@ class SearchController extends BaseController
 		});
 
 		$results = $mp3results->merge( $mp4results )->shuffle();
+		// dd($results);
 
 		return View::make('search.index')
 			->with( 'results', $results )
@@ -41,9 +42,9 @@ class SearchController extends BaseController
 			->with( 'title', 'Rezilta pou: ' . $query );
 	}
 
-	public function searchMP3( $query )
+	public function searchMP3($query)
 	{
-		$mp3s = MP3::where('name', 'like', '%' . $query . '%')->paginate( 20, ['id', 'name', 'play', 'download', 'image'] );
+		$mp3s = MP3::where('name', 'like', '%' . $query . '%')->paginate(20, ['id', 'name', 'play', 'download', 'image'] );
 
 		$mp3s->each( function( $mp3 )
 		{
@@ -59,7 +60,7 @@ class SearchController extends BaseController
 
 	public function searchMP4( $query )
 	{
-		$mp4results = MP4::where('name', 'like', '%' . $query . '%')->paginate( 20, ['id', 'name', 'play', 'download', 'image'] );
+		$mp4results = MP4::where('name', 'like', '%' . $query . '%')->paginate( 20, ['id', 'name', 'download', 'image'] );
 
 		$mp4results->each( function( $mp4 )
 		{

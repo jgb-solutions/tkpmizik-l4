@@ -1,26 +1,32 @@
 <div class="list-group">
   	<li class="list-group-item bg-black">
-    	<h4><span class="glyphicon glyphicon-facetime-video"></span> Tòp Videyo Popilè</h4>
+    	<h4>
+    		<i class="fa fa-video-camera"></i> Tòp Videyo Popilè
+    	</h4>
   	</li>
 
   	<?php
   		$mp4s = MP4::orderBy('views', 'desc')
 					->orderBy('download', 'desc')
-					->take( 10 )->get();
+					->orderBy('vote_up', 'desc')
+					->take(10)->get();
 	?>
 
-	@if ( $mp4s && count( $mp4s ) > 0 )
+	@if ( $mp4s && count($mp4s) > 0 )
 
-		@foreach( $mp4s as $mp4 )
+		@foreach($mp4s as $mp4)
 
 		<strong>
 			<a class="list-group-item" href="/mp4/{{ $mp4->id }}">
 				<span class="badge">
 						{{ $mp4->views }}
-						<span class="glyphicon glyphicon-eye-open"></span>
+						<i class="fa fa-eye"></i>
 						-
 						{{ $mp4->download }}
-						<span class="glyphicon glyphicon-download"></span>
+						<i class="fa fa-download"></i>
+						-
+						{{ $mp4->vote_up }}
+						<i class="fa fa-thumbs-up"></i>
 					</span>
 				{{ $mp4->name }}
 			</a>

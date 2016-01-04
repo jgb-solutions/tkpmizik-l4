@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+{{ $title }}
+@stop
+
 <div class="col-sm-8">
 
 	@if ( Session::has('message') )
@@ -15,24 +19,33 @@
 	@endif
 
 	@include('mp4.video-player')
-	<h2 class="text-center">
-		{{ $mp4->name }}
+	<div class="row bg-black">
+		<h2 class="text-center">
+		{{ $title }}
 		<br>
 		<small>
 			<span class="views_count" data-obj="MP4" data-id="{{ $mp4->id }}">{{ $mp4->views }}</span>
-			<span class="glyphicon glyphicon-eye-open"></span> --|--
+			<i class="fa fa-eye"></i> --|--
 			<span class="download_count" data-obj="MP4" data-id="{{ $mp4->id }}">{{ $mp4->download }}</span>
-			<span class="glyphicon glyphicon-download"></span>
+			<i class="fa fa-download"></i>
 		</small>
-	</h2>
-	<p class="text-center text-muted">
-		<em>
-			By: <a href="/u/{{ $mp4->user->id }}">{{ $mp4->user->name }}</a>
-			In: <a href="/cat/{{ $mp4->category->slug }}">{{ $mp4->category->name }}</a>
-			On: {{ date('d/m/Y', strtotime( $mp4->created_at ) ) }}
-			at: {{ date('g:h a', strtotime( $mp4->created_at ) ) }}
-		</em>
-	</p>
+		</h2>
+		<p class="text-center text-muted">
+			<em>
+				By: <a href="/u/{{ $mp4->user->id }}">{{ $mp4->user->name }}</a>
+				In: <a href="/cat/{{ $mp4->category->slug }}">{{ $mp4->category->name }}</a>
+				On: {{ date('d/m/Y', strtotime( $mp4->created_at ) ) }}
+				at: {{ date('g:h a', strtotime( $mp4->created_at ) ) }}
+			</em>
+		</p>
+	</div>
+
+	@if ( $mp4->description )
+
+    <hr>
+	<p>{{ $mp4->description }}</p>
+
+    @endif
 
 	<hr>
 
@@ -42,8 +55,8 @@
 	  		href="/mp4/get/{{ $mp4->id }}"
 	  		target="_blank"
 	  	>
-	  		<span class="glyphicon glyphicon-download-alt"></span>
-	  		Download
+	  		<i class="fa fa-download"></i>
+	  		Telechaje
 	  	</a>
 
 	  	@if ( Auth::check() )
@@ -54,29 +67,30 @@
 				href="/mp4/delete/{{ $mp4->id }}"
 				onclick="return confirm('Are you sure?')"
 				class="btn btn-danger">
-				<span class="glyphicon glyphicon-trash"></span> Delete
+				<i class="fa fa-trash-o"></i> Efase
 			</a>
 
 			<a
 				class="btn btn-default"
 				href="/mp4/{{ $mp4->id }}/edit">
-				<span class="glyphicon glyphicon-edit"></span> Edit
+				<i class="fa fa-edit"></i> Modifye
 			</a>
 
 			@endif
 
-			<?php Votee::view('MP4', $mp4->id, $mp4->vote_up, $mp4->vote_down); ?>
+			<?php TKPM::vote('MP4', $mp4->id, $mp4->vote_up, $mp4->vote_down); ?>
 
 	  	@endif
 	</div>
+
 	<hr>
 	<form class="form-horizontal" role="form">
 	  	<div class="form-group">
 	    	<label
 	    		for="linktext"
 	    		class="col-sm-4 control-label">
-	    		<span class="glyphicon glyphicon-facetime-video"></span>
-	    		Video link: </label>
+	    		<i class="fa fa-video-camera"></i>
+	    		Lyen Videyo a: </label>
 	    	<div class="col-sm-8">
 	      	<input
 	      		onclick="return this.select()"
@@ -90,8 +104,8 @@
 	    	<label
 	    		for="downloadlink"
 	    		class="col-sm-4 control-label">
-	    		<span class="glyphicon glyphicon-download-alt"></span>
-	    		Download link:
+	    		<i class="fa fa-download"></i>
+	    		Telechajman:
 	    	</label>
 	    	<div class="col-sm-8">
 	      	<input
@@ -115,16 +129,11 @@
 
 	@include('inc.sharing')
 
-
-    @if ( $mp4->description )
-
-    <hr>
-
-	<p class="mp4-desc padding1em bg-info">{{ $mp4->description }}</p>
-
-    @endif
-
 	<hr>
+	@include('inc.ads.bottom')
+	<hr>
+
+	@include('mp4.related')
 
 </div>
 

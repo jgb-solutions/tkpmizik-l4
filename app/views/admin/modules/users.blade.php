@@ -6,7 +6,7 @@
 		@foreach ( $users as $user )
 			<tr>
 				<td>
-					<span class="glyphicon glyphicon-user"></span>
+					<i class="fa fa-user"></i>
 				</td>
 				<td>
 					<strong>
@@ -18,7 +18,7 @@
 					<a
 						class="btn btn-default"
 						href="/admin/user/edit/{{ $user->id }}">
-						<span class="glyphicon glyphicon-edit"></span>
+						<i class="fa fa-edit"></i>
 					</a>
 				</td>
 				<td>
@@ -27,7 +27,7 @@
 						href="/admin/user/delete/{{ $user->id }}"
 						onclick='return confirm("Ou Vle Efase {{ $user->name }} tout bon?")'
 						class="btn btn-danger">
-						<span class="glyphicon glyphicon-trash"></span>
+						<i class="fa fa-trash-o"></i>
 					</a>
 				</td>
 			</tr>

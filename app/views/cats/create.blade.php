@@ -4,46 +4,47 @@
 	{{ $title }}
 @stop
 
+@section('search-results')
+@stop
+
 @section('content')
 
-<div class="col-sm-8 col-sm-offset-2">
-
-	<h2 class="text-center">{{ $title }}</h2>
+<div class="col-sm-12">
+	<div class="row bg-black">
+		<h2 class="text-center"><i class="fa fa-th-list"></i> {{ $title }}</h2>
+	</div>
 	<hr>
+</div>
+
+<div class="col-sm-8 col-sm-offset-2">
 
 	@include('inc.errors')
 
 	<div class="row">
 		<div class="col-sm-6">
-			{{ Form::open(array('url' => '/cat/create', 'method' => 'POST', 'id' => 'form-category-create', 'class' => 'form-horizontal')) }}
+			{{ Form::open(array('url' => '/cat/create', 'method' => 'POST', 'id' => 'form-category-create')) }}
 
 				<div class="form-group">
-					<label for="name" class="control-label col-sm-3">Non</label>
-					<div class="col-sm-9">
-						<input name="name" type="name" class="form-control" id="name" placeholder="Non kategori a">
-					</div>
+					<input name="name" type="name" class="form-control" id="name" placeholder="Non kategori a">
 				</div>
 
 				<div class="form-group">
-					<label for="slug" class="control-label col-sm-3">Slug</label>
-					<div class="col-sm-9">
-						<input name="slug" type="name" class="form-control" id="slug" placeholder="Slug kategori a">
-					</div>
+					<input name="slug" type="name" class="form-control" id="slug" placeholder="Slug kategori a">
 				</div>
 
 				<div class="form-group">
-					<div class="col-sm-9 col-sm-offset-3">
-						<button type="submit" class="btn btn-primary">
-							<span class="glyphicon glyphicon-th"></span>
-							Kreye
-						</button>
-					</div>
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-th-list"></i>
+						Kreye
+					</button>
 				</div>
 
 			{{ Form::close() }}
 		</div>
 
-		@include('inc.catLists')
+		<div class="col-sm-6">
+			@include('admin.modules.categories')
+		</div>
 	</div>
 </div>
 

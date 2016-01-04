@@ -3,17 +3,22 @@
 <tr accesskey="r">
 	<td>
 		<strong>
-			<span class="glyphicon glyphicon-<%= icon %>"></span>
+			<i class="fa fa-<%= icon %>"></i>
 			<a href="/<%= type %>/<%= id %>">
-				<%= name %></a>
+				<%= name %>
+			</a>
+			<% if (type == 'mp3' && price == 'paid')
+			{%>
+				<i class="fa fa-dollar"></i>
+			<%}%>
 		</strong>
 	</td>
 	<td>
-		<span class="glyphicon glyphicon-eye-open"></span>
+		<i class="fa fa-eye"></i>
 		<strong><%= views %></strong>
 	</td>
 	<td>
-		<span class="glyphicon glyphicon-download"></span>
+		<i class="fa fa-download"></i>
 		<strong><%= download %></strong>
 	</td>
 </tr>

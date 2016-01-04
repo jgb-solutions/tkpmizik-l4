@@ -6,9 +6,17 @@
 
 @section('content')
 
-<div class="col-sm-8 col-sm-offset-2">
-	<h1 class="text-center">{{ $title }}</h1>
+<div class="col-sm-12">
+	<div class="row bg-black">
+		<h1 class="text-center">
+		<i class="fa fa-edit"></i>
+		{{ $title }}
+	</h1>
+	</div>
 	<hr>
+</div>
+
+<div class="col-sm-8 col-sm-offset-2">
 
 	@if ( ! $mp3->code && $mp3->price == 'paid' )
 
@@ -114,7 +122,7 @@
 		<div class="form-group">
 			<div class="col-sm-8 col-sm-offset-4">
 				<button type="submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-edit"></span> Modifye
+					<i class="fa fa-edit"></i> Modifye
 				</button>
 			</div>
 		</div>

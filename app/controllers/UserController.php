@@ -84,23 +84,31 @@ class UserController extends BaseController
 		$user = new User;
 
 		$user->name 		= $name;
-		$user->password 	= Hash::make( $password );
+		$user->password 	= Hash::make($password);
 		$user->email 		= $email;
 		$user->telephone 	= $telephone;
 
 		$user->save();
 
-		$credentials = [ 'email' => $email, 'password' => $password ];
+		$credentials = ['email' => $email, 'password' => $password];
 
-		if ( Auth::attempt( $credentials ) )
+		if ( Auth::attempt($credentials) )
 		{
+			// Send a welcome email to the new user registered
+			$data = [];
+			$data['u'] = $user;
+			$data['subject'] = 'Byenvini sou ' . Config::get('site.name');
+
+			TKPM::sendMail('emails.user.welcome', $data);
+
+			// Welcoming the user for the first time in our app
 			$message = 'Byenvini, ' . explode(' ', Auth::user()->name )[0] . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
 			return Redirect::to( '/user' )
-							->with('message', $message);
+							->withMessage($message);
 		} else
 		{
-			return Redirect::to('/login')
-							->with('error', 'Imel oubyen modpas ou pa kòrèk. Tanpri antre yo byen epi eseye konekte w ankò.')
+			return Redirect::to('/register')
+							->withError('Nou pa reyisi kreye kont ou a. Tanpri eseye ankò.')
 							->withInput();
 		}
 
@@ -131,8 +139,8 @@ class UserController extends BaseController
 		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
 		$firstname 			= explode(' ', $user->name )[0];
 
-		$bought = MP3Sold::whereUserId($user->id)
-						->count();
+		$bought_count = MP3Sold::whereUserId($user->id)
+								->count();
 
 		return View::make('user.profile')
 					->with('user', $user )
@@ -147,7 +155,7 @@ class UserController extends BaseController
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
 					->with('mp4ViewsCount', $mp4ViewsCount)
-					->withBoughtCount($bought);
+					->withBoughtCount($bought_count);
 	}
 
 	public function getUserMP3s()
@@ -165,7 +173,7 @@ class UserController extends BaseController
 
 		$firstname 			= explode(' ', $user->name )[0];
 
-		$bought = MP3Sold::whereUserId($user->id)
+		$bought_count = MP3Sold::whereUserId($user->id)
 						->count();
 
 		return View::make('user.mp3')
@@ -180,7 +188,7 @@ class UserController extends BaseController
 					->with('mp3ViewsCount', $mp3ViewsCount)
 					->with('mp4ViewsCount', $mp4ViewsCount)
 					->with( 'user', $user )
-					->withBoughtCount($bought);
+					->withBoughtCount($bought_count);
 	}
 
 	public function getUserMP4s()
@@ -198,7 +206,7 @@ class UserController extends BaseController
 
 		$firstname 			= explode(' ', $user->name )[0];
 
-		$bought = MP3Sold::whereUserId($user->id)
+		$bought_count = MP3Sold::whereUserId($user->id)
 						->count();
 
 		return View::make('user.mp4')
@@ -213,7 +221,7 @@ class UserController extends BaseController
 			->with('mp3ViewsCount', $mp3ViewsCount)
 			->with('mp4ViewsCount', $mp4ViewsCount)
 			->with('user', $user)
-			->withBoughtCount($bought);
+			->withBoughtCount($bought_count);
 	}
 
 	public function getUserEdit($id = null)
@@ -336,6 +344,7 @@ class UserController extends BaseController
 
 		$first_name 			= ucwords( explode(' ', $user->name )[0] );
 
+
 		return View::make('user.profile-public')
 					->with(	'user', $user )
 					->with(	'title', "Pwofil $user->name" )
@@ -348,7 +357,8 @@ class UserController extends BaseController
 					->with( 'mp3downloadcount', $mp3downloadcount )
 					->with( 'mp4downloadcount', $mp4downloadcount )
 					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount);
+					->with('mp4ViewsCount', $mp4ViewsCount)
+					->withBoughtCount('');
 	}
 
 	public function deleteUser($id = null)
@@ -470,13 +480,17 @@ class UserController extends BaseController
 		$bought_mp3s = MP3Sold::whereUserId($user->id)
 						->get(['mp3_id']);
 		$mp3s = [];
+		$mp3_ids = [];
 
 		foreach ($bought_mp3s as $bought_mp3)
 		{
 			$mp3_ids[] = $bought_mp3->mp3_id;
 		}
 
-		$mp3s = MP3::find($mp3_ids)->reverse();
+		if ($mp3_ids)
+		{
+			$mp3s = MP3::find($mp3_ids)->reverse();
+		}
 
 		$bought_mp3s_count = $bought_mp3s->count();
 

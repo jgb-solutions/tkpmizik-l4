@@ -14,7 +14,7 @@
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-8">
       <button type="submit" class="btn btn-primary btn-lg">
-		<span class="glyphicon glyphicon-log-in"></span> Koneksyon
+		<i class="fa fa-sign-in"></i> Koneksyon
 	</button>
     </div>
   </div>

@@ -1,11 +1,12 @@
 <div class="list-group">
   	<li class="list-group-item bg-black">
-    	<h4><span class="glyphicon glyphicon-user"></span> Tòp Itilizatè</h4>
+    	<h4>
+    		<i class="fa fa-user"></i> Tòp Itilizatè</h4>
   	</li>
 
   	<?php
 
-		$users = User::all();
+	$users = User::all();
 
 	$users->each( function( $user )
 	{
@@ -50,7 +51,7 @@
 	  	 			@else
 
 	  	 				<h3 class="list-group-item-heading">
-	  	 					<span class="glyphicon glyphicon-user"></span>
+	  	 					<i class="fa fa-user"></i>
 	  	 				</h3>
 
 	  	 			@endif
@@ -62,12 +63,12 @@
 	    				<span class="visible-xs-inline">
 	    					Mizik
 	    				</span>
-	    				<span class="glyphicon glyphicon-music"></span>
+	    				<i class="fa fa-music"></i>
 	    				ak {{ $user->mp4count }}
 	    				<span class="visible-xs-inline">
 	    					Videyo
 	    				</span>
-	    				<span class="glyphicon glyphicon-facetime-video"></span>
+	    				<i class="fa fa-video-camera"></i>
 	    			</p>
 	    		</div>
 	    	</div>

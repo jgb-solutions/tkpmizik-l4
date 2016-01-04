@@ -46,7 +46,7 @@
 
 	<div class="text-center">
 		<a href="/user/mp3" class="btn btn-primary btn-lg">
-			<span class="glyphicon glyphicon-music"></span>
+			<i class="fa fa-music"></i>
 			Tcheke Tout Mizik Ou Yo
 		</a>
 	</div>
@@ -58,7 +58,7 @@
 			<a
 				href="/mp3/up"
 				class="btn btn-primary btn-lg">
-				<span class="glyphicon glyphicon-music"></span>
+				<i class="fa fa-music"></i>
 				Mete Yon Mizik
 			</a>
 		</p>
@@ -73,9 +73,8 @@
 	<div class="text-center">
 		<p>
 			<a href="/user/mp4" class="btn btn-danger btn-lg">
-				<span class="glyphicon glyphicon-facetime-video"></span>
+				<i class="fa fa-video-camera"></i>
 				Tcheke Tout Videyo Ou Yo
-				<span class="glyphicon glyphicon-facetime-video"></span>
 			</a>
 		</p>
 	</div>
@@ -88,7 +87,7 @@
 		<a
 			href="/mp4/up"
 			class="btn btn-danger btn-lg">
-			<span class="glyphicon glyphicon-facetime-video"></span>
+			<i class="fa fa-video-camera"></i>
 			Mete Yon Videyo
 		</a>
 	</p>

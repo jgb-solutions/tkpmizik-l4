@@ -48,12 +48,14 @@
 	<div class="row bg-black">
 		<h3 class="text-center">Nou regrèt, men ou poko achte mizik.</h3>
 	</div>
+	<hr>
 	<p class="text-center">
 		<a
-			href="/mp3/up"
+			href="/mp3/buy"
 			class="btn btn-primary btn-lg">
-			<span class="glyphicon glyphicon-music"></span>
-			Mete Yon Mizik
+			<i class="fa fa-music"></i>
+			Achte Yon Mizik
+			<i class="fa fa-dollar"></i>
 		</a>
 	</p>
 

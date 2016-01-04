@@ -11,7 +11,7 @@
 	@if ( count( $mp3s ) > 0 )
 			<div class="row bg-black">
 				<h2 class="text-center">
-					<span class="glyphicon glyphicon-music"></span>
+					<i class="fa fa-music"></i>
 					{{ $title }}
 				</h2>
 			</div>

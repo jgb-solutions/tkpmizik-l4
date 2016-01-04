@@ -1,4 +1,4 @@
-<span class="glyphicon glyphicon-share-alt"></span> Pataje sou:
+<i class="fa fa-share"></i> Pataje sou:
 <div class="btn-group btn-group-justified">
 	<a
 		class="btn btn-primary"

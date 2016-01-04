@@ -1,20 +1,7 @@
-/**************** MP3 Player ***********/
-// threeSixtyPlayer.config = {
-//   playNext: false, // stop after one sound, or play through list until end
-//   autoPlay: false, // start playing the first sound right away
-//   allowMultiple: false, // let many sounds play at once (false = one at a time)
-//   loadRingColor: '#d9edf7',// amount of sound which has loaded
-//   playRingColor: '#337ab7', // amount of sound which has played
-//   backgroundRingColor: '#f00', // "default" color shown underneath everything else
-//   animDuration: 500,
-//   animTransition: Animator.tx.bouncy// http://www.berniecode.com/writing/animator.html
-// }
-
-
 function form_category_check()
 {
 	/*********** Form to create a new category **********/
-	$form = $('#form-category-create');
+	$form = $('#form-category-create, #form-page-create');
 	$name = $form.find('input[name=name]');
 	$slug = $form.find('input[name=slug]');
 
@@ -142,6 +129,8 @@ function voteUp()
 	// console.log('Vote up dude');
 
 	$spanView = $('span.views_count');
+	$voteUpNum = $('#vote-up-num');
+	$voteDownNum = $('#vote-down-num');
 
 	param = {
 		id: $spanView.data('id'),
@@ -152,14 +141,19 @@ function voteUp()
 
 	$.post('/ajax', param, function( data )
 	{
-		console.log( data );
+		// console.log( data );
 
-		if ( data.vote_down != 0 )
+		if ( data.vote_down !== 0 )
 		{
-			$('#vote-down-num').empty().html( data.vote_down );
+			$voteDownNum.empty().html( data.vote_down );
 		}
 
-		$('#vote-up-num').empty().html( data.vote_up );
+		if ( data.vote_up !== 0 )
+		{
+			$voteUpNum.empty().html( data.vote_up );
+		} else {
+			$voteUpNum.empty();
+		}
 	});
 }
 
@@ -168,6 +162,8 @@ function voteDown()
 	// console.log('Vote Down dude');
 
 	$spanView = $('span.views_count');
+	$voteUpNum = $('#vote-up-num');
+	$voteDownNum = $('#vote-down-num');
 
 	param = {
 		id: $spanView.data('id'),
@@ -180,12 +176,17 @@ function voteDown()
 	{
 		console.log( data );
 
-		if ( data.vote_up != 0 )
+		if ( data.vote_up !== 0 )
 		{
-			$('#vote-up-num').empty().html( data.vote_up );
+			$voteUpNum.empty().html( data.vote_up );
 		}
 
-		$('#vote-down-num').empty().html( data.vote_down );
+		if ( data.vote_down !== 0 )
+		{
+			$voteDownNum.empty().html( data.vote_down );
+		} else {
+			$voteDownNum.empty();
+		}
 	});
 }
 
@@ -194,6 +195,8 @@ function voteNull( ud )
 	// console.log('voting null');
 
 	$spanView = $('span.views_count');
+	$voteUpNum = $('#vote-up-num');
+	$voteDownNum = $('#vote-down-num');
 
 	param = {
 		id: $spanView.data('id'),
@@ -205,21 +208,18 @@ function voteNull( ud )
 
 	$.post('/ajax', param, function( data )
 	{
-		$voteUpNum = $('#vote-up-num');
-		$voteDownNum = $('#vote-down-num');
-
-		console.log( data );
+		// console.log( data );
 
 		$voteUpNum.empty();
 
-		if ( data.vote_up != 0 )
+		if ( data.vote_up !== 0 )
 		{
 			$voteUpNum.html( data.vote_up );
 		}
 
 		$voteDownNum.empty();
 
-		if ( data.vote_down != 0 )
+		if ( data.vote_down !== 0 )
 		{
 			$voteDownNum.html( data.vote_down );
 		}
@@ -274,7 +274,7 @@ $(function()
 	        var messages = '';
 
 
-	        if ( res.success == true )
+	        if ( res.success === true )
 	        {
 	        	console.log( res.url );
 	        	window.location = res.url;

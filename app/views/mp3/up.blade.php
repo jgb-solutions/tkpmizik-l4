@@ -9,7 +9,7 @@
 	<div class="col-sm-12">
 		<div class="row bg-black">
 			<h1 class="text-center">
-			<span class="glyphicon glyphicon-music"></span>
+			<i class="fa fa-music"></i>
 			{{ $title }}
 		</h1>
 		</div>
@@ -71,7 +71,7 @@
 				<div class="col-sm-8 col-sm-offset-4">
 					<p>
 						<button type="submit" class="btn btn-primary btn-lg" id="submitButton">
-							<span class="glyphicon glyphicon-upload"></span>
+							<i class="fa fa-cloud-upload"></i>
 							Mete Mizik la
 						</button>
 					</p>

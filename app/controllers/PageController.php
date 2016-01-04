@@ -4,8 +4,8 @@ class PageController extends BaseController
 {
 	public function getIndex()
 	{
-		$mp3s = MP3::orderBy('id', 'desc')->wherePublish(1)->take( 6 )->get();
-		$mp4s = MP4::orderBy('id', 'desc')->take( 6 )->get();
+		$mp3s = MP3::orderBy('created_at', 'desc')->wherePublish(1)->take(6)->get();
+		$mp4s = MP4::orderBy('created_at', 'desc')->take(4)->get();
 
 		return View::make('home')
 			->with('mp3s', $mp3s)

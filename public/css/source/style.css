@@ -146,8 +146,8 @@ a.navbar-brand {
 	margin-bottom: 5px;
 }
 
-img {
-	max-width: 100%;
+.full-width {
+	width: 100%;
 }
 
 .box-shadow {
@@ -175,7 +175,7 @@ a:focus {
 	}
 
 	.mTop6 {
-		margin-top: 2px;
+		/*margin-top: 2px;*/
 	}
 
 	.logo-mizik {
@@ -261,4 +261,8 @@ img.logo-mizik {
 	opacity: 1;
 	filter: blur(0);
 	-webkit-filter: blur(0);
+}
+
+.pagination {
+	font-weight: bold;
 }

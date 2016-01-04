@@ -8,12 +8,12 @@
 				<td><a href="/cat/{{ $category->slug }}">{{ $category->name }}</a></td>
 				<td>
 					<a href="/cat/edit/{{$category->id}}">
-						<span class="glyphicon glyphicon-edit"></span>
+						<i class="fa fa-edit"></i>
 					</a>
 				</td>
 				<td>
 					<a href="/cat/delete/{{$category->id}}">
-						<span class="glyphicon glyphicon-trash"></span>
+						<i class="fa fa-trash-o"></i>
 					</a>
 				</td>
 			</tr>

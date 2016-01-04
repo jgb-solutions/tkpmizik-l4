@@ -6,7 +6,7 @@
 		@foreach ( $categories as $category )
 			<tr>
 				<td>
-					<span class="glyphicon glyphicon-th"></span>
+					<i class="fa fa-th-list"></i>
 				</td>
 				<td>
 					<strong>
@@ -18,7 +18,7 @@
 					<a
 						class="btn btn-default"
 						href="/admin/cat/edit/{{ $category->id }}">
-						<span class="glyphicon glyphicon-edit"></span>
+						<i class="fa fa-edit"></i>
 					</a>
 				</td>
 				<td>
@@ -27,7 +27,7 @@
 						href="/admin/cat/delete/{{ $category->id }}"
 						onclick='return confirm("Ou Vle Efase {{ $category->name }} tout bon?")'
 						class="btn btn-danger">
-						<span class="glyphicon glyphicon-trash"></span>
+						<i class="fa fa-trash-o"></i>
 					</a>
 				</td>
 			</tr>

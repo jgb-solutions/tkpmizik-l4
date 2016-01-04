@@ -186,13 +186,12 @@ return array(
 		'Session'         	=> 'Illuminate\Support\Facades\Session',
 		'SoftDeletingTrait' => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'SSH'             	=> 'Illuminate\Support\Facades\SSH',
-		// 'Str'             => 'Illuminate\Support\Str',
+		'Str'             	=> 'Illuminate\Support\Str',
 		'URL'             	=> 'Illuminate\Support\Facades\URL',
 		'Validator'       	=> 'Illuminate\Support\Facades\Validator',
 		'View'            	=> 'Illuminate\Support\Facades\View',
 		'Image'			  	=> 'Intervention\Image\Facades\Image',
-		'Str'				=> 'app\lib\Support\Str',
-		'Twitter' => 'Thujohn\Twitter\Facades\Twitter'
+		'Twitter' 			=> 'Thujohn\Twitter\Facades\Twitter'
 
 	),
 

@@ -1,20 +1,12 @@
-module.exports = function( grunt )
+module.exports = function(grunt)
 {
 	grunt.initConfig(
 	{
 		jshint: [
 			'Gruntfile.js',
-			'public/js/bb-search.js',
-			'public/js/app.js'
+			'public/js/source/bb-search.js',
+			'public/js/source/app.js'
 		],
-
-		less: {
-			compile: {
-				files: {
-					'public/css/source/compile.css': 'public/css/source/style.less'
-				}
-			}
-		},
 
 		concat: {
 			js: {
@@ -77,13 +69,21 @@ module.exports = function( grunt )
 					]
 				}
 			}
+		},
+
+		watch: {
+			files: ['public/**/*.js', 'public/**/*.css'],
+			tasks: ['jshint', 'uglify', 'cssmin', 'concat']
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
+	//grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.registerTask( 'default', ['jshint', 'less', 'uglify', 'cssmin', 'concat'] );
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	//grunt.loadNpmTasks('grunt-uncss');
+
+	grunt.registerTask( 'default', ['jshint', 'uglify', 'cssmin', 'concat'] );
 };

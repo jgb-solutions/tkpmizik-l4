@@ -9,9 +9,8 @@
 		    		{{ isset($mp3) && $mp3->price == 'free' ? 'checked' : '' }}
 		    		value="free">
 		    	<b>
-		    		<span class="glyphicon glyphicon-star"></span>
+		    		<i class="fa fa-star"></i>
 		    		Gratis
-		    		<span class="glyphicon glyphicon-star-empty"></span>
 		    	</b>
 		  	</label>
 		  	<label class="btn btn-success {{ isset($mp3) && $mp3->price == 'paid' ? 'active' : '' }}">
@@ -21,9 +20,8 @@
 		    		{{ isset($mp3) && $mp3->price == 'paid' ? 'checked' : '' }}
 		    		value="paid">
 		    	<b>
-		    		<i class="fa fa-dollar"></i>
 		    		Peye
-		    		<i class="fa fa-money"></i>
+		    		<i class="fa fa-dollar"></i>
 		    	</b>
 		  	</label>
 		</div>

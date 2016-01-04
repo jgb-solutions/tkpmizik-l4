@@ -3,17 +3,29 @@
 		<div class="modal-content">
 			<div class="modal-header hidden">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Konekte / Kreye Kont</h4>
+				<h4 class="modal-title">Koneksyon / Kreye Kont</h4>
 			</div>
 			<div class="modal-body">
 				<div role="tabpanel">
 				    <!-- Nav tabs -->
 				    <ul class="nav nav-pills nav-justified" role="tablist">
 				        <li role="presentation" class="active">
-				            <a href="#login" aria-controls="login" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-log-in"></span> Konekte</a>
+				            <a
+				            	href="#login"
+				            	aria-controls="login"
+				            	role="tab"
+				            	data-toggle="tab">
+				            	<i class="fa fa-sign-in"></i> Koneksyon
+				            </a>
 				        </li>
 				        <li role="presentation">
-				            <a href="#register" aria-controls="register" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-user"></span> Kreye Yon Kont</a>
+				            <a
+				            	href="#register"
+				            	aria-controls="register"
+				            	role="tab"
+				            	data-toggle="tab">
+				            	<i class="fa fa-user"></i> Kreye Yon Kont
+				            </a>
 				        </li>
 				    </ul>
 

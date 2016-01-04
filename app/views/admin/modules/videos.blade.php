@@ -6,7 +6,7 @@
 		@foreach ( $mp4s as $mp4 )
 			<tr>
 				<td>
-					<span class="glyphicon glyphicon-music"></span>
+					<i class="fa fa-video-camera"></i>
 				</td>
 				<td>
 					<strong>
@@ -18,7 +18,7 @@
 					<a
 						class="btn btn-default"
 						href="/mp4/{{ $mp4->id }}/edit">
-						<span class="glyphicon glyphicon-edit"></span>
+						<i class="fa fa-edit"></i>
 					</a>
 				</td>
 				<td>
@@ -27,7 +27,7 @@
 						href="/mp4/delete/{{ $mp4->id }}"
 						onclick='return confirm("Ou Vle Efase {{ $mp4->name }} tout bon?")'
 						class="btn btn-danger">
-						<span class="glyphicon glyphicon-trash"></span>
+						<i class="fa fa-trash-o"></i>
 					</a>
 				</td>
 			</tr>

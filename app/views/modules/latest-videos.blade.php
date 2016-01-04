@@ -1,6 +1,6 @@
 <div class="list-group">
   	<a href="/mp4" class="list-group-item active">
-    	<h4><span class="glyphicon glyphicon-facetime-video"></span> Dènye Videyo</h4>
+    	<h4><i class="fa fa-video-camera"></i> Dènye Videyo</h4>
   	</a>
   	<?php $mp4s = MP4::orderBy('id', 'desc')->take( 10 )->get(); ?>
 
@@ -11,7 +11,7 @@
 
 			<strong>
 				<a class="list-group-item" href="/mp4/{{ $mp4->id }}">
-					<span class="glyphicon glyphicon-facetime-video"></span> {{ $mp4->name }}
+					<i class="fa fa-video-camera"></i> {{ $mp4->name }}
 				</a>
 			</strong>
 

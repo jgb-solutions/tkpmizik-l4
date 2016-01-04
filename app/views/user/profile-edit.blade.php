@@ -19,7 +19,7 @@
 	@endif
 
 	<h2 class="text-center">
-		<span class="glyphicon glyphicon-edit"></span>
+		<i class="fa fa-edit"></i>
 		{{ $title }}
 	</h2>
 	<hr>
@@ -83,7 +83,7 @@
 		<div class="form-group">
 			<div class="col-sm-8 col-sm-offset-4">
 				<button type="submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-edit"></span>
+					<i class="fa fa-edit"></i>
 					Modifye
 				</button>
 			</div>
@@ -93,7 +93,7 @@
 	<hr>
 
 	<h3 class="text-center">
-		<span class="glyphicon glyphicon-trash"></span>
+		<i class="fa fa-trash-o"></i>
 		Efase kont ou
 	</h3>
 	<hr>
@@ -113,7 +113,7 @@
 	  		type="submit"
 	  		class="btn btn-danger btn-lg btn-block"
 	  		onclick='return confirm("Ou Vle Efase kont ou tout bon?")'>
-	  		<span class="glyphicon glyphicon-trash"></span> Efase
+	  		<i class="fa fa-trash-o"></i> Efase
 	  	</button>
 	  </p>
 

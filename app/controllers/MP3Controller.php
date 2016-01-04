@@ -4,16 +4,27 @@ class MP3Controller extends BaseController
 {
 	public function index()
 	{
-		$mp3s = MP3::orderBy('id', 'desc')->wherePublish(1)->paginate( 10 );
+		$mp3s = MP3::orderBy('created_at', 'desc')->wherePublish(1)->paginate(10);
 
 		return View::make('mp3.index')
 					->with( 'mp3s', $mp3s )
 					->with('title', 'Navige Tout Mizik Yo');
 	}
 
+	public function listBuy()
+	{
+		$mp3s = MP3::orderBy('created_at', 'desc')
+					->wherePublish(1)
+					->wherePrice('paid')
+					->paginate(10);
+
+		return View::make('mp3.list-buy')
+					->with( 'mp3s', $mp3s )
+					->with('title', 'Mizik Pou Vann');
+	}
+
 	public function store()
 	{
-
 		$rules = array(
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
@@ -52,7 +63,7 @@ class MP3Controller extends BaseController
 		$price 			= Input::get('price');
 		$name 			= Input::get('name');
 		$mp3 			= Input::file('mp3');
-		$mp3size 		= $this->friendly_size( $mp3->getClientsize() );
+		$mp3size 		= TKPM::size($mp3->getClientsize());
 		$mp3ext 		= $mp3->getClientOriginalExtension();
 		$mp3name 		= Str::slug( $name, '-') . '-' . Str::random( 32 ) . '.' . $mp3ext;
 		$mp3uploadpath 	= Config::get('site.mp3_upload_path');
@@ -61,32 +72,17 @@ class MP3Controller extends BaseController
 
 		/************ Image Uploading *****************/
 		$image 			 = Input::file('image');
+		$img_type		= $image->getMimeType();
 		$imageext 		 = $image->getClientOriginalExtension();
 		$imagename 		 = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
 		$imageuploadpath = Config::get('site.image_upload_path');
-		$imagesuccess 	 = $image->move( $imageuploadpath, $imagename );
+		$imagesuccess 	 = $image->move($imageuploadpath, $imagename);
 
-		if ( $imagesuccess ) {
-			Image::make( $imageuploadpath . '/' . $imagename )
-				->resize( 250, 250, function( $constraint )
-				{
-					$constraint->aspectratio();
-				})
-				->save( $imageuploadpath . '/thumbs/' . $imagename );
-
-			Image::make( $imageuploadpath . '/' . $imagename )
-				->resize( 100, null, function( $constraint )
-				{
-					$constraint->aspectratio();
-				})
-				->save( $imageuploadpath . '/thumbs/tiny/' . $imagename );
-
-			Image::make( $imageuploadpath . '/' . $imagename )
-				->resize( 640, 360, function( $constraint )
-				{
-					$constraint->aspectratio();
-				})
-				->save( $imageuploadpath . '/show/' . $imagename );
+		if ($imagesuccess)
+		{
+			TKPM::image($imagename, 250, 250, 'thumbs');
+			TKPM::image($imagename, 100, null, 'thumbs/tiny');
+			TKPM::image($imagename, 640, 360, 'show');
 		}
 
 		$admin_id = User::whereAdmin(1)->first()->id;
@@ -123,33 +119,10 @@ class MP3Controller extends BaseController
 
 
 			/*********** GETID3 **************/
-	        $mp3_handler = new \getID3;
-	        $mp3_handler->setOption(['encoding'=> 'UTF-8']);
-
-	        $mp3_writter 					= new getid3_writetags;
-	        $mp3_writter->filename          = Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name;
-	        $mp3_writter->tagformats        = array('id3v1', 'id3v2.3');
-	        $mp3_writter->overwrite_tags    = true;
-	        $mp3_writter->tag_encoding      = 'UTF-8';
-	        $mp3_writter->remove_other_tags = true;
-
-	        $mp3_data['title'][]   = $mp3->name;
-	        $mp3_data['artist'][]  = Config::get('site.name') . ' --|-- ' . Config::get('site.url'); //$mp3_artist;
-	        $mp3_data['album'][]   = Config::get('site.name') . ' --|-- ' . Config::get('site.url');
-	        // $mp3_data['year'][]    = $mp3_year;
-	        // $mp3_data['genre'][]   = $mp3_genre;
-	        $mp3_data['comment'][] = Config::get('site.name') . ' --|-- ' . Config::get('site.url');
-
-	        $mp3_data['attached_picture'][0]['data'] = file_get_contents('images/logo_tkp.jpg' );
-	        $mp3_data['attached_picture'][0]['picturetypeid'] = "image/jpg";
-	        $mp3_data['attached_picture'][0]['description'] = "Ti Kwen Pam --|-- Mizik, Videyo, News!";
-	        $mp3_data['attached_picture'][0]['mime'] = "image/jpg";
-
-	        $mp3_writter->tag_data = $mp3_data;
-	        $mp3_writter->WriteTags();
+			TKPM::tag($mp3, $imagename, $img_type);
 
 	        // Fireing the Twitter event to tweet automatically
-	        Event::fire('tweet_music', [ $mp3 ]);
+	        // Event::fire('tweet_music', [ $mp3 ]);
 
 	        if ( Request::ajax() )
 	        {
@@ -212,7 +185,7 @@ class MP3Controller extends BaseController
 			}
 		}
 
-		$mp3 = MP3::wherePublish(1)->whereId( $id )->first();
+		$mp3 = MP3::wherePublish(1)->whereId( $id)->first();
 
 		if ( $mp3 )
 		{
@@ -220,7 +193,7 @@ class MP3Controller extends BaseController
 			$mp3->save();
 
 			$related = MP3::whereCategoryId($mp3->category_id)
-							->whereId($mp3->id)
+							->where('id', '!=', $mp3->id)
 							->wherePublish(1)
 							->orderByRaw('RAND()') // get random rows from the DB
 							// ->orderBy('id', true)
@@ -290,15 +263,15 @@ class MP3Controller extends BaseController
 		$code 	= Input::get('code');
 		$price 	= Input::get('price');
 
-		if ( $mp3->price == 'paid' && $price == 'paid')
+		if ( $mp3->price == 'paid')
 		{
 			$rules = [
 				'code'	=> 'required|min:8'
 			];
 
 			$messages = [
-				'code.required'		=> Config::get('site.validate.code.required'),
-				'code.min'			=> Config::get('site.validate.code.min')
+				'code.required'	=> Config::get('site.validate.code.required'),
+				'code.min'		=> Config::get('site.validate.code.min')
 			];
 
 			$validator = Validator::make( Input::all(), $rules, $messages );
@@ -323,19 +296,18 @@ class MP3Controller extends BaseController
 
 		$image = Input::file('image');
 
-		if ( isset( $image ) ) {
+		if ( isset($image) )
+		{
 			$imageext = $image->getClientOriginalExtension();
 			$imagename = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
 			$imageuploadpath = Config::get('site.image_upload_path');
 			$imagesuccess = $image->move( $imageuploadpath, $imagename );
 
-			if ( $imagesuccess ) {
-				Image::make( $imageuploadpath . '/' . $imagename )
-					->resize( 250, 250, function( $constraint )
-					{
-						$constraint->aspectratio();
-					})
-					->save( $imageuploadpath . '/thumbs/' . $imagename );
+			if ($imagesuccess)
+			{
+				TKPM::image($imagename, 250, 250, 'thumbs');
+				TKPM::image($imagename, 100, null, 'thumbs/tiny');
+				TKPM::image($imagename, 640, 360, 'show');
 			}
 		}
 
@@ -343,16 +315,24 @@ class MP3Controller extends BaseController
 			$mp3->name = $name;
 
 		if ( !empty( $description ) )
+		{
 			$mp3->description = $description;
+		}
 
 		if ( !empty( $image ) )
+		{
 			$mp3->image = $imagename;
+		}
 
 		if ( !empty( $category) )
+		{
 			$mp3->category_id = $category;
+		}
 
 		if ( ! empty( $price ) )
+		{
 			$mp3->price = $price;
+		}
 
 		if ( $publish && $price == 'paid')
 		{
@@ -363,12 +343,6 @@ class MP3Controller extends BaseController
 		{
 			$mp3->publish = 0;
 		}
-
-		else
-		{
-			$mp3->publish = 1;
-		}
-
 
 		$mp3->save();
 
@@ -393,7 +367,7 @@ class MP3Controller extends BaseController
 			->withMessage( Config::get('site.message.update') );
 	}
 
-	public function destroy( $id )
+	public function destroy($id)
 	{
 		if ( Auth::check() )
 		{
@@ -414,6 +388,7 @@ class MP3Controller extends BaseController
 					File::delete( Config::get('site.image_upload_path') . '/' . $mp3->image );
 					File::delete( Config::get('site.image_upload_path') . '/thumbs/' . $mp3->image );
 					File::delete( Config::get('site.image_upload_path') . '/tiny/' . $mp3->image );
+					File::delete( Config::get('site.image_upload_path') . '/show/' . $mp3->image );
 
 					if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
 
@@ -451,7 +426,7 @@ class MP3Controller extends BaseController
 								 ->whereMp3Id($mp3->id)
 								 ->first();
 
-				if ( ! $bought )
+				if ( ! $bought && ! $user->is_admin() )
 				{
 					return Redirect::to("/mp3/buy/$mp3->id")
 									->withMessage( Config::get('site.message.must-buy') );
@@ -460,43 +435,20 @@ class MP3Controller extends BaseController
 			}
 		}
 
-		$mp3->download = $mp3->download + 1;
-		$mp3->save();
-
-		if ( $mp3 )
-		{
-			$mp3name = Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name;
-			header('Content-Description: File Transfer');
-		    header('Content-Type: application/octet-stream');
-		    header('Content-Disposition: attachment; filename=' . $mp3->name . '.mp3' );
-		    header('Expires: 0');
-		    header('Cache-Control: must-revalidate');
-		    header('Pragma: public');
-		    header('Content-Length: ' . filesize( $mp3name ) );
-		    readfile( $mp3name ) ;
-		    exit;
-
-		} else
-		{
-			return 'Nou regrèt men nou pa jwenn mizik ou ap eseye telechaje a.';
-		}
+		TKPM::download($mp3);
 	}
 
-	public function getPlayMP3( $id )
+	public function getPlayMP3($id)
 	{
-		$mp3 = MP3::wherePublish(1)->whereId( $id )->first();
+		$mp3 = MP3::wherePublish(1)->whereId($id)->first();
 
-		$mp3->play = $mp3->play + 1;
-		$mp3->save();
+		if ($mp3->price == 'paid')
+		{
+			return Redirect::to("/mp3/buy/$mp3->id")
+							->withMessage( Config::get('site.message.cant-play') );
+		}
 
-		$mp3name = Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name;
-
-		header("Content-Type: audio/mpeg");
-	    header("Content-Length: " . filesize( $mp3name ) );
-	    header('Content-Disposition: filename=' . $mp3->name . '.mp3' );
-	    header('X-Pad: avoid browser bug');
-	    header('Cache-Control: no-cache');
-	    readfile( $mp3name );
+		TKPM::stream($mp3);
 	}
 
 	public function getMP3Up()
@@ -508,45 +460,6 @@ class MP3Controller extends BaseController
 			->withTitle('Mete Mizik');
 	}
 
-	private function friendly_size( $size, $round = 2 )
-	{
-	    $sizes = [' B', ' KB', ' MB'];
-
-	    $total = count( $sizes ) - 1 ;
-
-	    for ( $i = 0; $size > 1024 && $i < $total; $i++ )
-	    {
-	        $size /= 1024;
-	    }
-
-	    return round( $size, $round ) . $sizes[ $i ];
-	}
-
-	// public function eventListener()
-	// {
-	// 	Event::listen('tweet_music', function( $mp3 )
-	// 	{
-	// 		//Auto-Post Tweet
-	//         Twitter::postTweet(array(
-	//         	'status' => $mp3->name . ' ' . Config::get('site.url') . '/mp3/' . $mp3->id,
-	//         	'format' => 'json'
-	//         ));
-	// 	});
-
-	// 	Event::listen('sendMail', function( $email )
-	// 	{
-	// 		$data['name'] 			= 'Ti Kwen Pam Mizik';
-	// 		$data['email'] 			= $email;
-	// 		$data['mailMessage'] 	= 'Message send from TKPMizik';
-
-	// 		Mail::queue('mail', $data, function( $message ) use ($data)
-	// 		{
-	// 			$message->to( Config::get('site.email'), Config::get('site.name') )
-	// 					->subject('Ou gen yon nouvo imel KG.')
-	// 					->replyTo( $data['email'] );
-	// 		});
-	// 	});
-	// }
 
 	public function getBuy($id)
 	{
@@ -555,7 +468,7 @@ class MP3Controller extends BaseController
 				->whereId($id)
 				->first();
 
-		if ( $mp3 )
+		if ($mp3)
 		{
 			$mp3->views += 1;
 			$mp3->save();
@@ -572,18 +485,15 @@ class MP3Controller extends BaseController
 			}
 
 			$related = MP3::whereCategoryId($mp3->category_id)
-							->whereId($mp3->id)
 							->wherePublish(1)
 							->orderByRaw('RAND()') // get random rows from the DB
-							// ->orderBy('id', true)
 							->take( 3 )
-							// ->toSql();
 							->get(array('id', 'name', 'image', 'play', 'download', 'views'));
-			// return $related;
 
 			$author = $mp3->user->name . ' &mdash; ';
 
 			$title = "Achte $mp3->name";
+
 			return View::make('mp3.buy')
 				    ->withMp3($mp3)
 				    ->withTitle($title)
@@ -604,30 +514,31 @@ class MP3Controller extends BaseController
 			$mp3 = MP3::find($id);
 			$user = Auth::user();
 
-			$bought = MP3Sold::whereUserId($user->id)
-							  ->whereMp3Id($mp3->id)
-							  ->first();
-
-			if ( $user->id == $mp3->user_id )
+			if ($user->id == $mp3->user_id)
 			{
 				return Redirect::back()
 								->withMessage( Config::get('site.message.cant-buy') );
 			}
 
-			if ( $bought )
+			$bought = MP3Sold::whereUserId($user->id)
+							  ->whereMp3Id($mp3->id)
+							  ->first();
+
+			if ($bought)
 			{
 				return Redirect::to('/user/my-bought-mp3s')
 								->withMessage( Config::get('site.message.bought-already') );
 			}
 
-			if ( $code == $mp3->code )
+			if ($code == $mp3->code)
 			{
 				$sold = new MP3Sold;
-
-				$sold->user_id = $user->id;
-				$sold->mp3_id = $mp3->id;
-
+				$sold->user_id 	= $user->id;
+				$sold->mp3_id 	= $mp3->id;
 				$sold->save();
+
+				$mp3->buy_count += 1;
+				$mp3->save();
 
 				return Redirect::to("/user/my-bought-mp3s")
 								->withMessage( Config::get('site.message.bought-success') );

@@ -54,7 +54,7 @@ class AJAXController extends BaseController
 			// ->orderBy('download', 'desc')
 			->orderByRaw('RAND()') // get random rows from the DB
 			->take( 10 )
-			->get(array('id', 'name', 'views', 'download'));
+			->get(['id', 'name', 'views', 'download', 'price']);
 
 		$mp3results->each( function( $mp3 )
 		{
@@ -67,12 +67,12 @@ class AJAXController extends BaseController
 			// ->orderBy('download', 'desc')
 			->orderByRaw('RAND()') // get random rows from the DB
 			->take( 10 )
-			->get(array('id', 'name', 'download', 'image'));
+			->get(array('id', 'views', 'name', 'download'));
 
 		$mp4results->each( function( $mp4 )
 		{
 			$mp4->type = 'mp4';
-			$mp4->icon = 'facetime-video';
+			$mp4->icon = 'video-camera';
 		});
 
 		$results = $mp3results->merge( $mp4results );
@@ -87,7 +87,7 @@ class AJAXController extends BaseController
 			->orderBy('play', 'desc')
 			->orderBy('download', 'desc')
 			->take( 20 )
-			->get(array('id', 'name', 'play', 'download', 'image'));
+			->get(['id', 'name', 'play', 'download', 'image', 'price']);
 
 		$mp3results->each( function( $mp3 )
 		{
@@ -98,17 +98,17 @@ class AJAXController extends BaseController
 		return $mp3results;
 	}
 
-	private function searchMP4( $query )
+	private function searchMP4($query)
 	{
 		$mp4results = MP4::where('name', 'like', '%' . $query . '%')
 			->orderBy('play', 'desc')
 			->orderBy('download', 'desc')
 			->take( 20 )
-			->get( array('id', 'name', 'play', 'download', 'image'));
+			->get( array('id', 'views', 'name', 'download'));
 
 		$mp4results->each( function( $mp4 )
 		{
-			$mp4->icon = 'facetime-video';
+			$mp4->icon = 'video-camera';
 			$mp4->type = 'mp4';
 		});
 
@@ -231,8 +231,5 @@ class AJAXController extends BaseController
 			return $arr;
 
 		}
-
-		// return 'just voted null for ' . $id . ' with the type of ' . $obj . ' and having the action ' . $action;
-		// return Input::all();
 	}
 }

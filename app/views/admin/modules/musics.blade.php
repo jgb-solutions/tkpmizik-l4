@@ -6,19 +6,23 @@
 		@foreach ( $mp3s as $mp3 )
 			<tr>
 				<td>
-					<span class="glyphicon glyphicon-music"></span>
+					<i class="fa fa-music"></i>
 				</td>
 				<td>
 					<strong>
 						<a href="/mp3/{{ $mp3->id }}">
-						{{ $mp3->name }}</a>
+							{{ $mp3->name }}
+							@if ( $mp3->price == 'paid')
+							- <i class="fa fa-dollar"></i>
+							@endif
+						</a>
 					</strong>
 				</td>
 				<td>
 					<a
 						class="btn btn-default"
 						href="/mp3/{{ $mp3->id }}/edit">
-						<span class="glyphicon glyphicon-edit"></span>
+						<i class="fa fa-edit"></i>
 					</a>
 				</td>
 				<td>
@@ -27,7 +31,7 @@
 						href="/mp3/delete/{{ $mp3->id }}"
 						onclick='return confirm("Ou Vle Efase {{ $mp3->name }} tout bon?")'
 						class="btn btn-danger">
-						<span class="glyphicon glyphicon-trash"></span>
+						<i class="fa fa-trash-o"></i>
 					</a>
 				</td>
 			</tr>

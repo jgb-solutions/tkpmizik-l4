@@ -9,10 +9,12 @@
 <div class="col-sm-8">
 
 	@if ( count( $mp4s ) > 0 )
-			<h2 class="text-center">
-				<span class="glyphicon glyphicon-facetime-video"></span>
-				{{ $title }}
-			</h2>
+			<div class="row bg-black">
+				<h2 class="text-center">
+					<i class="fa fa-video-camera"></i>
+					{{ $title }}
+				</h2>
+			</div>
 			<hr>
 		@include('mp4.grid-12')
 
@@ -20,7 +22,9 @@
 			{{ $mp4s->links() }}
 		</div>
 	@else
-		<h2 class="text-center">Poko gen videyo (-_-)</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">Poko gen videyo (-_-)</h2>
+		</div>
 	@endif
 
 </div>

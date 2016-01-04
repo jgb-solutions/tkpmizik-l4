@@ -25,9 +25,10 @@
 		<br>
 		<small>
 			<span class="views_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->views }}</span>
-			<span class="glyphicon glyphicon-eye-open"></span> --|--
-			<span class="download_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->download }}</span>
-			<span class="glyphicon glyphicon-download"></span>
+			<i class="fa fa-eye"></i> --|--
+			<span class="download_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->download }}</span> --|--
+			<span class="buy_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->buy_count }}</span>
+			<i class="fa fa-dollar"></i>
 		</small>
 	</h2>
 	<p class="text-center text-muted">
@@ -40,7 +41,13 @@
 	</p>
 	</div>
 
+	 @if ( $mp3->description )
 
+    <hr>
+
+	<p class="mp3-desc">{{ $mp3->description }}</p>
+
+    @endif
 
 	<hr>
 	<div class="row bg-info">
@@ -85,11 +92,11 @@
   	<hr>
 	<div class="btn-group btn-group-lg">
 
-		@if ( User::is_admin() || $bought )
+		@if ( User::is_admin() || $bought || Auth::user()->id == $mp3->user_id )
 		<a
 	  		class="btn btn-success"
 	  		href="/mp3/get/{{ $mp3->id }}">
-	  		<span class="glyphicon glyphicon-download-alt"></span>
+	  		<i class="fa fa-download"></i>
 	  		<span class="hidden-484">Telechaje</span>
 	  	</a>
 		@endif
@@ -99,19 +106,20 @@
 			href="/mp3/delete/{{ $mp3->id }}"
 			onclick='return confirm("Ou Vle Efase {{ $mp3->name }} tout bon?")'
 			class="btn btn-danger">
-			<span class="glyphicon glyphicon-trash"></span>
+			<i class="fa fa-trash-o"></i>
 			<span class="hidden-484">Efase</span>
 		</a>
 
 		<a
 			class="btn btn-default"
 			href="/mp3/{{ $mp3->id }}/edit">
-			<span class="glyphicon glyphicon-edit"></span> Modifye
+			<i class="fa fa-edit"></i> Modifye
 		</a>
 
 		@endif
 
-		<?php Votee::view('MP3', $mp3->id, $mp3->vote_up, $mp3->vote_down); ?>
+		<?php TKPM::vote('MP3', $mp3->id, $mp3->vote_up, $mp3->vote_down); ?>
+
 	</div>
 
   	@endif
@@ -122,7 +130,7 @@
 	    	<label
 	    		for="linktext"
 	    		class="col-sm-4 control-label">
-	    		<span class="glyphicon glyphicon-music"></span>
+	    		<i class="fa fa-music"></i>
 	    		Lyen mizik la: </label>
 	    	<div class="col-sm-8">
 	      	<input
@@ -145,28 +153,13 @@
 
 	@include('inc.sharing')
 
-
-    @if ( $mp3->description )
-
-    <hr>
-
-	<p class="mp3-desc">{{ $mp3->description }}</p>
-
-    @endif
-
 	<hr>
 
 	@include('inc.ads.bottom')
 
 	<hr>
 
-	{{-- <p class="related">
-		<ul class="list list-unstyled">
-			@foreach ( $related as $rel )
-			<li><a href="/mp3/{{ $rel->id }}">{{ $rel->name }}</a></li>
-			@endforeach
-		</ul>
-	</p> --}}
+	@include('mp3.related')
 
 </div>
 

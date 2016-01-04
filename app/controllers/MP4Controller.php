@@ -4,11 +4,11 @@ class MP4Controller extends BaseController
 {
 	public function index()
 	{
-		$mp4s = MP4::orderBy('id', 'desc')->paginate( 10 );
+		$mp4s = MP4::orderBy('created_at', 'desc')->paginate(10);
 
 		return View::make('mp4.index')
-			->with( 'mp4s', $mp4s )
-			->with('title', 'Navige Tout Videyo Yo');
+			->withMp4s($mp4s)
+			->withTitle('Navige Tout Videyo Yo');
 	}
 
 	public function getCreate()
@@ -16,8 +16,8 @@ class MP4Controller extends BaseController
 		$categories = Category::orderBy('name')->get();
 
 		return View::make('mp4.up')
-					->with('categories', $categories)
-					->with('title', 'Mete Yon Videyo YouTube');
+					->withCategories($categories)
+					->withTitle('Mete Yon Videyo YouTube');
 	}
 
 	public function store()
@@ -36,11 +36,13 @@ class MP4Controller extends BaseController
 			'url.min'			=> 'Fòk lyen an pa pi piti pase 11 karaktè. Ajoute plis pase 11.'
 		];
 
-		$validator = Validator::make( Input::all(), $rules, $messages );
+		$validator = Validator::make(Input::all(), $rules, $messages);
 
 		if ( $validator->fails() )
 		{
-			return Redirect::to('/mp4/up')->withErrors( $validator )->withInput();
+			return Redirect::back()
+							->withErrors($validator)
+							->withInput();
 		}
 
 		// Extracts the YouTube ID from various URL structures
@@ -49,32 +51,23 @@ class MP4Controller extends BaseController
 
 		if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match))
 		{
-	    	$id = $match[1];
-
-	    	$image_url = "http://img.youtube.com/vi/$id/hqdefault.jpg";
-			$image_name = Str::random( 8 ) . time() . $id . '.jpg';
-			$image_upload_path = Config::get('site.image_upload_path');
-
-			if ( copy( $image_url,  $image_upload_path . '/' . $image_name ) )
-			{
-				Image::make( $image_upload_path . '/' . $image_name )
-					->resize( 100, null, function( $constraint )
-					{
-						$constraint->aspectratio();
-					})
-					->save( $image_upload_path . '/thumbs/tiny/' . $image_name );
-			}
+	    	$id 		=	$match[1];
+	    	$image_url 	=	"http://img.youtube.com/vi/$id/hqdefault.jpg";
+		} else
+		{
+			return Redirect::back()
+							->withMessage( Config::get('site.message.youtube-failed'));
 		}
 
 		// Check if there's a user logged in. If not, use the admin ID.
-		$admin_id = User::whereAdmin( 1 )->first()->id;
+		$admin_id = User::whereAdmin(1)->first()->id;
 		$user_id = ( Auth::check() ) ? Auth::user()->id : $admin_id;
 
 		// Insert the infos in the database
 		$mp4 				= new MP4;
 		$mp4->name 			= Input::get('name');
-		$mp4->url  			= $url;
-		$mp4->image 		= $image_name;
+		$mp4->youtube_id  	= $id;
+		$mp4->image 		= $image_url;
 		$mp4->user_id 		= $user_id;
 		$mp4->category_id 	= Input::get('cat');
 		$mp4->save();
@@ -82,35 +75,58 @@ class MP4Controller extends BaseController
 		return Redirect::to('mp4/' . $mp4->id );
 	}
 
-	public function show( $id )
+	public function show($id)
 	{
-		$mp4 = MP4::find( $id );
+		$mp4 = MP4::find($id);
 
 		$mp4->views += 1;
 		$mp4->save();
 
+		$related = MP4::whereCategoryId($mp4->category_id)
+						->where('id', '!=', $mp4->id)
+						->orderByRaw('RAND()') // get random rows from the DB
+						// ->orderBy('id', true)
+						->take( 3 )
+						// ->toSql();
+						->get(['id', 'name', 'image', 'download', 'views']);
+		// return $related;
+
+		$author = $mp4->user->name . ' &mdash; ';
+
 		return View::make('mp4.show')
-		    ->with('mp4', $mp4 )
-		    ->with('title', $mp4->name );
+			    ->withMp4($mp4)
+			    ->withTitle($mp4->name)
+			    ->withRelated($related)
+			    ->withAuthor($author);
 	}
 
-	public function edit( $id )
+	public function edit($id)
 	{
-		$mp4 = MP4::whereId( $id )->first();
+		$mp4 = MP4::whereId($id)->first();
 		$cats = Category::orderBy('name')->get();
 
-		if( Auth::check() && Auth::user()->id == $mp4->user_id || User::is_Admin() ) {
-			return View::make('mp4.put')
-			    ->with( 'mp4', $mp4 )
-			    ->with( 'title', $mp4->name )
-			    ->with( 'cats', $cats );
+		if ( Auth::check() )
+		{
+			$user = Auth::user();
+
+			if ( $user->id == $mp4->user_id || $user->is_admin() )
+			{
+				return View::make('mp4.put')
+				    ->with( 'mp4', $mp4 )
+				    ->with( 'title', $mp4->name )
+				    ->with( 'cats', $cats );
+			} else
+			{
+				return Redirect::to('/mp4')
+								->withMessage('Ou pa gen dwa pou w modifye videyo a.');
+			}
 		}
 
 		return Redirect::to('/mp4')
-				->with('message', 'You don\'t have the rights to edit this video');
+				->with('message', 'Fòk ou konekte w pou w ka aksede ak paj ou vle a.');
 	}
 
-	public function update( $id )
+	public function update($id)
 	{
 		$rules = array(
 			'name' 		=> 'min:6',

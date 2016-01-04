@@ -21,7 +21,7 @@
 					href="#"
 					class="dropdown-toggle"
 					data-toggle="dropdown">
-					<span class="glyphicon glyphicon-music"></span>
+					<i class="fa fa-music"></i>
 					Mizik
 					<b class="caret"></b>
 				</a>
@@ -30,13 +30,20 @@
 					<li>
 						<a
 							href="/mp3">
-							<span class="glyphicon glyphicon-music"></span>
+							<i class="fa fa-music"></i>
 							Tout Mizik Yo
 						</a>
 					</li>
 					<li>
+						<a href="/mp3/buy">
+							<i class="fa fa-music"></i>
+							Mizik Pou Vann
+							<i class="fa fa-dollar"></i>
+						</a>
+					</li>
+					<li>
 						<a href="/mp3/up">
-							<span class="glyphicon glyphicon-upload"></span>
+							<i class="fa fa-cloud-upload"></i>
 							Mete Mizik
 						</a>
 					</li>
@@ -48,7 +55,7 @@
 					href="#"
 					class="dropdown-toggle"
 					data-toggle="dropdown">
-					<span class="glyphicon glyphicon-facetime-video"></span>
+					<i class="fa fa-video-camera"></i>
 					Videyo
 					<b class="caret"></b>
 				</a>
@@ -56,13 +63,13 @@
 				<ul class="dropdown-menu">
 					<li>
 						<a href="/mp4">
-							<span class="glyphicon glyphicon-facetime-video"></span>
+							<i class="fa fa-video-camera"></i>
 							Tout Videyo Yo
 						</a>
 					</li>
 					<li>
 						<a href="/mp4/up">
-							<span class="glyphicon glyphicon-upload"></span>
+							<i class="fa fa-cloud-upload"></i>
 							Mete Videyo
 						</a>
 					</li>
@@ -74,7 +81,7 @@
 					href="#"
 					class="dropdown-toggle"
 					data-toggle="dropdown">
-					<span class="glyphicon glyphicon-th"></span>
+					<i class="fa fa-th-list"></i>
 					Kategori
 					<b class="caret"></b>
 				</a>
@@ -87,7 +94,7 @@
 					<li>
 						<a
 							href="/cat/{{ $cat->slug }}">
-							<span class="glyphicon glyphicon-chevron-right"></span>
+							<i class="fa fa-chevron-right"></i>
 							{{ $cat->name }}
 						</a>
 					</li>
@@ -101,7 +108,7 @@
 					href="#"
 					class="dropdown-toggle"
 					data-toggle="dropdown">
-					<span class="glyphicon glyphicon-th"></span>
+					<i class="fa fa-file"></i>
 					Paj
 					<b class="caret"></b>
 				</a>
@@ -113,7 +120,7 @@
 					<li>
 						<a
 							href="/p/{{ $page->slug }}">
-							<span class="glyphicon glyphicon-flash"></span>
+							<i class="fa fa-file"></i>
 							{{ $page->title }}
 						</a>
 					</li>
@@ -135,36 +142,36 @@
 						data-toggle="dropdown"
 					>
 
-					<span class="glyphicon glyphicon-user"></span>
+					<i class="fa fa-user"></i>
 					Alo, {{ $user->name }} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="/user">
-								<span class="glyphicon glyphicon-user"></span>
+								<i class="fa fa-user"></i>
 								Ale Sou Pwofil Ou
 							</a>
 						</li>
 						<li>
 							<a href="/user/mp3">
-								<span class="glyphicon glyphicon-music"></span>
+								<i class="fa fa-music"></i>
 								Mizik Ou Yo
 							</a>
 						</li>
 						<li>
 							<a href="/user/mp4">
-								<span class="glyphicon glyphicon-facetime-video"></span>
+								<i class="fa fa-video-camera"></i>
 								Videyo ou Yo
 							</a>
 						</li>
 						<li>
 						    <a href="/user/my-bought-mp3s">
-						    	<span class="glyphicon glyphicon-music"></span>
+						    	<i class="fa fa-music"></i>
 						    	Mizik Ou Achte
 						    	<i class="fa fa-money"></i>
 						    </a>
 						<li>
 							<a href="/user/edit">
-								<span class="glyphicon glyphicon-edit"></span>
+								<i class="fa fa-edit"></i>
 								Modifye Pwofil Ou
 							</a>
 						</li>
@@ -180,7 +187,7 @@
 
 						<li>
 							<a href="/logout">
-								<span class="glyphicon glyphicon-log-out"></span>
+								<i class="fa fa-sign-out"></i>
 								Dekoneksyon
 							</a>
 						</li>
@@ -190,7 +197,7 @@
 
 				<li>
 					<a data-toggle="modal" href='#log-reg-id'>
-					<span class="glyphicon glyphicon-user"></span>
+					<i class="fa fa-user"></i>
 					Koneksyon --|-- Kreye Kont</a>
 
 					@include('login.log-reg')

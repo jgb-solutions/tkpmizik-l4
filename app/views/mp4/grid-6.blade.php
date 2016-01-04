@@ -10,24 +10,24 @@
 							<img
 								src="/uploads/images/thumbs/{{ $mp4->image }}"
 						  		alt="{{ $mp4->name }}"
-								class="img-reponsive small-square">
+								class="img-responsive small-square">
 						</div>
 					</div>
 					<div class="col-sm-8 col-xs-8 right">
 						<h4 class="mTop6">
-							@if ( $mp3->price == 'paid')
-							<i class="fa fa-money"></i>
-							@endif
 							{{ $mp3->name }}
+							@if ( $mp3->price == 'paid')
+							- <i class="fa fa-dollar"></i>
+							@endif
 						</h4>
 						<p class="text-muted">
-				    		<span class="glyphicon glyphicon-eye-open"></span> Afichaj:
+				    		<i class="fa fa-eye"></i> Afichaj:
 				    		{{ $mp4->views }} <br>
 				    		@if( $mp3->price == 'free')
-				    		<span class="glyphicon glyphicon-headphones"></span> Ekout:
+				    		<i class="fa fa-headphones"></i> Ekout:
 				    		{{ $mp3->play }} <br>
 				    		@endif
-				    		<span class="glyphicon glyphicon-download-alt"></span> Telechajman:
+				    		<i class="fa fa-download"></i> Telechajman:
 				    		{{ $mp4->download }}
 				    	</p>
 					</div>

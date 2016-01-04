@@ -33,7 +33,9 @@
 
 	<div class="form-group">
 		<div class="col-sm-8 col-sm-offset-4">
-			<button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-user"></span> Kreye Kont</button>
+			<button type="submit" class="btn btn-primary btn-lg">
+				<i class="fa fa-user"></i> Kreye Kont
+			</button>
 		</div>
 	</div>
 </form>

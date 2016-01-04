@@ -8,7 +8,7 @@
 
 <div class="col-sm-12">
 	<div class="row bg-black">
-		<h1 class="text-center">{{ $title }}</h1>
+		<h1 class="text-center"><i class="fa fa-sign-in"></i> {{ $title }}</h1>
 	</div>
 	<hr>
 </div>

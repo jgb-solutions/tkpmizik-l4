@@ -11,8 +11,7 @@
 		<hr>
 
 		@if( $results->count() > 0 )
-		<?php $mp3s = $results ?>
-		@include('mp3.grid-12')
+		@include('cats.grid-12')
 
 		<div class="col-sm-12 text-center">
 
@@ -23,7 +22,7 @@
 					href="/cat/{{ $cat->slug }}/mp3"
 					class="btn btn-primary btn-lg"
 				>
-					<span class="glyphicon glyphicon-music"></span>
+					<i class="fa fa-music"></i>
 					Tcheke Tout Mizik {{ $cat->name }} Yo
 				</a>
 			</p>
@@ -36,8 +35,8 @@
 					href="/cat/{{ $cat->slug }}/mp4"
 					class="btn btn-danger btn-lg"
 				>
-					<span class="glyphicon glyphicon-facetime-video"></span>
-					View all {{ $cat->name }} Videos
+					<i class="fa fa-video-camera"></i>
+					Tcheke Tout Mizik {{ $cat->name }} Yo
 				</a>
 			</p>
 
