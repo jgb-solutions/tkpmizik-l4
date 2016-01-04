@@ -200,11 +200,12 @@ class MP4Controller extends BaseController
 
 		if ( $mp4 )
 		{
-			$yt_url = 'http://savefrom.net/#url=' . urlencode( 'https://www.youtube.com/watch?v=' . $mp4->url );
-			return Redirect::to( $yt_url );
+			$yt_url = 'http://savefrom.net/#url=' . urlencode( 'https://www.youtube.com/watch?v=' . $mp4->youtube_id );
+			return Redirect::to($yt_url);
 		} else
 		{
-			return 'Video not found';
+			return Redirect::to('/mp4')
+							->withMessage('Nou regrèt, men ou pa ka telechaje videyo ou vle a.');
 		}
 	}
 
