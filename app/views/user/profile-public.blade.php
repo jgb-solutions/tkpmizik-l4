@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+{{ $title }}
+@stop
+
 @include('user.profile-stats')
 
 <div class="col-sm-8">
@@ -28,13 +32,23 @@
 
 	</div>
 	<hr class="visible-xs">
-	<h3 class="text-center">{{ $first_name }} gen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo</h3>
+
+	<div class="row bg-black">
+		<h3 class="text-center">
+			{{ $first_name }} gen {{ $mp3count }} Mizik ak {{ $mp4count }} Videyo
+		</h3>
+	</div>
 
 	<hr>
 
 	@if ( $mp3count > 0 )
 
-	<h3 class="text-center">Mizik {{ $first_name }} Yo</h3>
+	<div class="row bg-primary">
+		<h3 class="text-center">
+			<i class="fa fa-music"></i>
+			Mizik {{ $first_name }} Yo
+		</h3>
+	</div>
 	<hr>
 
 	@include('mp3.grid-12')
@@ -55,8 +69,14 @@
 
 	@if ( $mp4count > 0 )
 
+		&nbsp;<hr>
+		<div class="row bg-danger">
+			<h3 class="text-center">
+				<i class="fa fa-video-camera"></i>
+				Videyo {{ $first_name }} Yo
+			</h3>
+		</div>
 		<hr>
-		<h3 class="text-center">Videyo {{ $first_name }} Yo</h3>
 
 		@include('mp4.grid-12')
 

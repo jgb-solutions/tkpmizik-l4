@@ -5,7 +5,10 @@
 	<div class="col-sm-8">
 
 		<div class="row bg-black">
-			<h2 class="text-center">Navige tout videyo {{ $cat->name }} yo</h2>
+			<h2 class="text-center">
+				<i class="fa fa-video-camera"></i>
+				Navige tout videyo {{ $cat->name }} yo
+			</h2>
 		</div>
 
 		<hr>

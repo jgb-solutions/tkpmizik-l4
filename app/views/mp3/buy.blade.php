@@ -4,7 +4,11 @@
 	{{ $title }}
 @stop
 
-@include('inc.seo')
+{{-- @include('inc.seo') --}}
+
+@section('seo')
+<?php TKPM::seo($mp3, 'mp3', $author) ?>
+@stop
 
 @section('content')
 
@@ -33,7 +37,12 @@
 	</h2>
 	<p class="text-center text-muted">
 		<em>
-			Pa <a href="/u/{{ $mp3->user->id }}">{{ $mp3->user->name }}</a>
+			Pa
+			@if ( $mp3->user->username )
+					<a href="/@{{{ $mp3->user->username }}}">{{ $mp3->user->name }}</a>
+				@else
+					<a href="/u/{{ $mp3->user->id }}">{{ $mp3->user->name }}</a>
+				@endif
 			Nan <a href="/cat/{{ $mp3->category->slug }}">{{ $mp3->category->name }}</a>
 			 {{ date('d/m/Y', strtotime( $mp3->created_at ) ) }}
 			a {{ date('g:h a', strtotime( $mp3->created_at ) ) }}
@@ -52,7 +61,9 @@
 	<hr>
 	<div class="row bg-info">
 		@if ( $mp3->image )
-			<img src="/uploads/images/show/{{ $mp3->image }}">
+			<img
+				src="/uploads/images/show/{{ $mp3->image }}"
+				class="img-responsive">
 		@endif
 
 		@if ( ! $bought )

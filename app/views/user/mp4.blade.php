@@ -33,13 +33,13 @@
 	</div>
 	<hr class="visible-xs">
 	<div class="row bg-black">
-		<h3 class="text-center">{{ $title }}</h3>
+		<h3 class="text-center"><i class="fa fa-video-camera"></i> {{ $title }}</h3>
 	</div>
 	<hr>
 
 	@if( $mp4count > 0 )
 
-	@include('mp4.table')
+	@include('mp4.grid-12')
 
 	<div class="text-center">
 		{{ $mp4s->links() }}

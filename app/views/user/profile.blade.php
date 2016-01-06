@@ -68,7 +68,7 @@
 
 	<hr>
 
-	@include('mp4.table')
+	@include('mp4.grid-12')
 
 	<div class="text-center">
 		<p>

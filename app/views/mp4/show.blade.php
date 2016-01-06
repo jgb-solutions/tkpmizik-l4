@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('seo')
+<?php TKPM::seo($mp4, 'mp4', $author) ?>
+@stop
+
 @section('title')
 {{ $title }}
 @stop
@@ -32,10 +36,15 @@
 		</h2>
 		<p class="text-center text-muted">
 			<em>
-				By: <a href="/u/{{ $mp4->user->id }}">{{ $mp4->user->name }}</a>
-				In: <a href="/cat/{{ $mp4->category->slug }}">{{ $mp4->category->name }}</a>
-				On: {{ date('d/m/Y', strtotime( $mp4->created_at ) ) }}
-				at: {{ date('g:h a', strtotime( $mp4->created_at ) ) }}
+				Pa
+					@if ( $mp4->user->username )
+					<a href="/@{{{ $mp4->user->username }}}">{{ $mp4->user->name }}</a>
+				@else
+					<a href="/u/{{ $mp4->user->id }}">{{ $mp4->user->name }}</a>
+				@endif
+				Nan <a href="/cat/{{ $mp4->category->slug }}">{{ $mp4->category->name }}</a>
+					{{ date('d/m/Y', strtotime( $mp4->created_at ) ) }}
+				a {{ date('g:h a', strtotime( $mp4->created_at ) ) }}
 			</em>
 		</p>
 	</div>

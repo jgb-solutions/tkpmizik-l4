@@ -33,7 +33,7 @@
 	</div>
 	<hr class="visible-xs">
 	<div class="row bg-black">
-		<h3 class="text-center">{{ $title }}</h3>
+		<h3 class="text-center"><i class="fa fa-music"></i> {{ $title }}</h3>
 	</div>
 	<hr>
 

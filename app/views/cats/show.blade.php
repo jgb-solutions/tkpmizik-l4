@@ -36,7 +36,7 @@
 					class="btn btn-danger btn-lg"
 				>
 					<i class="fa fa-video-camera"></i>
-					Tcheke Tout Mizik {{ $cat->name }} Yo
+					Tcheke Tout Videyo {{ $cat->name }} Yo
 				</a>
 			</p>
 

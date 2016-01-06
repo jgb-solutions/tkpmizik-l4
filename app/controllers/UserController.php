@@ -328,7 +328,7 @@ class UserController extends BaseController
 
 	}
 
-	public function getUserPublic( $id )
+	public function getUserPublic($id)
 	{
 		$user 				= User::find( $id );
 
@@ -359,6 +359,44 @@ class UserController extends BaseController
 					->with('mp3ViewsCount', $mp3ViewsCount)
 					->with('mp4ViewsCount', $mp4ViewsCount)
 					->withBoughtCount('');
+	}
+
+	public function getUserName($username)
+	{
+		$user 				= User::whereUsername($username)->first();
+
+		if ($user)
+		{
+			$mp3count 			= MP3::whereUserId( $user->id )->count();
+			$mp4count 			= MP4::whereUserId( $user->id )->count();
+			$mp3s 				= MP3::whereUserId( $user->id )->get();
+			$mp4s 				= MP4::whereUserId( $user->id )->get();
+			$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
+			$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
+			$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+			$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
+			$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
+
+			$first_name 			= ucwords( explode(' ', $user->name )[0] );
+
+
+			return View::make('user.profile-public')
+						->with(	'user', $user )
+						->with(	'title', "Pwofil $user->name" )
+						->with( 'mp3s', $mp3s )
+						->with( 'mp4s', $mp4s )
+						->withFirstName($first_name)
+						->with( 'mp3count', $mp3count )
+						->with( 'mp4count', $mp4count )
+						->with( 'mp3playcount', $mp3playcount )
+						->with( 'mp3downloadcount', $mp3downloadcount )
+						->with( 'mp4downloadcount', $mp4downloadcount )
+						->with('mp3ViewsCount', $mp3ViewsCount)
+						->with('mp4ViewsCount', $mp4ViewsCount)
+						->withBoughtCount('');
+		}
+
+		return Redirect::to('/404');
 	}
 
 	public function deleteUser($id = null)

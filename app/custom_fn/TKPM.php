@@ -197,4 +197,29 @@ class TKPM
 	// 	});
 	// }
 
+	public static function seo($object, $url, $author)
+	{?>
+
+	<meta name="description" content="<?= $object->description ?>"/>
+	<link rel="canonical" href="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>" />
+
+	<!-- Open Graph -->
+	<meta property="og:title" content="<?= $author ?> <?= $object->name ?>" />
+	<meta property="og:description" content="<?= $object->description ?>" />
+	<meta property="og:url" content="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>" />
+	<meta property="fb:admins" content="504535793062337" />
+	<meta property="og:image" content="<?= $url == 'mp3' ? '/uploads/images/' : '' ?><?= $object->image ?>" />
+	<meta property="og:site_name" content="<?= $object->name ?>" />
+
+	<!-- Twitter Graph -->
+	<meta name="twitter:card" content="summary"/>
+	<meta name="twitter:description" content="<?= $object->description ?>"/>
+	<meta name="twitter:title" content="<?= ucwords($author) ?> <?= $object->name ?>"/>
+	<meta name="twitter:domain" content="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>"/>
+	<meta name="twitter:site" content="<?= Config::get('site.twitter') ?>"/>
+	<meta name="twitter:image" content="<?= $url == 'mp3' ? '/uploads/images/' : '' ?><?= $object->image ?>"/>
+	<meta name="twitter:creator" content="<?= Config::get('site.twitter') ?>"/>
+
+	<?php }
+
 }

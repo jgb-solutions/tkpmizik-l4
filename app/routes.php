@@ -63,6 +63,7 @@ Route::controller('cat', 'CatController');
 Route::any('ajax', 'AJAXController@postIndex');
 
 Route::get('/u/{id}', 'UserController@getUserPublic');
+Route::get('/@{username}', 'UserController@getUserName');
 
 Route::get('/tweet', function()
 {

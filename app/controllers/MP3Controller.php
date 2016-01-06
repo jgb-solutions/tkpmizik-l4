@@ -485,6 +485,7 @@ class MP3Controller extends BaseController
 			}
 
 			$related = MP3::whereCategoryId($mp3->category_id)
+							->where('id', '!=', $mp3->id)
 							->wherePublish(1)
 							->orderByRaw('RAND()') // get random rows from the DB
 							->take( 3 )
