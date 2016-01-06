@@ -88,7 +88,7 @@
 
 				<ul class="dropdown-menu">
 
-					<?php $cats = Category::orderBy('name')->get(); ?>
+					<?php $cats = Category::remember()->orderBy('name')->get(); ?>
 
 					@foreach( $cats as $cat )
 					<li>
