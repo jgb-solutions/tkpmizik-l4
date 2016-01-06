@@ -114,6 +114,61 @@ class CategoryTableSeeder extends Seeder
             'name'  => 'Reggaeton',
             'slug'  => 'reggaeton'
         ]);
+
+        Category::create([
+            'name'  => 'House',
+            'slug'  => 'house'
+        ]);
+
+        Category::create([
+            'name'  => 'Jazz',
+            'slug'  => 'jazz'
+        ]);
+
+        Category::create([
+            'name'  => 'Raga',
+            'slug'  => 'raga'
+        ]);
+
+        Category::create([
+            'name'  => 'Soul',
+            'slug'  => 'soul'
+        ]);
+
+        Category::create([
+            'name'  => 'Sanba',
+            'slug'  => 'sanba'
+        ]);
+
+        Category::create([
+            'name'  => 'Rock & Roll',
+            'slug'  => 'rock-roll'
+        ]);
+
+        Category::create([
+            'name'  => 'Techno',
+            'slug'  => 'techno'
+        ]);
+
+        Category::create([
+            'name'  => 'Slow',
+            'slug'  => 'slow'
+        ]);
+
+        Category::create([
+            'name'  => 'Salsa',
+            'slug'  => 'salsa'
+        ]);
+
+        Category::create([
+            'name'  => 'Twoubadou',
+            'slug'  => 'twoubadou'
+        ]);
+
+        Category::create([
+            'name'  => 'Riddim',
+            'slug'  => 'riddim'
+        ]);
     }
 }
 
