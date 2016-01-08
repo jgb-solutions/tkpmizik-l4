@@ -6,7 +6,7 @@
 
   	<?php
 
-	$users = User::all();
+	$users = User::remember(120)->get();
 
 	$users->each( function($user)
 	{
