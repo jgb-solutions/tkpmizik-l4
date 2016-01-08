@@ -26,7 +26,7 @@
 			  	<div class="caption text-center">
 			    	<h4><a href="/mp4/{{ $mp4->id }}">{{ $mp4->name }}</a></h4>
 			    	<p class="text-muted">
-			    		<i class="fa fa-open"></i> Afichaj:
+			    		<i class="fa fa-eye"></i> Afichaj:
 			    		{{ $mp4->views }} <br>
 			    		<i class="fa fa-download"></i> Telechajman:
 			    		{{ $mp4->download }}

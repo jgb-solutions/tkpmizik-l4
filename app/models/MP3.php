@@ -15,4 +15,14 @@ class MP3 extends Eloquent
 	{
 		return $this->belongsTo('Category');
 	}
+
+	public function scopePublished($query)
+	{
+		$query->wherePublish(1);
+	}
+
+	public function scopePaid($query)
+	{
+		$query->wherePrice('paid');
+	}
 }

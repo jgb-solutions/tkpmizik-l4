@@ -35,7 +35,7 @@
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary">
 						<i class="fa fa-th-list"></i>
-						Kreye
+						Kreye Kategori
 					</button>
 				</div>
 

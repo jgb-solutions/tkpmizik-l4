@@ -50,6 +50,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('MP4', 'user_id');
 	}
 
+	public function bought()
+	{
+		return $this->hasMany('MP3Sold', 'user_id');
+	}
+
 	public static function is_admin()
 	{
 		return Auth::user()->admin == 1;

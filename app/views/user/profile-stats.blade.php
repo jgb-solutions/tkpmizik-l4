@@ -2,11 +2,15 @@
 	<h2 class="text-center">
 
 		@if( $user->image )
-		<a href="/user">
-			<img
-			class="img-responsive img-circle img-bordered img-centered"
-			src="/uploads/images/thumbs/{{ $user->image}}">
-		</a>
+			@if ( Auth::check() )
+				<a href="/user">
+			@endif
+				<img
+					class="img-responsive img-circle img-bordered img-centered"
+					src="/uploads/images/thumbs/{{ $user->image}}">
+			@if (Auth::check())
+				</a>
+			@endif
 		@endif
 		<small>
 			{{ ucwords( $user->name ) }}<br>

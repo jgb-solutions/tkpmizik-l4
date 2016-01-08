@@ -6,10 +6,11 @@
   	</li>
 
   	<?php
-  		$mp4s = MP4::orderBy('views', 'desc')
-					->orderBy('download', 'desc')
-					->orderBy('vote_up', 'desc')
-					->take(10)->get();
+  		$mp4s = MP4::latest('download')
+					->latest('vote_up')
+					->latest('views')
+					->take(10)
+					->get();
 	?>
 
 	@if ( $mp4s && count($mp4s) > 0 )

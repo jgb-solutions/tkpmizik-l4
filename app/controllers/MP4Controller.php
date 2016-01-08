@@ -4,7 +4,7 @@ class MP4Controller extends BaseController
 {
 	public function index()
 	{
-		$mp4s = MP4::orderBy('created_at', 'desc')->paginate(10);
+		$mp4s = MP4::latest()->paginate(10);
 
 		return View::make('mp4.index')
 			->withMp4s($mp4s)
@@ -23,17 +23,17 @@ class MP4Controller extends BaseController
 	public function store()
 	{
 		// return Input::all();
-		$rules = array(
+		$rules = [
 			'name' 	=> 'required|min:6',
 			'url' 	=> 'required|url|min:11',
-		);
+		];
 
 		$messages = [
-			'name.required' 	=> 'Non an obligatwa. Fòk ou mete li.',
-			'name.min'			=> 'Fòk non an pa pi piti pase 6 karaktè. Ajoute plis pase 6.',
-			'url.required'		=> 'Fòk ou antre yon lyen. Li obligatwa.',
-			'url.url'			=> 'Fòk ou antre yon bon lyen. Sa ou mete a pa bon.',
-			'url.min'			=> 'Fòk lyen an pa pi piti pase 11 karaktè. Ajoute plis pase 11.'
+			'name.required' 	=> Config::get('site.validate.name.required'),
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'url.required'		=> Config::get('site.validate.url.required'),
+			'url.url'			=> Config::get('site.validate.url.url'),
+			'url.min'			=> Config::get('site.validate.url.min')
 		];
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
@@ -128,14 +128,14 @@ class MP4Controller extends BaseController
 
 	public function update($id)
 	{
-		$rules = array(
+		$rules = [
 			'name' 		=> 'min:6',
 			'image'		=> 'image'
-		);
+		];
 
 		$messages = [
-			'name.min'			=> 'Fòk non an pa pi piti pase 6 karaktè. Ajoute plis pase 6.',
-			'image.image'		=> 'Fòk ou chwazi yon bon imaj.'
+			'name.min'			=> Config::get('site.validate.name.min'),
+			'image.image'		=> Config::get('site.validate.image.image')
 		];
 
 		$validator = Validator::make( Input::all(), $rules );
@@ -151,58 +151,71 @@ class MP4Controller extends BaseController
 
 		$mp4 = MP4::find( $id );
 
-		if ( !empty( $name ) ) $mp4->name = $name;
-		if ( !empty( $description ) )$mp4->description = $description;
-		if ( !empty( $image ) ) $mp4->image = $imagename;
-		if ( !empty( $category) ) $mp4->category_id = $category;
+		if (! empty($name))
+		{
+			$mp4->name = $name;
+		}
+
+		if (! empty($description))
+		{
+			$mp4->description = $description;
+		}
+
+		if (! empty($image))
+		{
+			$mp4->image = $imagename;
+		}
+
+		if (! empty($category))
+		{
+			$mp4->category_id = $category;
+		}
 
 		$mp4->save();
 
 		return Redirect::to('/mp4/' . $mp4->id )
-			->with('message', 'Updated successfully!');
+			->with('message', Config::get('site.message.update-success'));
 	}
 
-	public function destroy( $id )
+	public function destroy($id)
 	{
 		if ( Auth::check() ) {
 
-			$mp4 = MP4::find( $id );
+			$mp4 = MP4::find($id);
 
-			if ( Auth::user()->id == $mp4->user_id || User::is_Admin() )
+			if ( Auth::user()->id == $mp4->user_id || User::is_admin() )
 			{
-				if ( $mp4 )
+				if ($mp4)
 				{
 					$mp4->delete();
-
-					File::delete( Config::get('site.image_upload_path') . '/' . $mp4->image );
-					File::delete( Config::get('site.image_upload_path') . '/thumbs/' . $mp4->image );
-					File::delete( Config::get('site.image_upload_path') . '/tiny/' . $mp4->image );
 
 					return Redirect::to('/mp4');
 				} else
 				{
-					return 'Could not be deleted. Sorry!';
+					return Redirect::to('/mp4')
+									->withMessage(Config::get('site.message.delete-mp4-failed'));
 				}
 			}
 		}
 
 		return Redirect::to('/mp4')
-			->with('message', 'You don\'t have the rights to edit this video');
+			->with('message', 'Ou pa gen dwa pou efase videyo a.');
 
 	}
 
-	public function getMP4( $id )
+	public function getMP4($id)
 	{
-		$mp4 = MP4::find( $id );
+		$mp4 = MP4::find($id);
 
 		$mp4->download += 1;
 		$mp4->save();
 
-		if ( $mp4 )
+		if ($mp4)
 		{
 			$yt_url = 'http://savefrom.net/#url=' . urlencode( 'https://www.youtube.com/watch?v=' . $mp4->youtube_id );
 			return Redirect::to($yt_url);
-		} else
+		}
+		else
 		{
 			return Redirect::to('/mp4')
 							->withMessage('Nou regrèt, men ou pa ka telechaje videyo ou vle a.');

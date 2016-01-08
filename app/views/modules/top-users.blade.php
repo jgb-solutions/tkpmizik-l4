@@ -8,14 +8,14 @@
 
 	$users = User::all();
 
-	$users->each( function( $user )
+	$users->each( function($user)
 	{
-		$user->mp3count 	= MP3::whereUserId( $user->id )->count();
-		$user->mp4count 	= MP4::whereUserId( $user->id )->count();
+		$user->mp3count 	= $user->mp3s()->count();
+		$user->mp4count 	= $user->mp4s()->count();
 		$user->totalcount 	= $user->mp3count + $user->mp4count;
 	});
 
-	$users->sort( function( $a, $b )
+	$users->sort( function($a, $b)
 	{
 		$a = (int) $a->totalcount;
 		$b = (int) $b->totalcount;
@@ -25,7 +25,7 @@
 			return 0;
 		}
 
-		return ( $a > $b ) ? 1 : -1;
+		return ($a > $b) ? 1 : -1;
 	});
 
 	$reverse_users = $users->reverse();

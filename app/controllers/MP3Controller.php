@@ -4,32 +4,32 @@ class MP3Controller extends BaseController
 {
 	public function index()
 	{
-		$mp3s = MP3::orderBy('created_at', 'desc')->wherePublish(1)->paginate(10);
+		$data = [
+			'mp3s'	=> MP3::latest()->published()->paginate(10),
+			'title'	=> 'Navige Tout Mizik Yo'
+		];
 
-		return View::make('mp3.index')
-					->with( 'mp3s', $mp3s )
-					->with('title', 'Navige Tout Mizik Yo');
+		return View::make('mp3.index')->with($data);
 	}
 
 	public function listBuy()
 	{
-		$mp3s = MP3::orderBy('created_at', 'desc')
-					->wherePublish(1)
-					->wherePrice('paid')
-					->paginate(10);
+		$data = [
+			'mp3s'	=> MP3::latest()->published()->paid()->paginate(10),
+			'title'	=> 'Mizik Pou Vann'
+		];
 
-		return View::make('mp3.list-buy')
-					->with( 'mp3s', $mp3s )
-					->with('title', 'Mizik Pou Vann');
+		return View::make('mp3.list-buy')->with($data);
+
 	}
 
 	public function store()
 	{
-		$rules = array(
+		$rules = [
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
 			'image' => 'required|image'
-		);
+		];
 
 		$messages = [
 			'name.required' 	=> Config::get('site.validate.name.required'),
@@ -91,26 +91,26 @@ class MP3Controller extends BaseController
 		if ( $mp3success && $imagesuccess )
 		{
 			$mp3 			 = new MP3;
-			$mp3->name 		 = ucwords( $name );
+			$mp3->name 		 = ucwords($name);
 			$mp3->mp3name	 = $mp3name;
 			$mp3->image 	 = $imagename;
 			$mp3->user_id 	 = $user_id;
 			$mp3->category_id = Input::get('cat');
 			$mp3->size 		 = $mp3size;
 
-			if ( $price == 'free' )
+			if ($price == 'free')
 			{
 				$mp3->publish = 1;
 				$mp3->price = $price;
 			}
 
-			if ( ! $price )
+			if (! $price)
 			{
 				$mp3->publish = 1;
 				$mp3->price = 'free';
 			}
 
-			if ( $price == 'paid')
+			if ($price == 'paid')
 			{
 				$mp3->price = $price;
 			}
@@ -163,7 +163,7 @@ class MP3Controller extends BaseController
 	{
 		$mp3 = MP3::find($id);
 
-		if ( $mp3 )
+		if ($mp3)
 		{
 			if ( $mp3->price == 'paid' && $mp3->publish )
 			{
@@ -185,52 +185,56 @@ class MP3Controller extends BaseController
 			}
 		}
 
-		$mp3 = MP3::wherePublish(1)->whereId( $id)->first();
+		$mp3 = MP3::published()
+				->whereId($id)
+				->first();
 
-		if ( $mp3 )
+		if ($mp3)
 		{
 			$mp3->views += 1;
 			$mp3->save();
 
 			$related = MP3::whereCategoryId($mp3->category_id)
 							->where('id', '!=', $mp3->id)
-							->wherePublish(1)
+							->published()
 							->orderByRaw('RAND()') // get random rows from the DB
-							// ->orderBy('id', true)
 							->take( 3 )
 							// ->toSql();
-							->get(array('id', 'name', 'image', 'play', 'download', 'views'));
+							->get(['id', 'name', 'image', 'play', 'download', 'views']);
 			// return $related;
 
 			$author = $mp3->user->name . ' &mdash; ';
 
-			return View::make('mp3.show')
-				    ->withMp3($mp3)
-				    ->withTitle($mp3->name)
-				    ->withRelated($related)
-				    ->withAuthor($author);
+			$data = [
+				'mp3' 		=> $mp3,
+				'title'		=> $mp3->name,
+				'related'	=> $related,
+				'author'	=> $author
+			];
+
+			return View::make('mp3.show')->with($data);
 		}
 
 		return Redirect::to('/404');
 	}
 
-	public function edit( $id )
+	public function edit($id)
 	{
 		if ( Auth::check() )
 		{
-			$mp3 = MP3::whereId( $id )->first();
+			$mp3 = MP3::whereId($id)->first();
 
 			if ($mp3)
 			{
 				if ( Auth::user()->id == $mp3->user_id || User::is_admin() )
 				{
-					$cats = Category::orderBy('name')->get();
+					$data = [
+						'mp3'	=> $mp3,
+						'title'	=> 'Modifye ' . $mp3->name,
+						'cats'	=> Category::orderBy('name')->get()
+					];
 
-					$title = 'Modifye ' . $mp3->name;
-					return View::make('mp3.put')
-					    ->with( 'mp3', $mp3 )
-					    ->with( 'title', $title )
-					    ->with( 'cats', $cats );
+					return View::make('mp3.put')->with($data);
 				}
 			}
 		}
@@ -241,10 +245,10 @@ class MP3Controller extends BaseController
 
 	public function update( $id )
 	{
-		$rules = array(
+		$rules = [
 			'name' 		=> 'min:6',
 			'image'		=> 'image'
-		);
+		];
 
 		$messages = [
 			'name.min'			=> Config::get('site.validate.name.min'),
@@ -408,7 +412,7 @@ class MP3Controller extends BaseController
 
 	public function getMP3($id)
 	{
-		$mp3 = MP3::wherePublish(1)->whereId($id)->first();
+		$mp3 = MP3::published()->whereId($id)->first();
 
 		if ( $mp3->price == 'paid')
 		{
@@ -440,7 +444,7 @@ class MP3Controller extends BaseController
 
 	public function getPlayMP3($id)
 	{
-		$mp3 = MP3::wherePublish(1)->whereId($id)->first();
+		$mp3 = MP3::published()->whereId($id)->first();
 
 		if ($mp3->price == 'paid')
 		{
@@ -453,18 +457,19 @@ class MP3Controller extends BaseController
 
 	public function getMP3Up()
 	{
-		$cats = Category::orderBy('name')->get();
+		$data = [
+			'title'	=> 'Mete Mizik',
+			'cats'	=> Category::orderBy('name')->get()
+		];
 
-		return View::make('mp3.up')
-			->withCats($cats)
-			->withTitle('Mete Mizik');
+		return View::make('mp3.up')->with($data);
 	}
 
 
 	public function getBuy($id)
 	{
-		$mp3 = MP3::wherePublish(1)
-				->wherePrice('paid')
+		$mp3 = MP3::published()
+				->paid()
 				->whereId($id)
 				->first();
 
@@ -473,34 +478,28 @@ class MP3Controller extends BaseController
 			$mp3->views += 1;
 			$mp3->save();
 
-			$bought = '';
+			$data = [];
+			$data['bought'] = '';
 
 			if ( Auth::check() )
 			{
 				$user = Auth::user();
 
-				$bought = MP3Sold::whereUserId($user->id)
-								  ->whereMp3Id($mp3->id)
-								  ->first();
+				$data['bought'] = $user->bought()->whereMp3Id($mp3->id)->first();
 			}
 
-			$related = MP3::whereCategoryId($mp3->category_id)
+			$data['related'] = MP3::whereCategoryId($mp3->category_id)
 							->where('id', '!=', $mp3->id)
-							->wherePublish(1)
+							->published()
 							->orderByRaw('RAND()') // get random rows from the DB
-							->take( 3 )
-							->get(array('id', 'name', 'image', 'play', 'download', 'views'));
+							->take(3)
+							->get(['id', 'name', 'image', 'play', 'download', 'views']);
 
-			$author = $mp3->user->name . ' &mdash; ';
+			$data['author'] = $mp3->user->name . ' &mdash; ';
+			$data['title'] = "Achte $mp3->name";
+			$data['mp3']	= $mp3;
 
-			$title = "Achte $mp3->name";
-
-			return View::make('mp3.buy')
-				    ->withMp3($mp3)
-				    ->withTitle($title)
-				    ->withRelated($related)
-				    ->withAuthor($author)
-				    ->withBought($bought);
+			return View::make('mp3.buy')->with($data);
 		}
 
 		return Redirect::to('/404');

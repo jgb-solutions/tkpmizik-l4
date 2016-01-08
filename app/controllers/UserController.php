@@ -17,12 +17,12 @@ class UserController extends BaseController
 	{
 		$credentials = Input::only('email', 'password');
 
-		if ( Auth::attempt( $credentials ) )
+		if ( Auth::attempt($credentials) )
 		{
 			if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
 
 			return Redirect::to( '/user' )
-				->with('message', 'Byenvini ankò, ' . explode(' ', Auth::user()->name )[0] . '!');
+				->with('message', 'Byenvini ankò, ' . TKPM::firstName( Auth::user()->name ) . '!');
 		} else {
 			return Redirect::to('/login')
 				->with('error', Config::get('site.message.errors.login'))
@@ -60,10 +60,10 @@ class UserController extends BaseController
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
 
-		if ( $validator->fails() )
+		if ($validator->fails() )
 		{
 			return Redirect::to('/register')
-							->withErrors( $validator )
+							->withErrors($validator )
 							->withInput();
 		}
 
@@ -74,7 +74,7 @@ class UserController extends BaseController
 
 		$test_email = User::where('email', $email )->first();
 
-		if ( $test_email )
+		if ($test_email)
 		{
 			return Redirect::to('/register')
 							->withInput()
@@ -102,7 +102,7 @@ class UserController extends BaseController
 			TKPM::sendMail('emails.user.welcome', $data);
 
 			// Welcoming the user for the first time in our app
-			$message = 'Byenvini, ' . explode(' ', Auth::user()->name )[0] . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
+			$message = 'Byenvini, ' . TKPM::firstName( Auth::user()->name ) . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
 			return Redirect::to( '/user' )
 							->withMessage($message);
 		} else
@@ -128,105 +128,69 @@ class UserController extends BaseController
 	{
 		$user 				= Auth::user();
 
-		$mp3s 				= MP3::whereUserId( $user->id )->orderBy('created_at', 'desc')->take( 5 )->get();
-		$mp4s 				= MP4::whereUserId( $user->id )->orderBy('created_at', 'desc')->take( 5 )->get();
-		$mp3count 			= MP3::whereUserId( $user->id )->count();
-		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
-		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
-		$firstname 			= explode(' ', $user->name )[0];
+		$data = [
+			'mp3s' 				=> $user->mp3s()->latest()->take(5)->get(),
+			'mp4s'				=> $user->mp4s()->latest()->take(5)->get(),
+			'mp3count' 			=> $user->mp3s()->count(),
+			'mp4count' 			=> $user->mp4s()->count(),
+			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+			'mp3playcount' 		=> $user->mp3s()->sum('play'),
+			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'bought_count' 		=> $user->bought()->count(),
+			'title'				=> 'Pwofil Ou',
+			'user'				=> $user
+		];
 
-		$bought_count = MP3Sold::whereUserId($user->id)
-								->count();
-
-		return View::make('user.profile')
-					->with('user', $user )
-					->with('title', 'Pwofil ou' )
-					->with( 'mp3s', $mp3s )
-					->with( 'mp4s', $mp4s )
-					->with( 'firstname', $firstname )
-					->with( 'mp3count', $mp3count )
-					->with( 'mp4count', $mp4count )
-					->with( 'mp3playcount', $mp3playcount )
-					->with( 'mp3downloadcount', $mp3downloadcount )
-					->with( 'mp4downloadcount', $mp4downloadcount )
-					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount)
-					->withBoughtCount($bought_count);
+		return View::make('user.profile')->with($data);
 	}
 
 	public function getUserMP3s()
 	{
-		$user 				= Auth::user();
+		$user = Auth::user();
 
-		$mp3count 			= MP3::whereUserId( $user->id )->count();
-		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp3s 				= MP3::whereUserId( $user->id )->orderBy('created_at', 'desc')->paginate( 10 );
-		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
-		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+		$data = [
+			'mp3s' 				=> $user->mp3s()->latest()->paginate(10),
+			'mp3count' 			=> $user->mp3s()->count(),
+			'mp4count' 			=> $user->mp4s()->count(),
+			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+			'mp3playcount' 		=> $user->mp3s()->sum('play'),
+			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'bought_count' 		=> $user->bought()->count(),
+			'title'				=> 'Navige Tout Mizik Ou Yo',
+			'user'				=> $user
+		];
 
-		$firstname 			= explode(' ', $user->name )[0];
-
-		$bought_count = MP3Sold::whereUserId($user->id)
-						->count();
-
-		return View::make('user.mp3')
-					->with('title', 'Navige Tout Mizik Ou Yo' )
-					->with( 'mp3s', $mp3s )
-					->with( 'firstname', $firstname )
-					->with( 'mp3count', $mp3count )
-					->with( 'mp4count', $mp4count )
-					->with( 'mp3playcount', $mp3playcount )
-					->with( 'mp3downloadcount', $mp3downloadcount )
-					->with( 'mp4downloadcount', $mp4downloadcount )
-					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount)
-					->with( 'user', $user )
-					->withBoughtCount($bought_count);
+		return View::make('user.mp3')->with($data);
 	}
 
 	public function getUserMP4s()
 	{
-		$user 	 			= Auth::user();
+		$user = Auth::user();
 
-		$mp3count 			= MP3::whereUserId( $user->id )->count();
-		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp4s 				= MP4::whereUserId( $user->id )->orderBy('created_at', 'desc')->paginate( 10 );
-		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
-		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+		$data = [
+			'mp4s' 				=> $user->mp4s()->latest()->paginate(10),
+			'mp3count' 			=> $user->mp3s()->count(),
+			'mp4count' 			=> $user->mp4s()->count(),
+			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+			'mp3playcount' 		=> $user->mp3s()->sum('play'),
+			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'bought_count' 		=> $user->bought()->count(),
+			'title'				=> 'Navige Tout Videyo Ou Yo',
+			'user'				=> $user
+		];
 
-		$firstname 			= explode(' ', $user->name )[0];
-
-		$bought_count = MP3Sold::whereUserId($user->id)
-						->count();
-
-		return View::make('user.mp4')
-			->with('title', 'Navige Tout Videyo Ou Yo')
-			->with('mp4s', $mp4s)
-			->with('firstname', $firstname)
-			->with('mp3count', $mp3count)
-			->with('mp4count', $mp4count)
-			->with('mp3playcount', $mp3playcount)
-			->with('mp3downloadcount', $mp3downloadcount)
-			->with('mp4downloadcount', $mp4downloadcount)
-			->with('mp3ViewsCount', $mp3ViewsCount)
-			->with('mp4ViewsCount', $mp4ViewsCount)
-			->with('user', $user)
-			->withBoughtCount($bought_count);
+		return View::make('user.mp4')->with($data);
 	}
 
 	public function getUserEdit($id = null)
 	{
-		$user = ( $id ) ? User::find($id) : Auth::user();
+		$user = ($id) ? User::find($id) : Auth::user();
 
 		$title = 'Modifye pwofil ou';
 
@@ -237,7 +201,7 @@ class UserController extends BaseController
 
 		return View::make('user.profile-edit')
 			->withTitle($title)
-			->withUser( $user );
+			->withUser($user );
 	}
 
 	public function putUser($id = null)
@@ -264,12 +228,12 @@ class UserController extends BaseController
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
 
-		if ( $validator->fails() )
+		if ($validator->fails() )
 		{
 			$user = Auth::user();
 
 			return Redirect::to( Request::url() )
-							->withErrors( $validator );
+							->withErrors($validator );
 		}
 
 		$name 		= Input::get('name');
@@ -278,43 +242,43 @@ class UserController extends BaseController
 		$image 		= Input::file('image');
 		$telephone	= Input::get('telephone');
 
-		if ( isset( $image ) )
+		if ( isset($image ) )
 		{
 			$imageext = $image->getClientOriginalExtension();
-			$imagename = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
+			$imagename = Str::slug($name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
 			$imageuploadpath = Config::get('site.image_upload_path');
-			$imagesuccess = $image->move( $imageuploadpath, $imagename );
+			$imagesuccess = $image->move($imageuploadpath, $imagename );
 
-			if ( $imagesuccess )
+			if ($imagesuccess )
 			{
-				Image::make( $imageuploadpath . '/' . $imagename )
+				Image::make($imageuploadpath . '/' . $imagename )
 					->resize( 200, 200 )
-					->save( $imageuploadpath . '/thumbs/' . $imagename );
+					->save($imageuploadpath . '/thumbs/' . $imagename );
 
-				Image::make( $imageuploadpath . '/' . $imagename )
-					->resize( 50, 50, function( $constraint )
+				Image::make($imageuploadpath . '/' . $imagename )
+					->resize( 50, 50, function($constraint )
 					{
 						$constraint->aspectratio();
 					})
-					->save( $imageuploadpath . '/thumbs/profile/' . $imagename );
+					->save($imageuploadpath . '/thumbs/profile/' . $imagename );
 			}
 		}
 
 		$user = ( User::find($id) ) ?: User::find( Auth::user()->id );
 
-		if ( !empty( $name ) )
+		if ( !empty($name ) )
 			$user->name = $name;
 
-		if ( !empty( $email ) )
+		if ( !empty($email ) )
 			$user->email = $email;
 
-		if ( !empty( $password ) )
-			$user->password = Hash::make( $password );
+		if ( !empty($password ) )
+			$user->password = Hash::make($password );
 
-		if ( !empty( $image ) )
+		if ( !empty($image ) )
 			$user->image = $imagename;
 
-		if ( !empty( $telephone ) )
+		if ( !empty($telephone ) )
 			$user->telephone = $telephone;
 
 		$user->save();
@@ -330,35 +294,27 @@ class UserController extends BaseController
 
 	public function getUserPublic($id)
 	{
-		$user 				= User::find( $id );
+		$user 				= User::find($id);
 
-		$mp3count 			= MP3::whereUserId( $user->id )->count();
-		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp3s 				= MP3::whereUserId( $user->id )->get();
-		$mp4s 				= MP4::whereUserId( $user->id )->get();
-		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
-		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
+		$data = [
+			'mp3s' 				=> $user->mp3s()->latest()->get(),
+			'mp4s'				=> $user->mp4s()->latest()->get(),
+			'mp3count' 			=> $user->mp3s()->count(),
+			'mp4count' 			=> $user->mp4s()->count(),
+			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+			'mp3playcount' 		=> $user->mp3s()->sum('play'),
+			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
+			'bought_count' 		=> $user->bought()->count(),
+			'title'				=> "Pwofil $user->name",
+			'user'				=> $user
+		];
 
-		$first_name 			= ucwords( explode(' ', $user->name )[0] );
 
+		return View::make('user.profile-public')->with($data);
 
-		return View::make('user.profile-public')
-					->with(	'user', $user )
-					->with(	'title', "Pwofil $user->name" )
-					->with( 'mp3s', $mp3s )
-					->with( 'mp4s', $mp4s )
-					->withFirstName($first_name)
-					->with( 'mp3count', $mp3count )
-					->with( 'mp4count', $mp4count )
-					->with( 'mp3playcount', $mp3playcount )
-					->with( 'mp3downloadcount', $mp3downloadcount )
-					->with( 'mp4downloadcount', $mp4downloadcount )
-					->with('mp3ViewsCount', $mp3ViewsCount)
-					->with('mp4ViewsCount', $mp4ViewsCount)
-					->withBoughtCount('');
 	}
 
 	public function getUserName($username)
@@ -367,33 +323,23 @@ class UserController extends BaseController
 
 		if ($user)
 		{
-			$mp3count 			= MP3::whereUserId( $user->id )->count();
-			$mp4count 			= MP4::whereUserId( $user->id )->count();
-			$mp3s 				= MP3::whereUserId( $user->id )->get();
-			$mp4s 				= MP4::whereUserId( $user->id )->get();
-			$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-			$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-			$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
-			$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-			$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
+			$data = [
+			'mp3s' 				=> $user->mp3s()->latest()->get(),
+			'mp4s'				=> $user->mp4s()->latest()->get(),
+			'mp3count' 			=> $user->mp3s()->count(),
+			'mp4count' 			=> $user->mp4s()->count(),
+			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+			'mp3playcount' 		=> $user->mp3s()->sum('play'),
+			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
+			'bought_count' 		=> $user->bought()->count(),
+			'title'				=> "Pwofil $user->name",
+			'user'				=> $user
+		];
 
-			$first_name 			= ucwords( explode(' ', $user->name )[0] );
-
-
-			return View::make('user.profile-public')
-						->with(	'user', $user )
-						->with(	'title', "Pwofil $user->name" )
-						->with( 'mp3s', $mp3s )
-						->with( 'mp4s', $mp4s )
-						->withFirstName($first_name)
-						->with( 'mp3count', $mp3count )
-						->with( 'mp4count', $mp4count )
-						->with( 'mp3playcount', $mp3playcount )
-						->with( 'mp3downloadcount', $mp3downloadcount )
-						->with( 'mp4downloadcount', $mp4downloadcount )
-						->with('mp3ViewsCount', $mp3ViewsCount)
-						->with('mp4ViewsCount', $mp4ViewsCount)
-						->withBoughtCount('');
+			return View::make('user.profile-public')->with($data);
 		}
 
 		return Redirect::to('/404');
@@ -403,13 +349,13 @@ class UserController extends BaseController
 	{
 		$del = Input::get('del');
 
-		if ( ! empty( $id ) && Auth::user()->is_admin() )
+		if ( ! empty($id) && Auth::user()->is_admin() )
 		{
 			$admin = Auth::user();
 			$user = User::find($id);
 
-			$mp3s = MP3::whereUserId( $user->id )->get();
-			$mp4s = MP4::whereUserId( $user->id )->get();
+			$mp3s = $user->mp3s()->get();
+			$mp4s = $user->mp4s()->get();
 
 			foreach ($mp3s as $mp3)
 			{
@@ -417,19 +363,19 @@ class UserController extends BaseController
 				$mp3->save();
 
 				Vote::whereObj('MP3')
-					->whereObjId( $mp3->id )
-					->whereUserId( $user->id )
+					->whereObjId($mp3->id )
+					->whereUserId($user->id )
 					->delete();
 			}
 
-			foreach ( $mp4s as $mp4)
+			foreach ($mp4s as $mp4)
 			{
 				$mp4->user_id = $admin->id;
 				$mp4->save();
 
 				Vote::whereObj('MP4')
-					->whereObjId( $mp4->id )
-					->whereUserId( $user->id )
+					->whereObjId($mp4->id )
+					->whereUserId($user->id )
 					->delete();
 			}
 
@@ -444,17 +390,17 @@ class UserController extends BaseController
 		$user = Auth::user();
 		$admin = User::whereAdmin(1)->first();
 
-		$mp3s = MP3::whereUserId( $user->id )->get();
-		$mp4s = MP4::whereUserId( $user->id )->get();
+		$mp3s = $user->mp3s()->get();
+		$mp4s = $user->mp4s()->get();
 
 		foreach ($mp3s as $mp3)
 		{
 			Vote::whereObj('MP3')
-				->whereObjId( $mp3->id )
-				->whereUserId( $user->id )
+				->whereObjId($mp3->id )
+				->whereUserId($user->id )
 				->delete();
 
-			if ( $del )
+			if ($del )
 			{
 				$mp3->delete();
 
@@ -473,11 +419,11 @@ class UserController extends BaseController
 		foreach ($mp4s as $mp4)
 		{
 			Vote::whereObj('MP4')
-				->whereObjId( $mp4->id )
-				->whereUserId( $user->id )
+				->whereObjId($mp4->id )
+				->whereUserId($user->id )
 				->delete();
 
-			if ( $del )
+			if ($del )
 			{
 				$mp4->delete();
 			} else
@@ -493,7 +439,7 @@ class UserController extends BaseController
 
 		$aff = '';
 
-		if ( $del )
+		if ($del )
 		{
 			$aff = 'Mizik ak Videyo ou yo efase tou avèk siskè. Ou ka <a href="/register">kreye yon nouvo kont</a> nenpòt lè ou vle.';
 		}
@@ -505,18 +451,17 @@ class UserController extends BaseController
 	{
 		$user 				= Auth::user();
 
-		$mp3count 			= MP3::whereUserId( $user->id )->count();
-		$mp4count 			= MP4::whereUserId( $user->id )->count();
-		$mp3playcount 		= MP3::whereUserId( $user->id )->sum('play');
-		$mp3downloadcount 	= MP3::whereUserId( $user->id )->sum('download');
-		$mp4downloadcount 	= MP4::whereUserId( $user->id )->sum('download');
-		$mp3ViewsCount 		= MP3::whereUserId( $user->id )->sum('views');
-		$mp4ViewsCount 		= MP4::whereUserId( $user->id )->sum('views');
+		$mp3count 			= $user->mp3s()->count();
+		$mp4count 			= $user->mp4s()->count();
+		$mp3playcount 		= $user->mp3s()->sum('play');
+		$mp3downloadcount 	= $user->mp3s()->sum('download');
+		$mp4downloadcount 	= $user->mp4s()->sum('download');
+		$mp3ViewsCount 		= $user->mp3s()->sum('views');
+		$mp4ViewsCount 		= $user->mp4s()->sum('views');
 
-		$firstname 			= explode(' ', $user->name )[0];
+		$firstname 			= TKPM::firstName($user->name);
 
-		$bought_mp3s = MP3Sold::whereUserId($user->id)
-						->get(['mp3_id']);
+		$bought_mp3s = $user->bought()->get(['mp3_id']);
 		$mp3s = [];
 		$mp3_ids = [];
 

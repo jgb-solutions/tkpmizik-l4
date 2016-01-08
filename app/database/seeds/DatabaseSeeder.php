@@ -170,6 +170,16 @@ class CategoryTableSeeder extends Seeder
             'name'  => 'Riddim',
             'slug'  => 'riddim'
         ]);
+
+        Category::create([
+            'name'  => 'Afro',
+            'slug'  => 'afro'
+        ]);
+
+        Category::create([
+            'name'  => 'Slam',
+            'slug'  => 'slam'
+        ]);
     }
 }
 

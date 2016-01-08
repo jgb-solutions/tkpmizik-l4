@@ -47,6 +47,11 @@ return array(
 		'code'		=> [
 			'required'	=> 'Fòk ou antre yon kòd sou mizik la.',
 			'min'		=> 'Kòd ou antre a pa ase bon. Fòk li pa pi piti pase 8 karaktè.'
+		],
+		'url'		=> [
+			'required'		=> 'Fòk ou antre yon lyen. Li obligatwa.',
+			'url'			=> 'Fòk ou antre yon bon lyen. Sa ou mete a pa bon.',
+			'min'			=> 'Fòk lyen an pa pi piti pase 11 karaktè. Ajoute plis pase 11.'
 		]
 	],
 
@@ -58,8 +63,10 @@ return array(
 		'login'		=> 	'Fòk ou konekte sou sit la pou w ka wè paj ou mande a.',
 		'update' 	=> 	'Mizik la mete a jou avèk sisksè!',
 		'bought-success' => 'Ou fèk achte yon nouvo mizik avèk siksè.',
+		'update-success' => 'Mizajou a fèt avèk siksè.',
 		'bought-already' => 'Ou achte mizik sa a deja.',
 		'bought-failed' => 'Kòd ou antre a pa bon. Antre bon kòd mizik la epi eseye ankò.',
+		'delete-mp4-failed' => 'Nou regrèt men nou pa rive efase videyo a.',
 		'must-buy' 	=> 'Fòk ou achte mizik la pou w ka telechaje li. Si ou achte li deja, <a href="/login">konekte</a> w pou w ka telechaje li.',
 		'cant-buy' 	=> 'Ou pa gen dwa pou w achte mizik pa w ankò.',
 		'cant-play' => 'Ou pa ka jwe yon mizik peye. Achte li pou w ka telechaje li epi aprè w\'ap ka tande li sou telefòn ou oubyen lòt aparèy.',

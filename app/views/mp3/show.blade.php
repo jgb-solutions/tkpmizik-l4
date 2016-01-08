@@ -49,14 +49,14 @@
 					<a href="/u/{{ $mp3->user->id }}">{{ $mp3->user->name }}</a>
 				@endif
 				Nan <a href="/cat/{{ $mp3->category->slug }}">{{ $mp3->category->name }}</a>
-				 {{ date('d/m/Y', strtotime( $mp3->created_at ) ) }}
-				a {{ date('g:h a', strtotime( $mp3->created_at ) ) }}
+				{{ $mp3->created_at->format('d/m/Y')}}
+				a {{ $mp3->created_at->format('g:h A')}}
 			</em>
 		</p>
 	</div>
 
 
-	@if ( $mp3->description )
+	@if ($mp3->description)
 
     <hr>
 

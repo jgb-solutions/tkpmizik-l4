@@ -6,10 +6,12 @@
   	</li>
   	<?php
 
-  	$mp3s = MP3::orderBy('play', 'desc')
-					->orderBy('download', 'des')
-					->orderBy('vote_up', 'desc')
-					->take( 10 )->get();
+  	$mp3s = MP3::latest('play')
+				->latest('download')
+				->latest('vote_up')
+				->latest('views')
+				->take(10)
+				->get();
   	?>
 
 	@if ( $mp3s && count($mp3s) > 0 )
@@ -20,6 +22,9 @@
 			<strong>
 				<a class="list-group-item" href="/mp3/{{ $mp3->id }}">
 					<span class="badge">
+						{{ $mp3->views }}
+						<i class="fa fa-eye"></i>
+						-
 						{{ $mp3->play }}
 						<i class="fa fa-play"></i>
 						-

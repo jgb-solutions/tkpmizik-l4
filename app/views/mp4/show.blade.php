@@ -43,8 +43,8 @@
 					<a href="/u/{{ $mp4->user->id }}">{{ $mp4->user->name }}</a>
 				@endif
 				Nan <a href="/cat/{{ $mp4->category->slug }}">{{ $mp4->category->name }}</a>
-					{{ date('d/m/Y', strtotime( $mp4->created_at ) ) }}
-				a {{ date('g:h a', strtotime( $mp4->created_at ) ) }}
+					{{ $mp4->created_at->format('d/m/Y')}}
+				a {{ $mp4->created_at->format('g:h A')}}
 			</em>
 		</p>
 	</div>

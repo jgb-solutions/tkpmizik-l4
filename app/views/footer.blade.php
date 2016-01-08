@@ -53,7 +53,7 @@
 						title="JGB! Neat Design"
 						class="text-warning"
 						target="_blank"
-					>JGB!
+					>JGB! Neat Design
 					</a>
 				</p>
 			</div>
