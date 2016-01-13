@@ -124,6 +124,7 @@ class MP3Controller extends BaseController
 
 			/*********** GETID3 **************/
 			TKPM::tag($mp3, $imagename, $img_type);
+			TKPM::tweet($mp3, 'mp3');
 
 	        // Fireing the Twitter event to tweet automatically
 	        // Event::fire('tweet_music', [ $mp3 ]);

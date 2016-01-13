@@ -24,6 +24,7 @@ class MP4Controller extends BaseController
 
 	public function store()
 	{
+		Cache::flush();
 		// return Input::all();
 		$rules = [
 			'name' 	=> 'required|min:6',
@@ -75,7 +76,7 @@ class MP4Controller extends BaseController
 		$mp4->description 	= Input::get('description');
 		$mp4->save();
 
-		Cache::forget('latest.videos');
+		TKPM::tweet($mp4, 'mp4');
 
 		return Redirect::to('mp4/' . $mp4->id );
 	}

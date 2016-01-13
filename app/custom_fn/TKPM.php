@@ -228,6 +228,23 @@ class TKPM
 	// 	});
 	// }
 
+	public static function tweet($obj, $type)
+	{
+		if ( $type === 'mp3' )
+		{
+			$status = '#NouvoMizik ';
+		} elseif ( $type === 'mp4' )
+		{
+			$status = '#NouvoVideyo ';
+		}
 
+		$status .= "$obj->name " . URL::to("/$type/{$obj->id}") . " via @TKPMizik | @TiKwenPam #" . $obj->category->slug;
+
+		//Auto-Post Tweet
+        Twitter::postTweet([
+        	'status' => $status,
+        	'format' => 'json'
+        ]);
+	}
 
 }
