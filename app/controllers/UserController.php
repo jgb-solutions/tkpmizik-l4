@@ -39,12 +39,12 @@ class UserController extends BaseController
 
 	public function postRegister()
 	{
-		$rules = array(
+		$rules = [
 			'name' 		=> 'required|min:6',
-			'email' 	=> 'required|email|different:name',
+			'email' 	=> 'required|email|different:name|unique:users',
 			'password' 	=> 'required|same:password_confirm|min:6',
 			'telephone'	=> 'numeric'
-		);
+		];
 
 		$messages = [
 			'name.required' 	=> Config::get('site.validate.name.required'),
@@ -52,6 +52,7 @@ class UserController extends BaseController
 			'email.required' 	=> Config::get('site.validate.email.required'),
 			'email.email' 		=> Config::get('site.validate.email.email'),
 			'email.different' 	=> Config::get('site.validate.email.different'),
+			'email.unique' 		=> Config::get('site.validate.email.unique'),
 			'password.required' => Config::get('site.validate.password.required'),
 			'password.min' 		=> Config::get('site.validate.password.min')		,
 			'password.same' 	=> Config::get('site.validate.password.same'),
@@ -60,7 +61,7 @@ class UserController extends BaseController
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
 
-		if ($validator->fails() )
+		if ($validator->fails())
 		{
 			return Redirect::to('/register')
 							->withErrors($validator )
@@ -72,15 +73,6 @@ class UserController extends BaseController
 		$password 	= Input::get('password');
 		$telephone 	= Input::get('telephone');
 
-		$test_email = User::where('email', $email )->first();
-
-		if ($test_email)
-		{
-			return Redirect::to('/register')
-							->withInput()
-							->with('message', 'Imel sa a itilize deja. Si se pou ou li ye, tanpri <a href="/login">konekte ou</a>. Sinon chwazi yon lòt imel.');
-		}
-
 		$user = new User;
 
 		$user->name 		= $name;
@@ -90,7 +82,7 @@ class UserController extends BaseController
 
 		$user->save();
 
-		$credentials = ['email' => $email, 'password' => $password];
+		$credentials = Input::only('email', 'password');
 
 		if ( Auth::attempt($credentials) )
 		{
@@ -139,6 +131,7 @@ class UserController extends BaseController
 			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
 			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
+			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
 			'title'				=> 'Pwofil Ou',
 			'user'				=> $user
 		];
@@ -160,6 +153,7 @@ class UserController extends BaseController
 			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
 			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
+			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
 			'title'				=> 'Navige Tout Mizik Ou Yo',
 			'user'				=> $user
 		];
@@ -182,6 +176,7 @@ class UserController extends BaseController
 			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
 			'title'				=> 'Navige Tout Videyo Ou Yo',
+			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
 			'user'				=> $user
 		];
 
@@ -206,8 +201,11 @@ class UserController extends BaseController
 
 	public function putUser($id = null)
 	{
+		$user = ( User::find($id) ) ?: User::find( Auth::user()->id );
+
 		$rules = [
 			'name' 		=> 'required|min:6',
+			'username'	=> "alpha_num|unique:users,username,{$user->id}",
 			'email' 	=> 'required|email|different:name',
 			'password' 	=> 'min:6|same:password_confirm',
 			'image'		=> 'image',
@@ -223,15 +221,15 @@ class UserController extends BaseController
 			'password.min' 		=> Config::get('site.validate.password.min'),
 			'password.same' 	=> Config::get('site.validate.password.same'),
 			'image.image'		=> Config::get('site.validate.image.image'),
-			'telephone.numeric'	=> Config::get('site.validate.telephone.numeric')
+			'telephone.numeric'	=> Config::get('site.validate.telephone.numeric'),
+			'username.alpha_num'=> Config::get('site.validate.username.alpha_num'),
+			'username.unique'	=> Config::get('site.validate.username.unique')
 		];
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
 
 		if ($validator->fails() )
 		{
-			$user = Auth::user();
-
 			return Redirect::to( Request::url() )
 							->withErrors($validator );
 		}
@@ -241,6 +239,7 @@ class UserController extends BaseController
 		$password 	= Input::get('password');
 		$image 		= Input::file('image');
 		$telephone	= Input::get('telephone');
+		$username 	= Input::get('username');
 
 		if ( isset($image ) )
 		{
@@ -264,24 +263,42 @@ class UserController extends BaseController
 			}
 		}
 
-		$user = ( User::find($id) ) ?: User::find( Auth::user()->id );
+		// $user = ( User::find($id) ) ?: User::find( Auth::user()->id );
 
-		if ( !empty($name ) )
+		if ( !empty($name) )
+		{
 			$user->name = $name;
+		}
 
-		if ( !empty($email ) )
+		if ( !empty($email) )
+		{
 			$user->email = $email;
+		}
 
-		if ( !empty($password ) )
+		if ( !empty($password) )
+		{
 			$user->password = Hash::make($password );
+		}
 
-		if ( !empty($image ) )
+		if ( !empty($image) )
+		{
 			$user->image = $imagename;
+		}
 
-		if ( !empty($telephone ) )
+		if ( !empty($telephone) )
+		{
 			$user->telephone = $telephone;
+		}
+
+		if ( !empty($username) )
+		{
+			$user->username = $username;
+		}
 
 		$user->save();
+
+		Cache::forget('public.user_' . $user->username);
+		Cache::forget('public.user_' . $user->id);
 
 		if ( Auth::user()->is_admin() )
 			return Redirect::to('/admin/users')
@@ -294,7 +311,7 @@ class UserController extends BaseController
 
 	public function getUserPublic($id)
 	{
-		$user 				= User::find($id);
+		$user = User::remember(60, 'public.user_' . $id)->find($id);
 
 		$data = [
 			'mp3s' 				=> $user->mp3s()->latest()->get(),
@@ -319,7 +336,7 @@ class UserController extends BaseController
 
 	public function getUserName($username)
 	{
-		$user 				= User::whereUsername($username)->first();
+		$user = User::remember(60, 'public.user_' . $username)->whereUsername($username)->first();
 
 		if ($user)
 		{
@@ -469,6 +486,8 @@ class UserController extends BaseController
 		{
 			$mp3_ids[] = $bought_mp3->mp3_id;
 		}
+
+		return $mp3_ids;
 
 		if ($mp3_ids)
 		{

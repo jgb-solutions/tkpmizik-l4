@@ -21,7 +21,8 @@ return array(
 		'email'		=> [
 			'required'	=> 'Imel la obligatwa. Fòk ou mete li.',
 			'email'		=> 'Imel ou antre pa bon. Fòk ou mete yon bon imel.',
-			'different'	=> 'Ou pa dwe antre menm bagay pou w non ou kòm imel. Fòk ou mete yon lòt imel oubyen chanje non ou.'
+			'different'	=> 'Ou pa dwe antre menm bagay pou w non ou kòm imel. Fòk ou mete yon lòt imel oubyen chanje non ou.',
+			'unique'	=> 'Imel sa a itilize deja. Si se pou ou li ye, tanpri <a href="/login">konekte ou</a>. Sinon chwazi yon lòt imel.'
 		],
 		'password'		=> [
 			'required'	=> 'Modpas la obligatwa. Fòk ou mete li.',
@@ -52,6 +53,10 @@ return array(
 			'required'		=> 'Fòk ou antre yon lyen. Li obligatwa.',
 			'url'			=> 'Fòk ou antre yon bon lyen. Sa ou mete a pa bon.',
 			'min'			=> 'Fòk lyen an pa pi piti pase 11 karaktè. Ajoute plis pase 11.'
+		],
+		'username'	=> [
+			'alpha_num'		=> 'Non itilizatè a ka gen lèt ak chif sèlman',
+			'unique'		=> 'Non itilizatè sa a itilize deja. Chwazi yon lòt',
 		]
 	],
 

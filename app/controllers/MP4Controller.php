@@ -4,7 +4,7 @@ class MP4Controller extends BaseController
 {
 	public function index()
 	{
-		$mp4s = MP4::latest()->paginate(10);
+		$mp4s = MP4::remember(120)->latest()->paginate(10);
 
 		return View::make('mp4.index')
 			->withMp4s($mp4s)
@@ -13,11 +13,13 @@ class MP4Controller extends BaseController
 
 	public function getCreate()
 	{
-		$categories = Category::orderBy('name')->get();
+		$categories = Category::remember(999, 'categories')->orderBy('name')->get();
 
-		return View::make('mp4.up')
-					->withCategories($categories)
-					->withTitle('Mete Yon Videyo YouTube');
+		$title = 'Mete Yon Videyo YouTube';
+
+		$data = ['categories', 'title'];
+
+		return View::make('mp4.up', compact($data));
 	}
 
 	public function store()
@@ -70,7 +72,10 @@ class MP4Controller extends BaseController
 		$mp4->image 		= $image_url;
 		$mp4->user_id 		= $user_id;
 		$mp4->category_id 	= Input::get('cat');
+		$mp4->description 	= Input::get('description');
 		$mp4->save();
+
+		Cache::forget('latest.videos');
 
 		return Redirect::to('mp4/' . $mp4->id );
 	}
@@ -113,7 +118,7 @@ class MP4Controller extends BaseController
 			{
 				return View::make('mp4.put')
 				    ->with( 'mp4', $mp4 )
-				    ->with( 'title', $mp4->name )
+				    ->with( 'title', "Modifye $mp4->name")
 				    ->with( 'cats', $cats );
 			} else
 			{

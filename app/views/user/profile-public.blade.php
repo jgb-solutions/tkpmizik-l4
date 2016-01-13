@@ -55,7 +55,9 @@
 
 	@else
 
-	<h3 class="text-center">{{ $first_name }} poko gen mizik.</h3>
+		<div class="row bg-black">
+			<h3 class="text-center">{{ $first_name }} poko gen mizik.</h3>
+		</div>
 		<p class="text-center">
 			<a
 				href="/mp3/up"
@@ -82,8 +84,9 @@
 
 	@else
 		&nbsp;<hr>
-		<h3 class="text-center">{{ $first_name }} poko gen videyo.</h3>
-
+		<div class="row bg-black">
+			<h3 class="text-center">{{ $first_name }} poko gen videyo.</h3>
+		</div>
 	@endif
 
 </div>

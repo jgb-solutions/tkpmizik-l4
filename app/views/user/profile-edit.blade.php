@@ -41,7 +41,7 @@
 		<div class="form-group">
 			<label for="regname" class="control-label col-sm-4">Non Ou</label>
 			<div class="col-sm-8">
-				<input name="name" type="name" class="form-control" id="regname" placeholder="Antre non ou" required value="{{ $user->name }}">
+				<input name="name" type="text" class="form-control" id="regname" placeholder="Antre non ou" required value="{{ $user->name }}">
 			</div>
 		</div>
 
@@ -49,6 +49,13 @@
 			<label for="regemail" class="control-label col-sm-4">Adrès Imel Ou</label>
 			<div class="col-sm-8">
 				<input name="email" type="email" class="form-control" id="regemail" placeholder="Antre Imel ou" required value="{{ $user->email }}">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="username" class="control-label col-sm-4">Non Itilizatè Ou</label>
+			<div class="col-sm-8">
+				<input name="username" type="text" class="form-control" id="username" placeholder="Chwazi Yon Non Itilizatè" value="{{ $user->username }}">
 			</div>
 		</div>
 

@@ -4,7 +4,9 @@ class MP4 extends Eloquent
 {
 	protected $table = 'mp4s';
 
-	protected $fillable = array('name', 'url', 'image', 'user_id', 'description', 'category_id');
+	protected $fillable = [
+		'name', 'youtube_id', 'image', 'user_id', 'description', 'category_id'
+	];
 
 	public function user()
 	{
@@ -14,5 +16,10 @@ class MP4 extends Eloquent
 	public function category()
 	{
 		return $this->belongsTo('Category');
+	}
+
+	public function scopeSearch($query, $term)
+	{
+		$query->where('name', 'like', "%$term%");
 	}
 }

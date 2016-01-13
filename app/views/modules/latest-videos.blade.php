@@ -2,7 +2,8 @@
   	<a href="/mp4" class="list-group-item active">
     	<h4><i class="fa fa-video-camera"></i> Dènye Videyo</h4>
   	</a>
-  	<?php $mp4s = MP4::orderBy('id', 'desc')->take( 10 )->get(); ?>
+  	<?php $mp4s = MP4::latest()->take(10)->get(); ?>
+  	<?php //$mp4s = MP4::remember(60, 'latest.videos')->latest()->take(10)->get(); ?>
 
 	@if ( $mp4s && count( $mp4s ) > 0 )
 		<ul class="list-unstyled">

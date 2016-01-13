@@ -6,7 +6,8 @@
   	</li>
   	<?php
 
-  	$mp3s = MP3::latest('play')
+  	$mp3s = MP3::remember(120, 'top.musics')
+  				->latest('play')
 				->latest('download')
 				->latest('vote_up')
 				->latest('views')
@@ -22,9 +23,6 @@
 			<strong>
 				<a class="list-group-item" href="/mp3/{{ $mp3->id }}">
 					<span class="badge">
-						{{ $mp3->views }}
-						<i class="fa fa-eye"></i>
-						-
 						{{ $mp3->play }}
 						<i class="fa fa-play"></i>
 						-

@@ -12,14 +12,14 @@ class AJAXController extends BaseController
 		$action = Input::get('action');
 
 		// Vote system
-		if ( $fn == 'vote' )
+		if ($fn == 'vote')
 		{
 			$fn = $fn . '_' . $ud;
-			return $this->$fn( $id, $obj, $action );
+			return $this->$fn($id, $obj, $action);
 		}
 
 		// default AJAX: Search...
-		return $this->$fn( $id, $obj, $query );
+		return $this->$fn($id, $obj, $query);
 	}
 
 	private function views_count( $id, $obj )
@@ -31,30 +31,31 @@ class AJAXController extends BaseController
 		return $obj->views;
 	}
 
-	private function play_count( $id, $obj )
+	private function play_count($id, $obj)
 	{
-		return $obj::find( $id )->play;
+		return $obj::find($id)->play;
 	}
 
-	private function download_count( $id, $obj )
+	private function download_count($id, $obj)
 	{
-		return $obj::find( $id )->download;
+		return $obj::find($id)->download;
 	}
 
-	private function search( $id, $obj, $query )
+	private function search($id, $obj, $query)
 	{
 		if ( ! empty( $obj ) )
 		{
 			$fn = 'search' . $obj;
-			return $this->$fn( $query );
+			return $this->$fn($query);
 		}
 
-		$mp3results = MP3::wherePublish(1)->where('name', 'like', "%$query%")
-			// ->orderBy('play', 'desc')
-			// ->orderBy('download', 'desc')
-			->orderByRaw('RAND()') // get random rows from the DB
-			->take( 10 )
-			->get(['id', 'name', 'views', 'download', 'price']);
+		$mp3results = MP3::published()
+						->search($query)
+						->orderBy('play', 'desc')
+						->orderBy('download', 'desc')
+						->orderByRaw('RAND()') // get random rows from the DB
+						->take( 10 )
+						->get(['id', 'name', 'views', 'download', 'price']);
 
 		$mp3results->each( function( $mp3 )
 		{
@@ -62,12 +63,11 @@ class AJAXController extends BaseController
 			$mp3->icon = 'music';
 		});
 
-		$mp4results = MP4::where('name', 'like', "%$query%")
-			// ->orderBy('play', 'desc')
-			// ->orderBy('download', 'desc')
-			->orderByRaw('RAND()') // get random rows from the DB
-			->take( 10 )
-			->get(array('id', 'views', 'name', 'download'));
+		$mp4results = MP4::search($query)
+						->orderBy('download', 'desc')
+						->orderByRaw('RAND()') // get random rows from the DB
+						->take(10)
+						->get(['id', 'views', 'name', 'download']);
 
 		$mp4results->each( function( $mp4 )
 		{
@@ -83,11 +83,12 @@ class AJAXController extends BaseController
 
 	private function searchMP3( $query )
 	{
-		$mp3results = MP3::wherePublish(1)->where('name', 'like', '%' . $query . '%')
-			->orderBy('play', 'desc')
-			->orderBy('download', 'desc')
-			->take( 20 )
-			->get(['id', 'name', 'play', 'download', 'image', 'price']);
+		$mp3results = MP3::published()
+						->search($query)
+						->orderBy('play', 'desc')
+						->orderBy('download', 'desc')
+						->take( 20 )
+						->get(['id', 'name', 'play', 'download', 'image', 'price']);
 
 		$mp3results->each( function( $mp3 )
 		{
@@ -100,13 +101,13 @@ class AJAXController extends BaseController
 
 	private function searchMP4($query)
 	{
-		$mp4results = MP4::where('name', 'like', '%' . $query . '%')
-			->orderBy('play', 'desc')
-			->orderBy('download', 'desc')
-			->take( 20 )
-			->get( array('id', 'views', 'name', 'download'));
+		$mp4results = MP4::search($query)
+						->orderBy('play', 'desc')
+						->orderBy('download', 'desc')
+						->take(20)
+						->get(['id', 'views', 'name', 'download']);
 
-		$mp4results->each( function( $mp4 )
+		$mp4results->each( function($mp4)
 		{
 			$mp4->icon = 'video-camera';
 			$mp4->type = 'mp4';
@@ -138,12 +139,12 @@ class AJAXController extends BaseController
 				$vote->save();
 			} else
 			{
-				Vote::create(array(
+				Vote::create([
 					'vote' 		=> 1,
 					'obj_id' 	=> $id,
 					'user_id' 	=> $user_id,
 					'obj'		=> $obj
-				));
+				]);
 			}
 
 			$obj = $obj::find( $id );
@@ -180,15 +181,15 @@ class AJAXController extends BaseController
 				$vote->save();
 			} else
 			{
-				Vote::create(array(
+				Vote::create([
 					'vote' 		=> -1,
 					'obj_id' 	=> $id,
 					'user_id' 	=> $user_id,
 					'obj'		=> $obj
-				));
+				]);
 			}
 
-			$obj = $obj::find( $id );
+			$obj = $obj::find($id);
 			$obj->vote_down -= 1;
 			$obj->save();
 

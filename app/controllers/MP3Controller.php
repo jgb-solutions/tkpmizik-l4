@@ -5,7 +5,7 @@ class MP3Controller extends BaseController
 	public function index()
 	{
 		$data = [
-			'mp3s'	=> MP3::latest()->published()->paginate(10),
+			'mp3s'	=> MP3::remember(60)->latest()->published()->paginate(10),
 			'title'	=> 'Navige Tout Mizik Yo'
 		];
 
@@ -15,7 +15,7 @@ class MP3Controller extends BaseController
 	public function listBuy()
 	{
 		$data = [
-			'mp3s'	=> MP3::latest()->published()->paid()->paginate(10),
+			'mp3s'	=> MP3::remember(120)->latest()->published()->paid()->paginate(10),
 			'title'	=> 'Mizik Pou Vann'
 		];
 
@@ -25,6 +25,8 @@ class MP3Controller extends BaseController
 
 	public function store()
 	{
+		Cache::flush();
+
 		$rules = [
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
@@ -115,6 +117,8 @@ class MP3Controller extends BaseController
 				$mp3->price = $price;
 			}
 
+			$mp3->description = Input::get('description');
+
 			$mp3->save();
 
 
@@ -138,6 +142,8 @@ class MP3Controller extends BaseController
 	        {
 				return Redirect::to("mp3/{$mp3->id}/edit");
 	        }
+
+	        Cache::forget('latest.musics');
 
 			return Redirect::to('mp3/' . $mp3->id );
 
@@ -183,18 +189,11 @@ class MP3Controller extends BaseController
 				}
 
 			}
-		}
 
-		$mp3 = MP3::published()
-				->whereId($id)
-				->first();
-
-		if ($mp3)
-		{
 			$mp3->views += 1;
 			$mp3->save();
 
-			$related = MP3::whereCategoryId($mp3->category_id)
+			$related = MP3::remember(120)->whereCategoryId($mp3->category_id)
 							->where('id', '!=', $mp3->id)
 							->published()
 							->orderByRaw('RAND()') // get random rows from the DB
@@ -245,6 +244,8 @@ class MP3Controller extends BaseController
 
 	public function update( $id )
 	{
+		Cache::flush();
+
 		$rules = [
 			'name' 		=> 'min:6',
 			'image'		=> 'image'
@@ -373,6 +374,8 @@ class MP3Controller extends BaseController
 
 	public function destroy($id)
 	{
+		Cache::flush();
+
 		if ( Auth::check() )
 		{
 			$mp3 = MP3::find( $id );
@@ -459,7 +462,7 @@ class MP3Controller extends BaseController
 	{
 		$data = [
 			'title'	=> 'Mete Mizik',
-			'cats'	=> Category::orderBy('name')->get()
+			'cats'	=> Category::remember(120, 'categories')->orderBy('name')->get()
 		];
 
 		return View::make('mp3.up')->with($data);
@@ -488,7 +491,7 @@ class MP3Controller extends BaseController
 				$data['bought'] = $user->bought()->whereMp3Id($mp3->id)->first();
 			}
 
-			$data['related'] = MP3::whereCategoryId($mp3->category_id)
+			$data['related'] = MP3::remember(120)->whereCategoryId($mp3->category_id)
 							->where('id', '!=', $mp3->id)
 							->published()
 							->orderByRaw('RAND()') // get random rows from the DB

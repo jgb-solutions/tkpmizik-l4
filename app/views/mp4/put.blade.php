@@ -1,12 +1,16 @@
 @extends('layout.nosidebar')
 
+@section('title')
+{{ $title }}
+@stop
+
 @section('content')
 
 <div class="col-sm-12">
 	<div class="row bg-black">
 		<h1 class="text-center">
 			<i class="fa fa-video-camera"></i>
-			Modifye '{{ $mp4->name }}'
+			{{ $title }}
 		</h1>
 	</div>
 	<hr>

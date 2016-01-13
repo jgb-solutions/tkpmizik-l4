@@ -3,7 +3,7 @@
     	<h4><i class="fa fa-th-list"></i> Kategori</h4>
   	</li>
 
-	<?php $cats = Category::remember(60)->orderBy('name')->get(); ?>
+	<?php $cats = Category::remember(999, 'categories')->orderBy('name')->get(); ?>
 
 	@if ( $cats && count( $cats ) > 0 )
 

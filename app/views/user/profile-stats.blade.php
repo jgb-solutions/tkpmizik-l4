@@ -28,6 +28,21 @@
 				</small>
 			@endif
 
+			@if ( $user->username )
+			<hr>
+			<form role="form">
+				<label for="username">Adrès pwofil {{ $first_name }}</label>
+			  	<div class="form-group">
+			      	<input
+			      		onclick="return this.select()"
+			      		type="text"
+			      		class="form-control strong"
+			      		id="username"
+			      		value="{{ URL::to("@$user->username") }}">
+			  	</div>
+			</form>
+			@endif
+
 		</small>
 	</h2>
 

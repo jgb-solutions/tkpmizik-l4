@@ -68,6 +68,17 @@
 			</div>
 
 			<div class="form-group">
+				<label for="description" class="col-sm-4 control-label">Detay Mizik la</label>
+				<div class="col-sm-8">
+					<textarea
+						name="description"
+						class="form-control"
+						id="description"
+						placeholder="Bay kèk enfòmasyon sou mizik la" >{{ Input::old('description') }}</textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
 				<div class="col-sm-8 col-sm-offset-4">
 					<p>
 						<button type="submit" class="btn btn-primary btn-lg" id="submitButton">

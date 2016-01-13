@@ -6,43 +6,49 @@
 
   	<?php
 
-	$users = User::remember(120)->get();
-
-	$users->each( function($user)
+	if (Cache::has('top.users'))
 	{
-		$user->mp3count 	= $user->mp3s()->count();
-		$user->mp4count 	= $user->mp4s()->count();
-		$user->totalcount 	= $user->mp3count + $user->mp4count;
-	});
-
-	$users->sort( function($a, $b)
+		$sliced_users = Cache::get('top.users');
+	} else
 	{
-		$a = (int) $a->totalcount;
-		$b = (int) $b->totalcount;
+		$users = User::all();
 
-		if ( $a === $b )
+		$users->each( function($user)
 		{
-			return 0;
-		}
+			$user->mp3count 	= $user->mp3s()->count();
+			$user->mp4count 	= $user->mp4s()->count();
+			$user->totalcount 	= $user->mp3count + $user->mp4count;
+		});
 
-		return ($a > $b) ? 1 : -1;
-	});
+		$users->sort( function($a, $b)
+		{
+			$a = (int) $a->totalcount;
+			$b = (int) $b->totalcount;
 
-	$reverse_users = $users->reverse();
+			if ( $a === $b )
+			{
+				return 0;
+			}
 
-	$sliced_users = $reverse_users->slice( 0, 10 );
+			return ($a > $b) ? 1 : -1;
+		});
 
-  	?>
+		$reverse_users = $users->reverse();
 
-	@foreach ( $sliced_users as $user )
+		$sliced_users = $reverse_users->slice(0, 10);
 
-	@if ( $user->totalcount > 0 )
+		Cache::put('top.users', $sliced_users, 120);
+	}?>
+
+	@foreach ($sliced_users as $user)
+
+	@if ($user->totalcount > 0)
 
 		<a href="/u/{{ $user->id }}" class="list-group-item">
 	  	 	<div class="row">
 	  	 		<div class="col-xs-4">
 
-	  	 			@if ( $user->image )
+	  	 			@if ($user->image)
 
 	  	 			<img
 	  	 				src="/{{ Config::get('site.image_upload_path') }}/thumbs/{{ $user->image }}"

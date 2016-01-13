@@ -8,16 +8,16 @@ class AdminController extends BaseController
 
 		$mp3s 		= MP3::orderBy('created_at', 'desc')->take(10)->get();
 		$mp3scount 	= MP3::count();
-		
+
 		$mp4s 		= MP4::orderBy('created_at', 'desc')->take(10)->get();
 		$mp4scount 	= MP4::count();
-		
+
 		$users 		= User::orderBy('created_at', 'desc')->take(10)->get();
 		$userscount = User::count();
 
 		$categories = Category::orderBy('name')->take(10)->get();
 		$catscount	= Category::count();
-		
+
 		$pages = Page::orderBy('created_at', 'desc')->paginate(10);
 		$pages_count = Page::count();
 
@@ -118,11 +118,13 @@ class AdminController extends BaseController
 
 		$page = new Page;
 
-		$page->title = $title;
-		$page->slug = $slug;
-		$page->content = $content;
+		$page->title 	= $title;
+		$page->slug 	= $slug;
+		$page->content 	= $content;
 
 		$page->save();
+
+		Cache::forget('pages');
 
 		return Redirect::to('/admin/pages');
 	}
@@ -168,12 +170,20 @@ class AdminController extends BaseController
 		$page->content = $content;
 		$page->save();
 
+		Cache::forget('page_' . $slug);
+		Cache::forget('pages');
+
 		return Redirect::to('/admin/pages');
 	}
 
 	public function get_delete($id)
 	{
-		Page::destroy($id);
+		$page = Page::find($id);
+
+		Cache::forget('page_' . $page->slug);
+		Cache::forget('pages');
+
+		$page->delete();
 
 		return Redirect::to('/admin/pages');
 	}

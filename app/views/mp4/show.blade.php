@@ -65,7 +65,7 @@
 	  		target="_blank"
 	  	>
 	  		<i class="fa fa-download"></i>
-	  		Telechaje
+	  		<span class="hidden-484">Telechaje</span>
 	  	</a>
 
 	  	@if ( Auth::check() )

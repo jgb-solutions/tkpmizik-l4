@@ -3,7 +3,8 @@
     	<h4><i class="fa fa-music"></i> Dènye Mizik</h4>
   	</a>
 
-  	<?php $mp3s = MP3::orderBy('created_at', 'desc')->take(10)->get(); ?>
+  	<?php $mp3s = MP3::latest()->take(10)->get(); ?>
+  	<?php //$mp3s = MP3::remember(60, 'latest.musics')->latest()->take(10)->get(); ?>
 
 	@if ( $mp3s && count( $mp3s ) > 0 )
 		<ul class="list-unstyled">

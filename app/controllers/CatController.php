@@ -47,26 +47,28 @@ class CatController extends BaseController
 		$category->slug = $slug;
 		$category->save();
 
+		Cache::forget('categories');
+
 		return Redirect::to('/admin/cat');
 
 	}
 
-	public function getShow( $slug )
+	public function getShow($slug)
 	{
 		$type = Input::get('type');
 
 		if ( isset( $type ) && ! empty( $type ) )
 		{
 			$fn = 'cat' . $type;
-			return $this->$fn( $slug );
+			return $this->$fn($slug);
 		}
 
-		$cat = Category::whereSlug( $slug )->first();
+		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		if ( $cat )
+		if ($cat)
 		{
-			$mp3s = MP3::wherePublish(1)->whereCategoryId( $cat->id )->take( 20 )->get();
-			$mp4s = MP4::whereCategoryId( $cat->id )->take( 20 )->get();
+			$mp3s = MP3::remember(120)->published()->whereCategoryId($cat->id)->take(20)->get();
+			$mp4s = MP4::remember(120)->whereCategoryId($cat->id)->take(20)->get();
 
 			$mp3s->each( function( $mp3 )
 			{
@@ -94,11 +96,11 @@ class CatController extends BaseController
 		return Redirect::to('/');
 	}
 
-	public function catMP3( $slug )
+	public function catMP3($slug)
 	{
-		$cat = Category::whereSlug( $slug )->first();
+		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp3s = MP3::wherePublish(1)->whereCategoryId( $cat->id )->paginate( 10 );
+		$mp3s = MP3::remember(120)->published()->whereCategoryId($cat->id)->paginate(10);
 
 		return View::make('cats.mp3')
 					->with('cat', $cat )
@@ -106,11 +108,11 @@ class CatController extends BaseController
 					->with('title', $cat->name );
 	}
 
-	public function catMP4( $slug )
+	public function catMP4($slug)
 	{
-		$cat = Category::whereSlug( $slug )->first();
+		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp4s = MP4::whereCategoryId( $cat->id )->paginate( 10 );
+		$mp4s = MP4::remember(120)->whereCategoryId( $cat->id )->paginate(10);
 
 		return View::make('cats.mp4')
 					->with('cat', $cat )
@@ -118,9 +120,9 @@ class CatController extends BaseController
 					->with('title', $cat->name );
 	}
 
-	public function getEdit( $id )
+	public function getEdit($id)
 	{
-		$category 	= Category::find( $id );
+		$category 	= Category::find($id);
 		$categories = Category::orderBy('name')->get();
 		return View::make('cats.edit')
 						->with('category', $category )
@@ -136,12 +138,18 @@ class CatController extends BaseController
 		$category->slug = Str::slug( Input::get('slug'), '-');
 		$category->save();
 
+		Cache::forget('categories');
+
 		return Redirect::to('/cat/create');
 	}
 
-	public function getDelete( $id )
+	public function getDelete($id)
 	{
+		Cache::flush();
+
 		Category::find($id)->delete();
+
+		Cache::forget('categories');
 
 		return Redirect::back();
 	}

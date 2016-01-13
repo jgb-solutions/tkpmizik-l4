@@ -4,36 +4,32 @@ class PageController extends BaseController
 {
 	public function getIndex()
 	{
-		$mp3s = MP3::orderBy('created_at', 'desc')->wherePublish(1)->take(6)->get();
-		$mp4s = MP4::orderBy('created_at', 'desc')->take(4)->get();
+		// if ( Cache::has('homepage') )
+		// {
+		// 	return Cache::get('homepage');
+		// }
 
-		return View::make('home')
-			->with('mp3s', $mp3s)
-			->with('mp4s', $mp4s);
+		$mp3s = MP3::remember(120)->latest()->published()->take(6)->get();
+		$mp4s = MP4::remember(120)->latest()->take(4)->get();
+
+		$data = ['mp3s', 'mp4s'];
+
+		$homepage = View::make('home', compact($data))->render();
+
+		// Cache::put('homepage', $homepage, 60);
+
+		return $homepage;
 	}
 
-	public function getPage( $slug )
+	public function getPage($slug)
 	{
-		$page = Page::whereSlug( $slug )->first();
+		$page = Page::remember(60)->whereSlug($slug)->first();
 
-		if ( $page )
+		if ($page)
 		{
-			return View::make("pages.page")
-					->with('page', $page);
+			 return View::make("pages.page", compact('page'));
 		}
 
 		return Redirect::to('/404');
-	}
-
-	public function getAbout()
-	{
-		return View::make('pages.about')
-			->with('title', 'About Us!');
-	}
-
-	public function getContact()
-	{
-		return View::make('pages.contact')
-			->with('title', 'Contact Us!');
 	}
 }

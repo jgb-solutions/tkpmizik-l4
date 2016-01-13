@@ -6,7 +6,8 @@
   	</li>
 
   	<?php
-  		$mp4s = MP4::latest('download')
+  		$mp4s = MP4::remember(120, 'top.videos')
+  					->latest('download')
 					->latest('vote_up')
 					->latest('views')
 					->take(10)

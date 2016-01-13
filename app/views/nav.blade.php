@@ -88,7 +88,7 @@
 
 				<ul class="dropdown-menu">
 
-					<?php $cats = Category::remember(60)->orderBy('name')->get(); ?>
+					<?php $cats = Category::remember(999, 'categories')->orderBy('name')->get(); ?>
 
 					@foreach( $cats as $cat )
 					<li>
@@ -114,9 +114,9 @@
 				</a>
 
 				<ul class="dropdown-menu">
-					<?php $pages = Page::all(); //Page::remember->get(); ?>
+					<?php $pages = Page::remember(999, 'pages')->get(); ?>
 
-					@foreach ( $pages as $page )
+					@foreach ($pages as $page)
 					<li>
 						<a
 							href="/p/{{ $page->slug }}">
