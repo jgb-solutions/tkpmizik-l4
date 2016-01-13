@@ -23,7 +23,7 @@
 					class="btn btn-primary btn-lg"
 				>
 					<i class="fa fa-music"></i>
-					Tcheke Tout Mizik {{ $cat->name }} Yo
+					Tout Mizik {{ $cat->name }} Yo
 				</a>
 			</p>
 
@@ -36,7 +36,7 @@
 					class="btn btn-danger btn-lg"
 				>
 					<i class="fa fa-video-camera"></i>
-					Tcheke Tout Videyo {{ $cat->name }} Yo
+					Tout Videyo {{ $cat->name }} Yo
 				</a>
 			</p>
 
