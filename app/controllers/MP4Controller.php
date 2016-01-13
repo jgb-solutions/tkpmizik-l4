@@ -194,6 +194,7 @@ class MP4Controller extends BaseController
 				if ($mp4)
 				{
 					$mp4->delete();
+					Cache::flush();
 
 					return Redirect::to('/mp4');
 				} else
