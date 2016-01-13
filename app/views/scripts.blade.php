@@ -9,5 +9,5 @@
 <script src="/js/source/bb-search.js"></script>
 <script src="/js/source/app.js"></script> --}}
 
-{{-- <script src="/js/build/compile.min.js"></script> --}}
-<script src="http://tkpmizik.jgbcdn.ml/js/build/compile.min.js"></script>
+<script src="/js/build/compile.min.js"></script>
+{{-- <script src="http://tkpmizik.jgbcdn.ml/js/build/compile.min.js"></script> --}}
