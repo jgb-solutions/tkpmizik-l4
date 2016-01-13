@@ -13,7 +13,6 @@
 
 App::before(function($request)
 {
-	header('Access-Control-Allow-Origin: *');
 });
 
 
