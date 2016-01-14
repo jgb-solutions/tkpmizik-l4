@@ -26,8 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' 	=> array('jgbuntu'),
-	'production' => array('tikwenpam.net', 'tikwenpam.jgbnd.com', 'linkpam.ml')
+	'local' 	=> array('jgbuntu')
 ));
 
 

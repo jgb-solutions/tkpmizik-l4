@@ -8,9 +8,9 @@
 					<div class="col-sm-4 col-xs-4">
 						<div class="row">
 							<img
-								src="/uploads/images/thumbs/{{ $mp3->image }}"
+								data-original="/uploads/images/thumbs/{{ $mp3->image }}"
 						  		alt="{{ $mp3->name }}"
-								class="img-responsive small-square">
+								class="img-responsive small-square lazy">
 						</div>
 					</div>
 					<div class="col-sm-8 col-xs-8 right">

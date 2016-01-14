@@ -7,12 +7,13 @@
 				<div class="row">
 					<img
 						@if ( $type->type == 'mp4')
-						src="{{ $type->image }}"
+						data-original="{{ $type->image }}"
 						@else
-						src="/uploads/images/thumbs/{{ $type->image }}"
+						data-original="/uploads/images/thumbs/{{ $type->image }}"
 						@endif
 				  		alt="{{ $type->name }}"
-						class="img-responsive small-square">
+						class="img-responsive small-square lazy"
+						alt="{{ $type->name }}">
 				</div>
 			</div>
 			<div class="col-sm-8 col-xs-8 right">

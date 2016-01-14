@@ -326,5 +326,6 @@ $(function()
 		$(this).siblings('small').toggleClass('hide');
 	});
 
+	$("img.lazy").lazyload();
 
 });

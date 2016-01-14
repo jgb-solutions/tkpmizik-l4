@@ -9,5 +9,8 @@
 <script src="/js/source/bb-search.js"></script>
 <script src="/js/source/app.js"></script> --}}
 
-<script src="/js/build/compile.min.js"></script>
-{{-- <script src="http://tkpmizik.jgbcdn.ml/js/build/compile.min.js"></script> --}}
+@if (App::environment() == 'local')
+<script src="/js/app.js"></script>
+@else
+<script src="//tkpmizik.jgbcdn.ml/js/app.js"></script>
+@endif

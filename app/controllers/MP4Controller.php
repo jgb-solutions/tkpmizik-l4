@@ -97,7 +97,7 @@ class MP4Controller extends BaseController
 						->get(['id', 'name', 'image', 'download', 'views']);
 		// return $related;
 
-		$author = $mp4->user->name . ' &mdash; ';
+		$author = $mp4->user->username ? '@' . $mp4->user->username . ' &mdash;' : $mp4->user->name . ' &mdash; ';
 
 		return View::make('mp4.show')
 			    ->withMp4($mp4)
@@ -179,6 +179,8 @@ class MP4Controller extends BaseController
 
 		$mp4->save();
 
+		Cache::flush();
+
 		return Redirect::to('/mp4/' . $mp4->id )
 			->with('message', Config::get('site.message.update-success'));
 	}
@@ -194,7 +196,10 @@ class MP4Controller extends BaseController
 				if ($mp4)
 				{
 					$mp4->delete();
+
 					Cache::flush();
+
+					if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
 
 					return Redirect::to('/mp4');
 				} else

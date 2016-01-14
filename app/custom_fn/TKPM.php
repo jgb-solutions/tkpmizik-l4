@@ -171,27 +171,51 @@ class TKPM
 		});
 	}
 
-	public static function seo($object, $url, $author)
-	{?>
+	public static function seo($object, $type, $author)
+	{
+		if ($type === 'user')
+		{
+			$image = URL::to("/uploads/images/{$object->image}");
+
+			if ($object->username)
+			{
+				$url = URL::to("/@{$object->username}");
+			}
+		}
+
+		if ($type === 'mp3' || $type === 'mp4')
+		{
+			$url = URL::to("/$type/$object->id");
+			$image = $url == 'mp3' ? '/uploads/images/' : $object->image;
+		}
+
+		if ($type === 'cat')
+		{
+			$url = URL::to("/$type/$object->slug");
+			$image = '';
+		}
+
+
+	?>
 
 	<meta name="description" content="<?= $object->description ?>"/>
-	<link rel="canonical" href="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>" />
+	<link rel="canonical" href="<?= $url ?>" />
 
 	<!-- Open Graph -->
 	<meta property="og:title" content="<?= $author ?> <?= $object->name ?>" />
 	<meta property="og:description" content="<?= $object->description ?>" />
-	<meta property="og:url" content="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>" />
+	<meta property="og:url" content="<?= $url ?>" />
 	<meta property="fb:admins" content="504535793062337" />
-	<meta property="og:image" content="<?= $url == 'mp3' ? '/uploads/images/' : '' ?><?= $object->image ?>" />
+	<meta property="og:image" content="<?= $image ?>" />
 	<meta property="og:site_name" content="<?= $object->name ?>" />
 
 	<!-- Twitter Graph -->
 	<meta name="twitter:card" content="summary"/>
 	<meta name="twitter:description" content="<?= $object->description ?>"/>
 	<meta name="twitter:title" content="<?= ucwords($author) ?> <?= $object->name ?>"/>
-	<meta name="twitter:domain" content="<?= Config::get('site.url') ?>/<?= $url ?>/<?= $object->id ?>"/>
+	<meta name="twitter:domain" content="<?= Config::get('site.url') ?>"/>
 	<meta name="twitter:site" content="<?= Config::get('site.twitter') ?>"/>
-	<meta name="twitter:image" content="<?= $url == 'mp3' ? '/uploads/images/' : '' ?><?= $object->image ?>"/>
+	<meta name="twitter:image" content="<?= $image ?>"/>
 	<meta name="twitter:creator" content="<?= Config::get('site.twitter') ?>"/>
 
 	<?php }

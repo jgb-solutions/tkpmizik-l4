@@ -133,7 +133,8 @@ class UserController extends BaseController
 			'bought_count' 		=> $user->bought()->count(),
 			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
 			'title'				=> 'Pwofil Ou',
-			'user'				=> $user
+			'user'				=> $user,
+			'author'			=> $user->username ? '@' . $user->username . ' &mdash;' : $user->name . ' &mdash; '
 		];
 
 		return View::make('user.profile')->with($data);
@@ -311,55 +312,60 @@ class UserController extends BaseController
 
 	public function getUserPublic($id)
 	{
-		$user = User::remember(60, 'public.user_' . $id)->find($id);
+		$user = User::remember(60)->find($id);
 
-		$data = [
-			'mp3s' 				=> $user->mp3s()->latest()->get(),
-			'mp4s'				=> $user->mp4s()->latest()->get(),
-			'mp3count' 			=> $user->mp3s()->count(),
-			'mp4count' 			=> $user->mp4s()->count(),
-			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
-			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
-			'mp3playcount' 		=> $user->mp3s()->sum('play'),
-			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
-			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
-			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
-			'bought_count' 		=> $user->bought()->count(),
-			'title'				=> "Pwofil $user->name",
-			'user'				=> $user
-		];
+		if ($user)
+		{
+			return $this->getUserData($user);
+		}
 
-
-		return View::make('user.profile-public')->with($data);
+		return Redirect::to('/404');
 
 	}
 
 	public function getUserName($username)
 	{
-		$user = User::remember(60, 'public.user_' . $username)->whereUsername($username)->first();
+		$user = User::remember(60)->whereUsername($username)->first();
 
 		if ($user)
 		{
-			$data = [
-			'mp3s' 				=> $user->mp3s()->latest()->get(),
-			'mp4s'				=> $user->mp4s()->latest()->get(),
-			'mp3count' 			=> $user->mp3s()->count(),
-			'mp4count' 			=> $user->mp4s()->count(),
-			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
-			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
-			'mp3playcount' 		=> $user->mp3s()->sum('play'),
-			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
-			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
-			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
-			'bought_count' 		=> $user->bought()->count(),
-			'title'				=> "Pwofil $user->name",
-			'user'				=> $user
-		];
-
-			return View::make('user.profile-public')->with($data);
+			return $this->getUserData($user);
 		}
 
 		return Redirect::to('/404');
+	}
+
+	private function getUserData($user)
+	{
+		$key = 'user_public_' . $user->id;
+
+		if (Cache::has($key))
+		{
+			$data = Cache::get($key);
+		} else
+		{
+			$data = [
+				'mp3s' 				=> $user->mp3s()->published()->latest()->get(),
+				'mp4s'				=> $user->mp4s()->latest()->get(),
+				'mp3count' 			=> $user->mp3s()->count(),
+				'mp4count' 			=> $user->mp4s()->count(),
+				'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+				'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+				'mp3playcount' 		=> $user->mp3s()->sum('play'),
+				'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+				'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+				'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
+				'bought_count' 		=> $user->bought()->count(),
+				'title'				=> "Pwofil $user->name",
+				'user'				=> $user,
+				'author'			=> $user->username ? '@' . $user->username . ' &mdash;' : $user->name . ' &mdash; '
+			];
+
+			Cache::put($key, $data, 120);
+
+		}
+
+		return View::make('user.profile-public')->with($data);
 	}
 
 	public function deleteUser($id = null)

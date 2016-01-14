@@ -6,6 +6,10 @@
 {{ $title }}
 @stop
 
+@section('seo')
+<?php TKPM::seo($user, 'user', $author) ?>
+@stop
+
 @include('user.profile-stats')
 
 <div class="col-sm-8">

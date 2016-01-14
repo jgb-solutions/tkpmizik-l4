@@ -62,8 +62,8 @@
 	<div class="row bg-info">
 		@if ( $mp3->image )
 			<img
-				src="/uploads/images/show/{{ $mp3->image }}"
-				class="img-responsive">
+				data-original="/uploads/images/show/{{ $mp3->image }}"
+				class="img-responsive full-width lazy">
 		@endif
 
 		@if ( ! $bought )
@@ -124,7 +124,8 @@
 		<a
 			class="btn btn-default"
 			href="/mp3/{{ $mp3->id }}/edit">
-			<i class="fa fa-edit"></i> Modifye
+			<i class="fa fa-edit"></i>
+			<span class="hidden-484">Modifye</span>
 		</a>
 
 		@endif

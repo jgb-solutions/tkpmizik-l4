@@ -44,15 +44,15 @@
 
 	@if ($user->totalcount > 0)
 
-		<a href="/u/{{ $user->id }}" class="list-group-item">
+		<a href="{{ $user->username ? '/@' . $user->username : '/u/' . $user->id }}" class="list-group-item">
 	  	 	<div class="row">
 	  	 		<div class="col-xs-4">
 
 	  	 			@if ($user->image)
 
 	  	 			<img
-	  	 				src="/{{ Config::get('site.image_upload_path') }}/thumbs/{{ $user->image }}"
-	  	 				class="pull-left img-thumbnail img-responsive"
+	  	 				data-original="/{{ Config::get('site.image_upload_path') }}/thumbs/{{ $user->image }}"
+	  	 				class="pull-left img-thumbnail img-responsive lazy"
 	  	 			>
 	  	 			@else
 

@@ -19,9 +19,9 @@
 			<div class="thumbnail noPadding4 maxHeight228">
 				<a href="/mp4/{{ $mp4->id }}">
 				  	<img
-				  		src="{{ $mp4->image }}"
-				  		alt="{{ $mp4->name }}"
-						class="img-reponsive full-width">
+						class="img-reponsive full-width lazy"
+						alt="{{ $mp4->name }}"
+						data-original="{{ $mp4->image }}">
 				</a>
 			  	<div class="caption text-center">
 			    	<h4><a href="/mp4/{{ $mp4->id }}">{{ $mp4->name }}</a></h4>

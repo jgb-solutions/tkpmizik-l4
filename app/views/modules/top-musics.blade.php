@@ -7,8 +7,8 @@
   	<?php
 
   	$mp3s = MP3::remember(120, 'top.musics')
-  				->latest('play')
 				->latest('download')
+  				->latest('play')
 				->latest('vote_up')
 				->latest('views')
 				->take(10)

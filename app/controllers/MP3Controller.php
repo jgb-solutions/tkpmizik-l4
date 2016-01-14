@@ -203,7 +203,7 @@ class MP3Controller extends BaseController
 							->get(['id', 'name', 'image', 'play', 'download', 'views']);
 			// return $related;
 
-			$author = $mp3->user->name . ' &mdash; ';
+			$author = $mp3->user->username ? '@' . $mp3->user->username . ' &mdash;' : $mp3->user->name . ' &mdash; ';
 
 			$data = [
 				'mp3' 		=> $mp3,

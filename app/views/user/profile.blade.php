@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('seo')
+<?php TKPM::seo($user, 'user', $author) ?>
+@stop
+
 @section('title')
  	{{ $title }}
 @stop

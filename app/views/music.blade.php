@@ -21,14 +21,40 @@
 
 	<hr>
 
-	@include('mp3.grid-6')
+	{{-- @include('mp3.grid-6') --}}
 
-	<p class="text-center">
-		<a href="/mp3" class="btn btn-lg btn-primary">
-			<i class="fa fa-music"></i>
-			Navige Tout Mizik Yo
-		</a>
-	</p>
+	<div class="row">
+		@foreach ( $mp3s as $mp3 )
+		<div class="col-sm-4">
+				<div class="thumbnail noPadding4 maxHeight228">
+					<a href="/mp3/{{ $mp3->id }}">
+					  	<img
+							class="img-reponsive full-width lazy"
+							alt="{{ $mp3->name }}"
+							data-original="/uploads/images/thumbs/{{ $mp3->image }}">
+					</a>
+				  	<div class="caption text-center">
+				    	<h4><a href="/mp3/{{ $mp3->id }}">{{ $mp3->name }}</a></h4>
+				    	<p class="text-muted">
+				    		<i class="fa fa-eye"></i> Afichaj:
+				    		{{ $mp3->views }} <br>
+				    		<i class="fa fa-download"></i> Telechajman:
+				    		{{ $mp3->download }}
+				    	</p>
+				  	</div>
+				</div>
+			</div>
+		@endforeach
+	</div>
+
+	<div class="col-sm-12">
+		<p class="text-center">
+			<a href="/mp3" class="btn btn-lg btn-primary">
+				<i class="fa fa-music"></i>
+				Navige Tout Mizik Yo
+			</a>
+		</p>
+	</div>
 
 	@endif
 	<hr/>

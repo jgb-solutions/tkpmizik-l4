@@ -76,13 +76,15 @@
 				href="/mp4/delete/{{ $mp4->id }}"
 				onclick="return confirm('Are you sure?')"
 				class="btn btn-danger">
-				<i class="fa fa-trash-o"></i> Efase
+				<i class="fa fa-trash-o"></i>
+	  			<span class="hidden-484">Efase</span>
 			</a>
 
 			<a
 				class="btn btn-default"
 				href="/mp4/{{ $mp4->id }}/edit">
-				<i class="fa fa-edit"></i> Modifye
+				<i class="fa fa-edit"></i>
+	  			<span class="hidden-484">Modifye</span>
 			</a>
 
 			@endif

@@ -1,11 +1,19 @@
 @extends('layout.main')
 
+@section('title')
+{{ $title }}
+@stop
+
+@section('seo')
+<?php TKPM::seo($cat, 'cat', $author) ?>
+@stop
+
 @section('content')
 
 	<div class="col-sm-8">
 
 		<div class="row bg-black">
-			<h2 class="text-center">Navige Tout {{ $cat->name }} Yo</h2>
+			<h2 class="text-center">{{ $title }}</h2>
 		</div>
 
 		<hr>

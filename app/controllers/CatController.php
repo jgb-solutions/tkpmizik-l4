@@ -67,8 +67,8 @@ class CatController extends BaseController
 
 		if ($cat)
 		{
-			$mp3s = MP3::remember(120)->published()->whereCategoryId($cat->id)->take(20)->get();
-			$mp4s = MP4::remember(120)->whereCategoryId($cat->id)->take(20)->get();
+			$mp3s = MP3::remember(120)->published()->latest()->whereCategoryId($cat->id)->take(20)->get();
+			$mp4s = MP4::remember(120)->latest()->whereCategoryId($cat->id)->take(20)->get();
 
 			$mp3s->each( function( $mp3 )
 			{
@@ -88,9 +88,10 @@ class CatController extends BaseController
 			return View::make('cats.show')
 						->with('results', $results )
 						->with('cat', $cat )
-						->with('title', $cat->name )
+						->with('title', "Navige Tout $cat->name Yo" )
 						->with('mp3count', $mp3s->count() )
-						->with('mp4count', $mp4s->count() );
+						->with('mp4count', $mp4s->count() )
+						->withAuthor('');
 		}
 
 		return Redirect::to('/');
@@ -100,7 +101,7 @@ class CatController extends BaseController
 	{
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp3s = MP3::remember(120)->published()->whereCategoryId($cat->id)->paginate(10);
+		$mp3s = MP3::remember(120)->published()->latest()->whereCategoryId($cat->id)->paginate(10);
 
 		return View::make('cats.mp3')
 					->with('cat', $cat )
@@ -112,7 +113,7 @@ class CatController extends BaseController
 	{
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp4s = MP4::remember(120)->whereCategoryId( $cat->id )->paginate(10);
+		$mp4s = MP4::remember(120)->latest()->whereCategoryId( $cat->id )->paginate(10);
 
 		return View::make('cats.mp4')
 					->with('cat', $cat )
