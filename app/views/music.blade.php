@@ -13,9 +13,9 @@
 	@if( count( $mp3s ) > 0 )
 
 	<div class="row bg-black">
-		<h2 class="text-center">
+		<h2 class="text-center text-uppercase">
 		<i class="fa fa-music"></i>
-		Dènye Mizik
+		Mizik Resan
 		</h2>
 	</div>
 
@@ -31,7 +31,7 @@
 					  	<img
 							class="img-reponsive full-width lazy"
 							alt="{{ $mp3->name }}"
-							data-original="/uploads/images/thumbs/{{ $mp3->image }}">
+							data-original="{{ TKPM::asset($mp3->image, 'thumbs') }}">
 					</a>
 				  	<div class="caption text-center">
 				    	<h4><a href="/mp3/{{ $mp3->id }}">{{ $mp3->name }}</a></h4>

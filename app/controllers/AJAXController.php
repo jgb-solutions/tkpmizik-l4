@@ -51,9 +51,9 @@ class AJAXController extends BaseController
 
 		$mp3results = MP3::published()
 						->search($query)
-						->orderBy('play', 'desc')
 						->orderBy('download', 'desc')
-						->orderByRaw('RAND()') // get random rows from the DB
+						->orderBy('play', 'desc')
+						->rand() // get random rows from the DB
 						->take( 10 )
 						->get(['id', 'name', 'views', 'download', 'price']);
 
@@ -65,7 +65,7 @@ class AJAXController extends BaseController
 
 		$mp4results = MP4::search($query)
 						->orderBy('download', 'desc')
-						->orderByRaw('RAND()') // get random rows from the DB
+						->rand() // get random rows from the DB
 						->take(10)
 						->get(['id', 'views', 'name', 'download']);
 

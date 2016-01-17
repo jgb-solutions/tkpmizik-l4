@@ -32,4 +32,9 @@ class MP3 extends Eloquent
 	{
 		$query->wherePrice('paid');
 	}
+
+	public function scopeRand($query)
+	{
+		$query->orderByRaw('RAND()');
+	}
 }

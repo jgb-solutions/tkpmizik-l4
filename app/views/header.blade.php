@@ -11,6 +11,19 @@
 			&mdash; {{ Config::get('site.name') }}
 	</title>
 
+	{{-- RSS Feed --}}
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		href="{{ URL::to('/mp3/feed')}}"
+		title="MP3 RSS Feed {{ Config::get('site.name') }}">
+
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		href="{{ URL::to('/mp4/feed')}}"
+		title="MP4 RSS Feed {{ Config::get('site.name') }}">
+
 	<!-- SEO -->
 	@section('seo')
 
@@ -25,7 +38,7 @@
 	<meta property="og:description" content="{{ Config::get('site.description') }}" />
 	<meta property="og:url" content="{{ Config::get('site.url') }}" />
 	<meta property="fb:admins" content="504535793062337" />
-	<meta property="og:image" content="{{ Config::get('site.logo') }}" />
+	<meta property="og:image" content="{{ TKPM::asset(Config::get('site.logo')) }}" />
 	<meta property="og:site_name" content="{{ Config::get('site.name') }}" />
 
 	{{-- Twitter Graph --}}
@@ -34,7 +47,7 @@
 	<meta name="twitter:title" content="{{ Config::get('site.name') }} &mdash; {{ Config::get('site.description') }}"/>
 	<meta name="twitter:domain" content="{{ Config::get('site.name') }}"/>
 	<meta name="twitter:site" content="{{ Config::get('site.twitter') }}"/>
-	<meta name="twitter:image" content="{{ Config::get('site.logo') }}"/>
+	<meta name="twitter:image" content="{{ TKPM::asset(Config::get('site.logo')) }}"/>
 	<meta name="twitter:creator" content="{{ Config::get('site.twitter') }}"/>
 	{{-- /SEO --}}
 
@@ -51,7 +64,11 @@
 	<![endif]-->
 
 	{{-- Google Adsense --}}
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	@unless(App::isLocal())
+		<script
+			async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+		</script>
+	@endunless
 </head>
 <body>
 
@@ -67,15 +84,17 @@
 	<div class="col-sm-12" id="searchResultsDiv">
 		<p>@include('search-form')</p>
 
-		<table class="noMarginTopBottom noTextCenter table table-striped table-hover table-bordered table-condensed">
+		<table
+			class="noTextCenter table table-striped table-hover table-bordered
+			table-condensed">
 			<tbody id="searchResults">
 
-			@include('js-template.search-results-template')
+				@include('js-template.search-results-template')
 
 			</tbody>
 		</table>
 
-		{{-- <hr class="noMarginTopBottom"> --}}
+		{{-- <hr> --}}
 	</div>
 
 	{{-- Fist ad --}}

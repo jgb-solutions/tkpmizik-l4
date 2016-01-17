@@ -1,32 +1,35 @@
+@foreach ( $users as $user )
+
 <div class="col-sm-12">
-	<a href="/mp3/{{ $rel->id }}">
+	<a href="/user/{{ $user->id }}">
 		<div class="row box-shadow">
 			<div class="col-sm-4 col-xs-4">
 				<div class="row">
 					<img
-						data-original="{{ TKPM::asset($rel->image, 'thumbs') }}"
-				  		alt="{{ $rel->name }}"
-						class="img-responsive small-square lazy">
+				  		alt="{{ $user->name }}"
+						class="img-responsive small-square lazy"
+						data-original="{{ TKPM::asset($user->image, 'thumbs') }}">
 				</div>
 			</div>
 			<div class="col-sm-8 col-xs-8 right">
 				<h4 class="mTop6">
-					@if ( $rel->price == 'paid')
-					<i class="fa fa-money"></i>
+					{{ $user->name }}
+					@if ( $user->price == 'paid')
+					- <i class="fa fa-dollar"></i>
 					@endif
-					{{ $rel->name }}
 				</h4>
 				<p class="text-muted">
 		    		<i class="fa fa-eye"></i> Afichaj:
-		    		{{ $rel->views }} <br>
-		    		@if( $rel->price == 'free')
+		    		{{ $user->views }} <br>
+		    		@if( $user->price == 'free')
 		    		<i class="fa fa-headphones"></i> Ekout:
-		    		{{ $rel->play }} <br>
+		    		{{ $user->play }} <br>
 		    		@endif
 		    		<i class="fa fa-download"></i> Telechajman:
-		    		{{ $rel->download }}
+		    		{{ $user->download }}
 		    	</p>
 			</div>
 		</div>
 	</a>
 </div>
+@endforeach

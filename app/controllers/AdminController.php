@@ -52,7 +52,14 @@ class AdminController extends BaseController
 
 	public function get_mp4()
 	{
-		return 'admin mp4';
+		$mp4 = MP4::orderBy('created_at', 'desc')->paginate(10);
+		$mp4_count = User::count();
+		$title = 'Administrayon Videyo (' . $mp4_count . ')';
+
+		return View::make('admin.mp4.index')
+					->withTitle($title)
+					->withMp4s($mp4)
+					->withmp4Count($mp4_count);
 	}
 
 	public function get_users()
@@ -75,9 +82,10 @@ class AdminController extends BaseController
 			return $this->$fn($id);
 		}
 
-		$pages = Page::orderBy('created_at', 'desc')->paginate(10);
+		$pages = Page::latest()->paginate(10);
 
 		$pages_count = Page::count();
+
 		$title = 'Administrayon Paj (' . $pages_count . ')';
 
 		return View::make('admin.pages.index')

@@ -8,7 +8,7 @@
 					<img
 				  		alt="{{ $mp3->name }}"
 						class="img-responsive small-square lazy"
-						data-original="/uploads/images/thumbs/{{ $mp3->image }}">
+						data-original="{{ TKPM::asset($mp3->image, 'thumbs') }}">
 				</div>
 			</div>
 			<div class="col-sm-8 col-xs-8 right">

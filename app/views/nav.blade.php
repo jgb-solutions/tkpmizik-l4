@@ -8,8 +8,8 @@
 			<span class="icon-bar"></span>
 		</button>
 		<a class="navbar-brand" href="/" title="{{ Config::get('site.name') }}">
-			<img width="50" src="/images/logo.png" class="img-responsive hidden-xs" alt="{{ Config::get('site.name') }}">
-			<img class="logo-mizik" src="/images/logo-mizik.png" class="img-responsive visible-xs-block" alt="{{ Config::get('site.name') }}">
+			<img width="50" src="{{ TKPM::asset('images/logo.png') }}" class="img-responsive hidden-xs" alt="{{ Config::get('site.name') }}">
+			<img class="logo-mizik lazy" data-original="{{ TKPM::asset('images/logo-mizik.png') }}" class="img-responsive visible-xs-block" alt="{{ Config::get('site.name') }}">
 		</a>
 	</div>
 
@@ -87,19 +87,7 @@
 				</a>
 
 				<ul class="dropdown-menu">
-
-					<?php $cats = Category::remember(999, 'categories')->orderBy('name')->get(); ?>
-
-					@foreach( $cats as $cat )
-					<li>
-						<a
-							href="/cat/{{ $cat->slug }}">
-							<i class="fa fa-chevron-right"></i>
-							{{ $cat->name }}
-						</a>
-					</li>
-					@endforeach
-
+					@include('cats.list-cats', ['role' => 'nav'])
 				</ul>
 			</li>
 
@@ -200,7 +188,9 @@
 					<i class="fa fa-user"></i>
 					Koneksyon --|-- Kreye Kont</a>
 
-					@include('login.log-reg')
+					@if ( Auth::guest() )
+						@include('login.log-reg')
+					@endif
 
 				</li>
 

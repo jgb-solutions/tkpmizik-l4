@@ -8,7 +8,7 @@
 
 	if (Cache::has('top.users'))
 	{
-		$sliced_users = Cache::get('top.users');
+		$users = Cache::get('top.users');
 	} else
 	{
 		$users = User::all();
@@ -35,52 +35,10 @@
 
 		$reverse_users = $users->reverse();
 
-		$sliced_users = $reverse_users->slice(0, 10);
+		$users = $reverse_users->slice(0, 5);
 
-		Cache::put('top.users', $sliced_users, 120);
+		Cache::put('top.users', $users, 120);
 	}?>
 
-	@foreach ($sliced_users as $user)
-
-	@if ($user->totalcount > 0)
-
-		<a href="{{ $user->username ? '/@' . $user->username : '/u/' . $user->id }}" class="list-group-item">
-	  	 	<div class="row">
-	  	 		<div class="col-xs-4">
-
-	  	 			@if ($user->image)
-
-	  	 			<img
-	  	 				data-original="/{{ Config::get('site.image_upload_path') }}/thumbs/{{ $user->image }}"
-	  	 				class="pull-left img-thumbnail img-responsive lazy"
-	  	 			>
-	  	 			@else
-
-	  	 				<h3 class="list-group-item-heading">
-	  	 					<i class="fa fa-user"></i>
-	  	 				</h3>
-
-	  	 			@endif
-	  	 		</div>
-	  	 		<div class="col-xs-8">
-	    			<h4 class="list-group-item-heading">{{ $user->name }}</h4>
-	    			<p class="list-group-item-text">
-	    				gen {{ $user->mp3count }}
-	    				<span class="visible-xs-inline">
-	    					Mizik
-	    				</span>
-	    				<i class="fa fa-music"></i>
-	    				ak {{ $user->mp4count }}
-	    				<span class="visible-xs-inline">
-	    					Videyo
-	    				</span>
-	    				<i class="fa fa-video-camera"></i>
-	    			</p>
-	    		</div>
-	    	</div>
-	  	</a>
-
-	@endif
-
-	@endforeach
+	@include('users.list')
 </div>

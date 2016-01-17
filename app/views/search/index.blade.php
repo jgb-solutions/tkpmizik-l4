@@ -21,7 +21,9 @@
 
 		@else
 
-		<h2 class="text-center">Nou pa jwenn anyen pou: "{{ $query }}"</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">Nou pa jwenn anyen pou: "{{ $query }}"</h2>
+		</div>
 
 		@endif
 

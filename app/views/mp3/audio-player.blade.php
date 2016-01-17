@@ -1,16 +1,6 @@
-<div class="row audio-image" style="background-image:url('/uploads/images/thumbs/{{ $mp3->image }}')">
-{{-- 	<div class="col-sm-6 col-sm-push-6 hidden-xs text-center">
-
-	@if ( $mp3->image )
-
-		<img
-			src="/uploads/images/thumbs/{{ $mp3->image }}"
-			class="img-responsive img-thumbnail img-bordered"
-		>
-
-	@endif
-
-	</div> --}}
+<div
+	class="row audio-image"
+	style="background-image:url('{{ TKPM::asset($mp3->image, 'thumbs') }}')">
 
 	<div class="col-sm-12 audio-content">
 		<div class="ui360 ui360-vis">

@@ -9,7 +9,7 @@ return array(
 	'image_upload_path' => 'uploads/images',
 	'twitter'			=> 'tkpmizik',
 	'404img'			=> '/images/404.png',
-	'logo_img'			=> 'images/logo_tkp.jpg',
+	'logo'			=> 'images/logo_tkp.jpg',
 	'separator'			=> '--|--',
 	'email'				=> 'tkpmizik@gmail.com',
 

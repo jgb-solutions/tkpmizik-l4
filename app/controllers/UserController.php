@@ -2,6 +2,16 @@
 
 class UserController extends BaseController
 {
+	public function index()
+	{
+		$data = [
+			'users'	=> User::remember(60)->latest()->paginate(10),
+			'title'	=> 'Navige Tout Itilizatè Yo'
+		];
+
+		return View::make('users.index')->with($data);
+	}
+
 	public function getLogin()
 	{
 		if ( ! Auth::check() )
@@ -119,23 +129,33 @@ class UserController extends BaseController
 	public function getUser()
 	{
 		$user 				= Auth::user();
+		$key = '_profile_user_data_' . $user->id;
 
-		$data = [
-			'mp3s' 				=> $user->mp3s()->latest()->take(5)->get(),
-			'mp4s'				=> $user->mp4s()->latest()->take(5)->get(),
-			'mp3count' 			=> $user->mp3s()->count(),
-			'mp4count' 			=> $user->mp4s()->count(),
-			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
-			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
-			'mp3playcount' 		=> $user->mp3s()->sum('play'),
-			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
-			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
-			'bought_count' 		=> $user->bought()->count(),
-			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
-			'title'				=> 'Pwofil Ou',
-			'user'				=> $user,
-			'author'			=> $user->username ? '@' . $user->username . ' &mdash;' : $user->name . ' &mdash; '
-		];
+		if ( Cache::has($key))
+		{
+			$data = Cache::get($key);
+		} else
+		{
+			$data = [
+				'mp3s' 				=> $user->mp3s()->latest()->take(5)->get(),
+				'mp4s'				=> $user->mp4s()->latest()->take(5)->get(),
+				'mp3count' 			=> $user->mp3s()->count(),
+				'mp4count' 			=> $user->mp4s()->count(),
+				'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
+				'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
+				'mp3playcount' 		=> $user->mp3s()->sum('play'),
+				'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
+				'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+				'bought_count' 		=> $user->bought()->count(),
+				'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
+				'title'				=> 'Pwofil Ou',
+				'user'				=> $user,
+				'author'			=> $user->username ? '@' . $user->username . ' &mdash;' : $user->name . ' &mdash; '
+			];
+
+			Cache::put($key, $data, 5);
+
+		}
 
 		return View::make('user.profile')->with($data);
 	}
@@ -144,15 +164,18 @@ class UserController extends BaseController
 	{
 		$user = Auth::user();
 
+		$user_mp3s = $user->mp3s();
+		$user_mp4s = $user->mp4s();
+
 		$data = [
-			'mp3s' 				=> $user->mp3s()->latest()->paginate(10),
-			'mp3count' 			=> $user->mp3s()->count(),
-			'mp4count' 			=> $user->mp4s()->count(),
-			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
-			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
-			'mp3playcount' 		=> $user->mp3s()->sum('play'),
-			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
-			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'mp3s' 				=> $user->mp3s()->remember(5)->latest()->paginate(10),
+			'mp3count' 			=> $user_mp3s->count(),
+			'mp4count' 			=> $user_mp4s->count(),
+			'mp3ViewsCount' 	=> $user_mp3s->sum('views'),
+			'mp4ViewsCount'		=> $user_mp4s->sum('views'),
+			'mp3playcount' 		=> $user_mp3s->sum('play'),
+			'mp3downloadcount' 	=> $user_mp3s->sum('download'),
+			'mp4downloadcount' 	=> $user_mp4s->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
 			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
 			'title'				=> 'Navige Tout Mizik Ou Yo',
@@ -166,15 +189,18 @@ class UserController extends BaseController
 	{
 		$user = Auth::user();
 
+		$user_mp3s = $user->mp3s();
+		$user_mp4s = $user->mp4s();
+
 		$data = [
-			'mp4s' 				=> $user->mp4s()->latest()->paginate(10),
-			'mp3count' 			=> $user->mp3s()->count(),
-			'mp4count' 			=> $user->mp4s()->count(),
-			'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),
-			'mp4ViewsCount'		=> $user->mp4s()->sum('views'),
-			'mp3playcount' 		=> $user->mp3s()->sum('play'),
-			'mp3downloadcount' 	=> $user->mp3s()->sum('download'),
-			'mp4downloadcount' 	=> $user->mp4s()->sum('download'),
+			'mp4s' 				=> $user->mp4s()->remember(5)->latest()->paginate(10),
+			'mp3count' 			=> $user_mp3s->count(),
+			'mp4count' 			=> $user_mp4s->count(),
+			'mp3ViewsCount' 	=> $user_mp3s->sum('views'),
+			'mp4ViewsCount'		=> $user_mp4s->sum('views'),
+			'mp3playcount' 		=> $user_mp3s->sum('play'),
+			'mp3downloadcount' 	=> $user_mp3s->sum('download'),
+			'mp4downloadcount' 	=> $user_mp4s->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
 			'title'				=> 'Navige Tout Videyo Ou Yo',
 			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
@@ -298,8 +324,7 @@ class UserController extends BaseController
 
 		$user->save();
 
-		Cache::forget('public.user_' . $user->username);
-		Cache::forget('public.user_' . $user->id);
+		Cache::flush();
 
 		if ( Auth::user()->is_admin() )
 			return Redirect::to('/admin/users')
@@ -361,7 +386,7 @@ class UserController extends BaseController
 				'author'			=> $user->username ? '@' . $user->username . ' &mdash;' : $user->name . ' &mdash; '
 			];
 
-			Cache::put($key, $data, 120);
+			Cache::put($key, $data, 30);
 
 		}
 
@@ -460,9 +485,11 @@ class UserController extends BaseController
 
 		$user->delete();
 
+		Cache::flush();
+
 		$aff = '';
 
-		if ($del )
+		if ($del)
 		{
 			$aff = 'Mizik ak Videyo ou yo efase tou avèk siskè. Ou ka <a href="/register">kreye yon nouvo kont</a> nenpòt lè ou vle.';
 		}
@@ -493,8 +520,6 @@ class UserController extends BaseController
 			$mp3_ids[] = $bought_mp3->mp3_id;
 		}
 
-		return $mp3_ids;
-
 		if ($mp3_ids)
 		{
 			$mp3s = MP3::find($mp3_ids)->reverse();
@@ -507,7 +532,7 @@ class UserController extends BaseController
 		return View::make('user.bought-mp3')
 					->with('title', $title )
 					->with( 'mp3s', $mp3s )
-					->with( 'firstname', $firstname )
+					->with( 'first_name', $firstname )
 					->with( 'mp3count', $mp3count )
 					->with( 'mp4count', $mp4count )
 					->with( 'mp3playcount', $mp3playcount )

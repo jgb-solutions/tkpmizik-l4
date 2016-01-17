@@ -41,10 +41,10 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<p class="text-center text-uppercase">
 					&copy; 2012 - {{ date('Y') . ' ' . Config::get('site.name') }},
-					Tout Dwa Rezève.
+					Tout Dwa Rezève
 				</p>
 				<p class="text-center text-uppercase">
-					{{ Config::get('site.name') }} se yon konpayi Ti Kwen Pam.
+					{{ Config::get('site.name') }} se yon sèvis konpayi Ti Kwen Pam
 				</p>
 				<p class="text-center text-uppercase">
 					Dizay ak Kòd:

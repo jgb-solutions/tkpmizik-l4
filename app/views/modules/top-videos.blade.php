@@ -10,7 +10,7 @@
   					->latest('download')
 					->latest('vote_up')
 					->latest('views')
-					->take(10)
+					->take(5)
 					->get();
 	?>
 

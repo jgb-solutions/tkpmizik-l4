@@ -6,7 +6,7 @@
 
 	<div class="row bg-black">
 		<h2 class="text-center text-uppercase">
-			<i class="fa fa-video-camera"></i> Dènye Videyo
+			<i class="fa fa-video-camera"></i> Videyo Resan
 		</h2>
 	</div>
 	<hr>
@@ -15,7 +15,7 @@
 
 	@foreach ( $mp4s as $mp4 )
 
-		<div class="col-sm-6">
+		<div class="col-sm-4">
 			<div class="thumbnail noPadding4 maxHeight228">
 				<a href="/mp4/{{ $mp4->id }}">
 				  	<img

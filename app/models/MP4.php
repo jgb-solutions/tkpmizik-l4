@@ -22,4 +22,9 @@ class MP4 extends Eloquent
 	{
 		$query->where('name', 'like', "%$term%");
 	}
+
+	public function scopeRand($query)
+	{
+		$query->orderByRaw('RAND()');
+	}
 }

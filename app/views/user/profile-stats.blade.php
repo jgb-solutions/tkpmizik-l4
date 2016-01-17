@@ -2,15 +2,12 @@
 	<h2 class="text-center">
 
 		@if( $user->image )
-			@if ( Auth::check() )
-				<a href="/user">
-			@endif
+
+				<a href="{{ $user->username ? '/@' . $user->username : '/u/' . $user->id }}">
 				<img
-					class="img-responsive img-circle img-bordered img-centered"
-					src="/uploads/images/thumbs/{{ $user->image}}">
-			@if (Auth::check())
+					class="img-responsive img-circle img-bordered img-centered lazy"
+					data-original="{{ TKPM::asset($user->image, 'thumbs') }}">
 				</a>
-			@endif
 		@endif
 		<small>
 			{{ ucwords( $user->name ) }}<br>

@@ -54,7 +54,9 @@
 
 		@else
 
-		<h3 class="text-center">Poko gen mizik {{ $cat->name }}</h3>
+		<div class="row bg-black">
+			<h3 class="text-center">Poko gen mizik {{ $cat->name }}</h3>
+		</div>
 
 		@endif
 

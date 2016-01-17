@@ -17,4 +17,9 @@ class Category extends Eloquent
 	{
 		return $this->hasMany('MP4');
 	}
+
+	public function getTcountAttribute()
+	{
+		return $this->mp3s()->remember(120)->count() + $this->mp4s()->remember(120)->count();
+	}
 }

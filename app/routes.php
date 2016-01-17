@@ -4,6 +4,11 @@ Route::get('/', 'PageController@getIndex');
 Route::get('/p/{slug}', 'PageController@getPage');
 Route::get('/search', 'SearchController@getIndex');
 
+Route::get('/mp3/feed', 'FeedController@mp3');
+Route::get('/mp4/feed', 'FeedController@mp4');
+
+Route::get('users', 'UserController@index');
+
 Route::get('login', 'UserController@getLogin');
 Route::post('login', 'UserController@postLogin');
 Route::get('/logout', 'UserController@getLogout');
@@ -86,13 +91,3 @@ Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 
 	Route::controller('/', 'AdminController');
 });
-
-// Route::get('/form', function()
-// {
-// 	return View::make('test.form');
-// });
-
-// Route::post('/form', function()
-// {
-// 	return Input::all();
-// });

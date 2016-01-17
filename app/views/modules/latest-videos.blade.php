@@ -1,14 +1,13 @@
 <div class="list-group">
   	<a href="/mp4" class="list-group-item active">
-    	<h4><i class="fa fa-video-camera"></i> Dènye Videyo</h4>
+    	<h4><i class="fa fa-video-camera"></i> Videyo Resan</h4>
   	</a>
-  	<?php $mp4s = MP4::latest()->take(10)->get(); ?>
-  	<?php //$mp4s = MP4::remember(60, 'latest.videos')->latest()->take(10)->get(); ?>
+  	<?php $mp4s = MP4::remember(120)->latest()->take(5)->get(); ?>
 
-	@if ( $mp4s && count( $mp4s ) > 0 )
+	@if ($mp4s && count($mp4s))
 		<ul class="list-unstyled">
 
-			@foreach( $mp4s as $mp4 )
+			@foreach($mp4s as $mp4)
 
 			<strong>
 				<a class="list-group-item" href="/mp4/{{ $mp4->id }}">

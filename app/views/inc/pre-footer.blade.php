@@ -7,10 +7,10 @@
 </div>
 
 <div class="col-sm-4">
-	@include('modules.categories')
+	@include('modules.latest-users')
 </div>
 
-<div class="col-sm-12 bg-success padding1">
+<div class="col-sm-12 padding1">
 	<div class="row">
 
 		<div class="col-sm-4">

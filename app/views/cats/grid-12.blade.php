@@ -9,7 +9,7 @@
 						@if ( $type->type == 'mp4')
 						data-original="{{ $type->image }}"
 						@else
-						data-original="/uploads/images/thumbs/{{ $type->image }}"
+						data-original="{{ TKPM::asset($type->image, 'thumbs') }}"
 						@endif
 				  		alt="{{ $type->name }}"
 						class="img-responsive small-square lazy"

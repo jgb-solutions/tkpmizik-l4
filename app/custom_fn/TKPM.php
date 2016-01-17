@@ -180,6 +180,9 @@ class TKPM
 			if ($object->username)
 			{
 				$url = URL::to("/@{$object->username}");
+			} else
+			{
+				$url = URL::to("/u/$object->id");
 			}
 		}
 
@@ -226,17 +229,6 @@ class TKPM
 	}
 
 
-	// public function eventListener()
-	// {
-	// 	Event::listen('tweet_music', function( $mp3 )
-	// 	{
-	// 		//Auto-Post Tweet
-	//         Twitter::postTweet(array(
-	//         	'status' => $mp3->name . ' ' . Config::get('site.url') . '/mp3/' . $mp3->id,
-	//         	'format' => 'json'
-	//         ));
-	// 	});
-
 	// 	Event::listen('sendMail', function( $email )
 	// 	{
 	// 		$data['name'] 			= 'Ti Kwen Pam Mizik';
@@ -269,6 +261,28 @@ class TKPM
         	'status' => $status,
         	'format' => 'json'
         ]);
+	}
+
+	public static function asset($asset, $size = 'null')
+	{
+		$imgSize = [
+			'thumbs' 	=> 'uploads/images/thumbs/',
+			'show'  	=> 'uploads/images/show/',
+			'tiny' 		=> 'uploads/images/thumbs/tiny/',
+			'profile' 	=> 'uploads/images/thumbs/profile/',
+			'null'		=> '/'
+		];
+
+		$relativeUrl = $imgSize[$size] . $asset;
+
+		if (App::environment() === 'local')
+		{
+			return asset($relativeUrl);
+		}
+
+		$cdnUrl = 'http://tkpmizik.jgbcdn.ml';
+
+		return url($cdnUrl . $relativeUrl);
 	}
 
 }

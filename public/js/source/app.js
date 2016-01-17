@@ -327,5 +327,4 @@ $(function()
 	});
 
 	$("img.lazy").lazyload();
-
 });

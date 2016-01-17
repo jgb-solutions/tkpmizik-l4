@@ -9,8 +9,8 @@ class PageController extends BaseController
 		// 	return Cache::get('homepage');
 		// }
 
-		$mp3s = MP3::remember(120)->latest()->published()->take(6)->get();
-		$mp4s = MP4::remember(120)->latest()->take(4)->get();
+		$mp3s = MP3::remember(120)->latest()->published()->take(3)->get();
+		$mp4s = MP4::remember(120)->latest()->take(3)->get();
 
 		$data = ['mp3s', 'mp4s'];
 

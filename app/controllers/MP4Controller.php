@@ -76,7 +76,10 @@ class MP4Controller extends BaseController
 		$mp4->description 	= Input::get('description');
 		$mp4->save();
 
-		TKPM::tweet($mp4, 'mp4');
+		if (App::environment() == 'production')
+		{
+			TKPM::tweet($mp4, 'mp4');
+		}
 
 		return Redirect::to('mp4/' . $mp4->id );
 	}
