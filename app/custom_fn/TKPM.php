@@ -270,7 +270,7 @@ class TKPM
 			'show'  	=> 'uploads/images/show/',
 			'tiny' 		=> 'uploads/images/thumbs/tiny/',
 			'profile' 	=> 'uploads/images/thumbs/profile/',
-			'null'		=> '/'
+			'null'		=> ''
 		];
 
 		$relativeUrl = $imgSize[$size] . $asset;
@@ -280,7 +280,7 @@ class TKPM
 			return asset($relativeUrl);
 		}
 
-		$cdnUrl = 'http://tkpmizik.jgbcdn.ml';
+		$cdnUrl = 'http://tkpmizik.jgbcdn.ml/';
 
 		return url($cdnUrl . $relativeUrl);
 	}
