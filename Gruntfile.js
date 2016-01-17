@@ -27,6 +27,15 @@ module.exports = function(grunt)
 				files: {
 					'public/css/app.css': [
 						'public/css/lib/bootstrap.min.css',
+						'public/css/compile.min.css'
+					]
+				}
+			},
+
+			css_all: {
+				files: {
+					'public/css/all.css': [
+						'public/css/lib/bootstrap.min.css',
 						'public/css/lib/font-awesome.min.css',
 						'public/css/compile.min.css'
 					]
