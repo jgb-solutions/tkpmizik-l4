@@ -275,7 +275,7 @@ class TKPM
 
 		$relativeUrl = $imgSize[$size] . $asset;
 
-		if (App::environment() === 'local')
+		if (App::isLocal())
 		{
 			return asset($relativeUrl);
 		}
