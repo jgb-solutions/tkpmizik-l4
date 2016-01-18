@@ -109,7 +109,7 @@ class TKPM
         	$mp3_data['attached_picture'][0]['mime'] 			= $type;
         } else
         {
-	        $mp3_data['attached_picture'][0]['data']		 	= file_get_contents(Config::get('site.logo_img'));
+	        $mp3_data['attached_picture'][0]['data']		 	= file_get_contents(Config::get('site.logo'));
 	        $mp3_data['attached_picture'][0]['picturetypeid'] 	= "image/jpg";
 	        $mp3_data['attached_picture'][0]['mime'] 			= "image/jpg";
         }
