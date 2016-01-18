@@ -70,12 +70,6 @@ Route::any('ajax', 'AJAXController@postIndex');
 Route::get('/u/{id}', 'UserController@getUserPublic');
 Route::get('/@{username}', 'UserController@getUserName');
 
-Route::get('/tweet', function()
-{
-    return Twitter::postTweet(array('status' => Input::get('message'), 'format' => 'json'));
-    // return Twitter::getUserTimeline(array('screen_name' => 'tikwenpam', 'count' => 1, 'format' => 'json'));
-});
-
 Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 {
 	Route::get('cat', 'CatController@getCreate');

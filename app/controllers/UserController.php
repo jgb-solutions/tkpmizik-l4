@@ -97,14 +97,16 @@ class UserController extends BaseController
 		if ( Auth::attempt($credentials) )
 		{
 			// Send a welcome email to the new user registered
-			$data = [];
-			$data['u'] = $user;
-			$data['subject'] = 'Byenvini sou ' . Config::get('site.name');
+			$data = [
+				'user' => $user,
+				'subject' => 'Byenvini sou ' . Config::get('site.name')
+			];
 
-			TKPM::sendMail('emails.user.welcome', $data);
+			TKPM::sendMail('emails.user.welcome', $data, 'user');
 
 			// Welcoming the user for the first time in our app
-			$message = 'Byenvini, ' . TKPM::firstName( Auth::user()->name ) . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
+			$message = 'Byenvini, ' . TKPM::firstName(Auth::user()->name) . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
+
 			return Redirect::to( '/user' )
 							->withMessage($message);
 		} else

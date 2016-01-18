@@ -159,16 +159,19 @@ class TKPM
 	    readfile( $mp3name );
 	}
 
-	public static function sendMail($view, 	$data)
+	public static function sendMail($view, 	$data, $type)
 	{
-		Mail::queue($view, $data, function($m) use ($data)
+		if ($type == 'user')
 		{
-			$user = $data['u'];
+			Mail::queue($view, $data, function($m) use ($data)
+			{
+				extract($data);
 
-			$m->to($user->email, $user->name)
-				->subject($data['subject'])
-				->replyTo( Config::get('site.email') );
-		});
+				$m->to($user->email, $user->name)
+					->subject($data['subject'])
+					->replyTo(Config::get('site.email'));
+			});
+		}
 	}
 
 	public static function seo($object, $type, $author)
@@ -189,7 +192,12 @@ class TKPM
 		if ($type === 'mp3' || $type === 'mp4')
 		{
 			$url = URL::to("/$type/$object->id");
-			$image = $url == 'mp3' ? '/uploads/images/' : $object->image;
+			if ( $type === 'mp3')
+			{
+				$image = TKPM::asset($object->image, 'images');
+			} else {
+				$image = TKPM::asset($object->image);
+			}
 		}
 
 		if ($type === 'cat')
@@ -201,25 +209,16 @@ class TKPM
 
 	?>
 
-	<meta name="description" content="<?= $object->description ?>"/>
 	<link rel="canonical" href="<?= $url ?>" />
+	<meta name="description" content="<?= $object->description ?>"/>
 
 	<!-- Open Graph -->
 	<meta property="og:title" content="<?= $author ?> <?= $object->name ?>" />
 	<meta property="og:description" content="<?= $object->description ?>" />
 	<meta property="og:url" content="<?= $url ?>" />
-	<meta property="fb:admins" content="504535793062337" />
 	<meta property="og:image" content="<?= $image ?>" />
-	<meta property="og:site_name" content="<?= $object->name ?>" />
+	<!-- / Open Graph -->
 
-	<!-- Twitter Graph -->
-	<meta name="twitter:card" content="summary"/>
-	<meta name="twitter:description" content="<?= $object->description ?>"/>
-	<meta name="twitter:title" content="<?= ucwords($author) ?> <?= $object->name ?>"/>
-	<meta name="twitter:domain" content="<?= Config::get('site.url') ?>"/>
-	<meta name="twitter:site" content="<?= Config::get('site.twitter') ?>"/>
-	<meta name="twitter:image" content="<?= $image ?>"/>
-	<meta name="twitter:creator" content="<?= Config::get('site.twitter') ?>"/>
 
 	<?php }
 
@@ -227,22 +226,6 @@ class TKPM
 	{
 		return explode(' ', $name)[0];
 	}
-
-
-	// 	Event::listen('sendMail', function( $email )
-	// 	{
-	// 		$data['name'] 			= 'Ti Kwen Pam Mizik';
-	// 		$data['email'] 			= $email;
-	// 		$data['mailMessage'] 	= 'Message send from TKPMizik';
-
-	// 		Mail::queue('mail', $data, function( $message ) use ($data)
-	// 		{
-	// 			$message->to( Config::get('site.email'), Config::get('site.name') )
-	// 					->subject('Ou gen yon nouvo imel KG.')
-	// 					->replyTo( $data['email'] );
-	// 		});
-	// 	});
-	// }
 
 	public static function tweet($obj, $type)
 	{
@@ -267,6 +250,7 @@ class TKPM
 	{
 		$imgSize = [
 			'thumbs' 	=> 'uploads/images/thumbs/',
+			'images' 	=> 'uploads/images/',
 			'show'  	=> 'uploads/images/show/',
 			'tiny' 		=> 'uploads/images/thumbs/tiny/',
 			'profile' 	=> 'uploads/images/thumbs/profile/',
@@ -284,5 +268,20 @@ class TKPM
 
 		return url($cdnUrl . $relativeUrl);
 	}
+
+	// 	Event::listen('sendMail', function( $email )
+	// 	{
+	// 		$data['name'] 			= 'Ti Kwen Pam Mizik';
+	// 		$data['email'] 			= $email;
+	// 		$data['mailMessage'] 	= 'Message send from TKPMizik';
+
+	// 		Mail::queue('mail', $data, function( $message ) use ($data)
+	// 		{
+	// 			$message->to( Config::get('site.email'), Config::get('site.name') )
+	// 					->subject('Ou gen yon nouvo imel KG.')
+	// 					->replyTo( $data['email'] );
+	// 		});
+	// 	});
+	// }
 
 }

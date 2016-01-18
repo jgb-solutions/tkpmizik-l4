@@ -4,12 +4,15 @@ return array(
 
 	'name' 				=> 'Ti Kwen Pam Mizik',
 	'url'				=> $_ENV['SITE_URL'],
-	'description' 		=> 'Rezo Sosyal Mizik Ayisyen',
+	'description' 		=> 'Rezo Sosyal Mizik Ayisyen. Mete, Tande, Telechaje, Vann ak Achte Mizik. Mete, Gade ak Telechaje videyo YouTube.',
+	'slug' 		=> 'Rezo Sosyal Mizik Ayisyen',
 	'mp3_upload_path' 	=> 'uploads/mp3s',
 	'image_upload_path' => 'uploads/images',
 	'twitter'			=> 'tkpmizik',
+	'creator'			=> 'jgbneatdesign',
 	'404img'			=> '/images/404.png',
-	'logo'			=> 'images/logo_tkp.jpg',
+	'logo'				=> 'images/logo_tkp.jpg',
+	'logo_small'		=> 'images/logo.png',
 	'separator'			=> '--|--',
 	'email'				=> 'tkpmizik@gmail.com',
 

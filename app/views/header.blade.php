@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
 		@section('title')
-			{{ Config::get('site.description') }}
+			{{ Config::get('site.slug') }}
 		@show
 			&mdash; {{ Config::get('site.name') }}
 	</title>
@@ -24,35 +24,7 @@
 		href="{{ URL::to('/mp4/feed')}}"
 		title="MP4 RSS Feed {{ Config::get('site.name') }}">
 
-	<!-- SEO -->
-	@section('seo')
-
-	{{-- SEO --}}
-	<meta name="description" content="{{ Config::get('site.description') }}"/>
-	<link rel="canonical" href="{{ Config::get('site.url') }}" />
-
-	{{-- Open Graph --}}
-	<meta property="og:locale" content="ht_HT" />
-	<meta property="og:type" content="website" />
-	<meta property="og:title" content="{{ Config::get('site.name') }} &mdash; {{ Config::get('site.description') }}" />
-	<meta property="og:description" content="{{ Config::get('site.description') }}" />
-	<meta property="og:url" content="{{ Config::get('site.url') }}" />
-	<meta property="fb:admins" content="504535793062337" />
-	<meta property="og:image" content="{{ TKPM::asset(Config::get('site.logo')) }}" />
-	<meta property="og:site_name" content="{{ Config::get('site.name') }}" />
-
-	{{-- Twitter Graph --}}
-	<meta name="twitter:card" content="summary"/>
-	<meta name="twitter:description" content="{{ Config::get('site.description') }}"/>
-	<meta name="twitter:title" content="{{ Config::get('site.name') }} &mdash; {{ Config::get('site.description') }}"/>
-	<meta name="twitter:domain" content="{{ Config::get('site.name') }}"/>
-	<meta name="twitter:site" content="{{ Config::get('site.twitter') }}"/>
-	<meta name="twitter:image" content="{{ TKPM::asset(Config::get('site.logo')) }}"/>
-	<meta name="twitter:creator" content="{{ Config::get('site.twitter') }}"/>
-	{{-- /SEO --}}
-
-	@show
-	<!-- / SEO -->
+	@include('inc.seo')
 
 	@include('styles')
 
