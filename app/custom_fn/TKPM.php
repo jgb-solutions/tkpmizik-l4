@@ -178,7 +178,8 @@ class TKPM
 	{
 		if ($type === 'user')
 		{
-			$image = URL::to("/uploads/images/{$object->image}");
+			// $image = URL::to("/uploads/images/{$object->image}");
+			$image = TKPM::asset($object->image, 'images');
 
 			if ($object->username)
 			{
@@ -219,6 +220,8 @@ class TKPM
 	<meta property="og:image" content="<?= $image ?>" />
 	<!-- / Open Graph -->
 
+	<!-- Twitter description -->
+	<meta name="twitter:text:description" content="<?= $object->description ?>">
 
 	<?php }
 
