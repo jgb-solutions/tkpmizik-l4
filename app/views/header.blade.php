@@ -71,7 +71,9 @@
 
 	{{-- Fist ad --}}
 	<hr>
-	@include('inc.ads.top')
+	<div class="col-sm-12">
+		@include('inc.ads.top')
+	</div>
 	<hr>
 
 	@show

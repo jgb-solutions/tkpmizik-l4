@@ -10,7 +10,7 @@
 		class="fb-xfbml-parse-ignore">
 		<blockquote
 			cite="https://www.facebook.com/Ti-Kwen-Pam-Mizik-864492540316543/">
-				<a href="https://www.facebook.com/Ti-Kwen-Pam-Mizik-864492540316543/">Ti Kwen Pam</a>
+				<a href="https://www.facebook.com/Ti-Kwen-Pam-Mizik-864492540316543/">Ti Kwen Pam Mizik</a>
 		</blockquote>
 	</div>
 </div>
