@@ -1,4 +1,4 @@
-<script src="{{ TKPM::asset('js/app.js') }}"></script>
+<script async src="{{ TKPM::asset('js/app.js') }}"></script>
 
 {{-- Facebook Page Plugin --}}
 <div id="fb-root"></div>
