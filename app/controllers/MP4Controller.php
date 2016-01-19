@@ -202,7 +202,7 @@ class MP4Controller extends BaseController
 
 					Cache::flush();
 
-					if ( Auth::user()->is_admin() ) return Redirect::to('/admin');
+					if ( Auth::user()->is_admin() ) return Redirect::to('/admin/mp4');
 
 					return Redirect::to('/mp4');
 				} else

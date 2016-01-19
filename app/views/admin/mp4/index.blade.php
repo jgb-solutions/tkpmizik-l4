@@ -14,15 +14,10 @@
 		<h1 class="text-center"><i class="fa fa-music"></i> {{ $title }}</h1>
 	</div>
 	<hr>
-	<div class="row">
+	@include('admin.modules.videos')
 
-		<div class="col-sm-6 col-sm-offset-3">
-			@include('admin.modules.videos')
-
-			<div class="text-center">
-				{{ $mp4s->links() }}
-			</div>
-		</div>
+	<div class="text-center">
+		{{ $mp4s->links() }}
 	</div>
 </div>
 
