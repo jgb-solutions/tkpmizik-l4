@@ -1,5 +1,5 @@
 <!-- Twitter Graph -->
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@{{{ Config::get('site.twitter') }}}" />
 <meta name="twitter:creator" content="@{{{ Config::get('site.creator') }}}" />
 <!-- /Twitter Graph -->
