@@ -2,7 +2,7 @@
 
 	@include('inc.ads.bottom')
 
-	@if( count( $mp4s ) > 0 )
+	@if( count($mp4s ) )
 
 	<div class="row bg-black">
 		<h2 class="text-center text-uppercase">

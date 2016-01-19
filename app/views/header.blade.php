@@ -36,11 +36,11 @@
 	<![endif]-->
 
 	{{-- Google Adsense --}}
-	@unless(App::isLocal())
+	{{-- @unless(App::isLocal()) --}}
 		<script
 			async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
 		</script>
-	@endunless
+	{{-- @endunless --}}
 </head>
 <body>
 
@@ -70,10 +70,9 @@
 	</div>
 
 	{{-- Fist ad --}}
-	<hr>
 	<div class="col-sm-12">
 		@include('inc.ads.top')
+		<hr>
 	</div>
-	<hr>
 
 	@show
