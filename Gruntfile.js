@@ -54,18 +54,6 @@ module.exports = function(grunt)
 						'public/js/source/app.js',
 					]
 				}
-			},
-
-			backbone: {
-				files: {
-					'public/js/lib/backbone.min.js': 'public/js/lib/backbone.js'
-				}
-			},
-
-			underscore: {
-				files: {
-					'public/js/lib/underscore.min.js': 'public/js/lib/underscore.js'
-				}
 			}
 		},
 

@@ -15,8 +15,8 @@ return array(
 	*/
 
 	'mailgun' => array(
-		'domain' => '',
-		'secret' => '',
+		'domain' => 'mg.mizik.tikwenpam.net',
+		'secret' => 'key-4e1e9a23b6321cd1ca8551b710e799b6',
 	),
 
 	'mandrill' => array(
