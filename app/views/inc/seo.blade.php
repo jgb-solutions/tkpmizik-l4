@@ -16,7 +16,7 @@
 
 <!-- Open Graph -->
 <meta property="og:url" content="{{ Config::get('site.url') }}" />
-<meta property="og:title" content="{{ Config::get('site.name') . ' &mdash; ' . Config::get('site.description') }}" />
+<meta property="og:title" content="{{ Config::get('site.name') . ' &mdash; ' . Config::get('site.slug') }}" />
 <meta property="og:description" content="{{ Config::get('site.description') }}" />
 <meta property="og:image" content="{{ TKPM::asset(Config::get('site.logo')) }}" />
 <!-- / Open Graph -->
