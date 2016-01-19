@@ -29,7 +29,7 @@
 
 	<div class="row bg-black">
 		<h2 class="text-center">
-			{{ $mp3->name }}
+			{{ $mp3->name }} <small>({{ $mp3->size }})</small>
 			<br>
 			<small>
 				<span class="views_count" data-obj="MP3" data-id="{{ $mp3->id }}">{{ $mp3->views }}</span>
