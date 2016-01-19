@@ -40,8 +40,8 @@ class AdminController extends BaseController
 
 	public function get_mp3()
 	{
-		$mp3 = MP3::orderBy('created_at', 'desc')->paginate(30);
-		$mp3_count = User::count();
+		$mp3 = MP3::remember(120)->latest()->paginate(30);
+		$mp3_count = MP3::remember(120)->count();
 		$title = 'Administrayon Mizik (' . $mp3_count . ')';
 
 		return View::make('admin.mp3.index')
@@ -52,8 +52,8 @@ class AdminController extends BaseController
 
 	public function get_mp4()
 	{
-		$mp4 = MP4::orderBy('created_at', 'desc')->paginate(30);
-		$mp4_count = User::count();
+		$mp4 = MP4::remember(120)->latest()->paginate(30);
+		$mp4_count = MP3::remember(120)->count();
 		$title = 'Administrayon Videyo (' . $mp4_count . ')';
 
 		return View::make('admin.mp4.index')
