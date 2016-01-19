@@ -4,6 +4,7 @@
 <meta name="twitter:creator" content="@{{{ Config::get('site.creator') }}}" />
 <!-- /Twitter Graph -->
 <meta property="fb:admins" content="{{ Config::get('site.fb_admin')}}" />
+<meta property="fb:app_id" content="{{ Config::get('site.fb_id')}}" />
 <meta property="og:locale" content="ht_HT" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ Config::get('site.name') }}" />
