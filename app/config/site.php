@@ -9,7 +9,7 @@ return array(
 	'mp3_upload_path' 	=> 'uploads/mp3s',
 	'image_upload_path' => 'uploads/images',
 	'twitter'			=> 'tkpmizik',
-	'creator'			=> 'jgbneatdesign',
+	'creator'			=> 'tikwenpam',
 	'404img'			=> '/images/404.png',
 	'logo'				=> 'images/logo_tkp.jpg',
 	'logo_small'		=> 'images/logo.png',
