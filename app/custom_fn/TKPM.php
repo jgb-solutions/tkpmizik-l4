@@ -197,7 +197,7 @@ class TKPM
 			{
 				$image = TKPM::asset($object->image, 'images');
 			} else {
-				$image = TKPM::asset($object->image);
+				$image = $object->image;
 			}
 		}
 
