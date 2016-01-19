@@ -4,7 +4,7 @@ return array(
 
 	'name' 				=> 'Ti Kwen Pam Mizik',
 	'url'				=> $_ENV['SITE_URL'],
-	'description' 		=> 'Rezo Sosyal Mizik Ayisyen. Mete, Tande, Telechaje, Vann ak Achte Mizik. Mete, Gade ak Telechaje videyo YouTube.',
+	'description' 		=> 'Mete, Tande, Telechaje, Vann ak Achte Mizik. Mete, Gade ak Telechaje videyo YouTube.',
 	'slug' 		=> 'Rezo Sosyal Mizik Ayisyen',
 	'mp3_upload_path' 	=> 'uploads/mp3s',
 	'image_upload_path' => 'uploads/images',
