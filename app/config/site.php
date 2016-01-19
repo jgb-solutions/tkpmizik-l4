@@ -15,6 +15,7 @@ return array(
 	'logo_small'		=> 'images/logo.png',
 	'separator'			=> '--|--',
 	'email'				=> 'tkpmizik@gmail.com',
+	'fb_admin'			=> '100000416938471'
 
 	'validate'			=> [
 		'name'		=> [

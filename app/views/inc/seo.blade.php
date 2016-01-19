@@ -3,7 +3,7 @@
 <meta name="twitter:site" content="@{{{ Config::get('site.twitter') }}}" />
 <meta name="twitter:creator" content="@{{{ Config::get('site.creator') }}}" />
 <!-- /Twitter Graph -->
-<meta property="fb:admins" content="504535793062337" />
+<meta property="fb:admins" content="{{ Config::get('site.fb_admin')}}" />
 <meta property="og:locale" content="ht_HT" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ Config::get('site.name') }}" />
