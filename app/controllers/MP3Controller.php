@@ -199,7 +199,7 @@ class MP3Controller extends BaseController
 							->where('id', '!=', $mp3->id)
 							->published()
 							->orderByRaw('RAND()') // get random rows from the DB
-							->take( 3 )
+							->take(6)
 							// ->toSql();
 							->get(['id', 'name', 'image', 'play', 'download', 'views']);
 			// return $related;
@@ -497,7 +497,7 @@ class MP3Controller extends BaseController
 							->where('id', '!=', $mp3->id)
 							->published()
 							->orderByRaw('RAND()') // get random rows from the DB
-							->take(3)
+							->take(6)
 							->get(['id', 'name', 'image', 'play', 'download', 'views']);
 
 			$data['author'] = $mp3->user->name . ' &mdash; ';
