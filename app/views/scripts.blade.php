@@ -1,4 +1,4 @@
-<script async src="{{ TKPM::asset('js/appp.js') }}"></script>
+<script async src="{{ TKPM::asset('js/app.js') }}"></script>
 
 @unless ( App::isLocal() )
 
