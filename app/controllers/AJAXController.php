@@ -22,23 +22,19 @@ class AJAXController extends BaseController
 		return $this->$fn($id, $obj, $query);
 	}
 
-	private function views_count( $id, $obj )
+	private function vpd_count($id, $o)
 	{
-		$obj = $obj::find( $id );
+		$obj = $o::find($id);
 		$obj->views += 1;
 		$obj->save();
 
-		return $obj->views;
-	}
+		$data = [
+			'views' 	=> $obj->views,
+			'download' 	=> $obj->download,
+			'play'		=> $o == 'MP3' ? $obj->play : ''
+		];
 
-	private function play_count($id, $obj)
-	{
-		return $obj::find($id)->play;
-	}
-
-	private function download_count($id, $obj)
-	{
-		return $obj::find($id)->download;
+		return $data;
 	}
 
 	private function search($id, $obj, $query)

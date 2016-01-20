@@ -86,27 +86,35 @@ class MP4Controller extends BaseController
 
 	public function show($id)
 	{
-		$mp4 = MP4::find($id);
+		$key = '_mp4_show_' . $id;
 
-		$mp4->views += 1;
-		$mp4->save();
+		if (Cache::has($key))
+		{
+			$data = Cache::get($key);
+			return View::make('mp4.show')->with($data);
+		}
 
-		$related = MP4::whereCategoryId($mp4->category_id)
-						->where('id', '!=', $mp4->id)
-						->orderByRaw('RAND()') // get random rows from the DB
-						// ->orderBy('id', true)
-						->take( 3 )
-						// ->toSql();
+		$mp4 = MP4::with('user', 'category')->findOrFail($id);
+
+		// $mp4->views += 1;
+		// $mp4->save();
+
+		$related = MP4::related($mp4)
 						->get(['id', 'name', 'image', 'download', 'views']);
 		// return $related;
 
 		$author = $mp4->user->username ? '@' . $mp4->user->username . ' &mdash;' : $mp4->user->name . ' &mdash; ';
 
-		return View::make('mp4.show')
-			    ->withMp4($mp4)
-			    ->withTitle($mp4->name)
-			    ->withRelated($related)
-			    ->withAuthor($author);
+		$data = [
+			'mp4' => $mp4,
+			'title' => $mp4->name,
+			'related' => $related,
+			'author' => $author
+		];
+
+		Cache::put($key, $data, 120);
+
+		return View::make('mp4.show')->with($data);
 	}
 
 	public function edit($id)

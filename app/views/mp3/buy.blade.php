@@ -98,7 +98,6 @@
 	</form>
 	@endif
 
-
   	@if ( Auth::check() )
   	<hr>
 	<div class="btn-group btn-group-lg">

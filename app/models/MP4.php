@@ -27,4 +27,12 @@ class MP4 extends Eloquent
 	{
 		$query->orderByRaw('RAND()');
 	}
+
+	public function scopeRelated($query, $obj, $nb_rows = 6)
+	{
+		$query->whereCategoryId($obj->category_id)
+				->where('id', '!=', $obj->id)
+				->orderByRaw('RAND()') // get random rows from the DB
+				->take($nb_rows);
+	}
 }

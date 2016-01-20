@@ -2,12 +2,12 @@
 
 class TKPM
 {
-	public static function vote( $obj, $obj_id, $vote_up, $vote_down )
+	public static function vote($obj, $obj_id, $vote_up, $vote_down)
 	{
-		$btn1 = 'default';
-		$disabled1 = '';
-		$btn2 = 'default';
-		$disabled2 = '';
+		$btn1 		= 'default';
+		$disabled1 	= '';
+		$btn2 		= 'default';
+		$disabled2 	= '';
 
 		if ( Auth::check() )
 		{

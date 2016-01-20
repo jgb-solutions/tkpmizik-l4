@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'mizik@tikwenpam.net', 'name' => Config::get('site.name')),
+	'from' => ['address' => $_ENV['MAIL_FROM'], 'name' => Config::get('site.name')],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'tkpmizik@gmail.com',
+	'username' => $_ENV['MAIL_USERNAME'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'tkp898989',
+	'password' => $_ENV['MAIL_PASS'],
 
 	/*
 	|--------------------------------------------------------------------------

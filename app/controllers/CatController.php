@@ -55,13 +55,13 @@ class CatController extends BaseController
 
 	public function getShow($slug)
 	{
-		$type = Input::get('type');
+		// $type = Input::get('type');
 
-		if ( isset( $type ) && ! empty( $type ) )
-		{
-			$fn = 'cat' . $type;
-			return $this->$fn($slug);
-		}
+		// if ( isset( $type ) && ! empty( $type ) )
+		// {
+		// 	$fn = 'cat' . $type;
+		// 	return $this->$fn($slug);
+		// }
 
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 

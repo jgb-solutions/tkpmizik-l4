@@ -169,54 +169,52 @@ class MP3Controller extends BaseController
 
 	public function show($id)
 	{
-		$mp3 = MP3::find($id);
+		$key = '_mp3_show_' . $id;
 
-		if ($mp3)
+		if (Cache::has($key))
 		{
-			if ( $mp3->price == 'paid' && $mp3->publish )
-			{
-				return Redirect::to("/mp3/buy/{$mp3->id}");
-			}
-
-			if ( $mp3->price == 'paid' && ! $mp3->publish )
-			{
-				if ( ! Auth::check() )
-				{
-					return Redirect::to('/404');
-				}
-
-				if ( Auth::check() && Auth::user()->id == $mp3->user_id )
-				{
-					return Redirect::to("/mp3/{$mp3->id}/edit");
-				}
-
-			}
-
-			$mp3->views += 1;
-			$mp3->save();
-
-			$related = MP3::remember(120)->whereCategoryId($mp3->category_id)
-							->where('id', '!=', $mp3->id)
-							->published()
-							->orderByRaw('RAND()') // get random rows from the DB
-							->take(6)
-							// ->toSql();
-							->get(['id', 'name', 'image', 'play', 'download', 'views']);
-			// return $related;
-
-			$author = $mp3->user->username ? '@' . $mp3->user->username . ' &mdash;' : $mp3->user->name . ' &mdash; ';
-
-			$data = [
-				'mp3' 		=> $mp3,
-				'title'		=> $mp3->name,
-				'related'	=> $related,
-				'author'	=> $author
-			];
-
+			$data = Cache::get($key);
 			return View::make('mp3.show')->with($data);
 		}
 
-		return Redirect::to('/404');
+		$mp3 = MP3::with('user', 'category')->findOrFail($id);
+
+		if ( $mp3->price == 'paid' && $mp3->publish )
+		{
+			return Redirect::to("/mp3/buy/{$mp3->id}");
+		}
+
+		if ( $mp3->price == 'paid' && ! $mp3->publish )
+		{
+			if ( ! Auth::check() )
+			{
+				return Redirect::to('/404');
+			}
+
+			if ( Auth::check() && Auth::user()->id == $mp3->user_id )
+			{
+				return Redirect::to("/mp3/{$mp3->id}/edit");
+			}
+		}
+
+		// $mp3->views += 1;
+		// $mp3->save();
+
+		$related = MP3::remember(120)->related($mp3)
+						->get(['id', 'name', 'image', 'play', 'download', 'views']);
+		// return $related;
+
+		$author = $mp3->user->username ? '@' . $mp3->user->username . ' &mdash;' : $mp3->user->name . ' &mdash; ';
+
+		$data = [
+			'mp3' 		=> $mp3,
+			'title'		=> $mp3->name,
+			'related'	=> $related,
+			'author'	=> $author
+		];
+
+		Cache::put($key, $data, 120);
+		return View::make('mp3.show')->with($data);
 	}
 
 	public function edit($id)
@@ -473,41 +471,42 @@ class MP3Controller extends BaseController
 
 	public function getBuy($id)
 	{
-		$mp3 = MP3::published()
-				->paid()
-				->whereId($id)
-				->first();
+		$key = '_mp3_buy_' . $id;
 
-		if ($mp3)
+		if (Cache::has($key))
 		{
-			$mp3->views += 1;
-			$mp3->save();
-
-			$data = [];
-			$data['bought'] = '';
-
-			if ( Auth::check() )
-			{
-				$user = Auth::user();
-
-				$data['bought'] = $user->bought()->whereMp3Id($mp3->id)->first();
-			}
-
-			$data['related'] = MP3::remember(120)->whereCategoryId($mp3->category_id)
-							->where('id', '!=', $mp3->id)
-							->published()
-							->orderByRaw('RAND()') // get random rows from the DB
-							->take(6)
-							->get(['id', 'name', 'image', 'play', 'download', 'views']);
-
-			$data['author'] = $mp3->user->name . ' &mdash; ';
-			$data['title'] = "Achte $mp3->name";
-			$data['mp3']	= $mp3;
-
+			$data = Cache::get($key);
 			return View::make('mp3.buy')->with($data);
 		}
 
-		return Redirect::to('/404');
+		$mp3 = MP3::with('user', 'category')
+				->published()
+				->paid()
+				->findOrFail($id);
+
+		// $mp3->views += 1;
+		// $mp3->save();
+
+		$data = [];
+		$data['bought'] = '';
+
+		if ( Auth::check() )
+		{
+			$user = Auth::user();
+
+			$data['bought'] = $user->bought()->whereMp3Id($mp3->id)->first();
+		}
+
+		$data['related'] = MP3::remember(120)->related($mp3)
+						->get(['id', 'name', 'image', 'play', 'download', 'views']);
+
+		$data['author'] = $mp3->user->name . ' &mdash; ';
+		$data['title'] = "Achte $mp3->name";
+		$data['mp3']	= $mp3;
+
+		Cache::put($key, $data, 120);
+
+		return View::make('mp3.buy')->with($data);
 	}
 
 	public function postBuy($id)

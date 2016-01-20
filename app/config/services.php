@@ -15,8 +15,8 @@ return array(
 	*/
 
 	'mailgun' => array(
-		'domain' => 'mg.mizik.tikwenpam.net',
-		'secret' => 'key-4e1e9a23b6321cd1ca8551b710e799b6',
+		'domain' => $_ENV['MAILGUN_DOMAIN'],
+		'secret' => $_ENV['MAILGUN_KEY'],
 	),
 
 	'mandrill' => array(

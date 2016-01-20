@@ -18,56 +18,28 @@ function form_category_check()
 			$newSlug = $newSlug.replace( $reg, $odd[1] );
 		});
 
-		$slug.val(  $newSlug );
+		$slug.val( $newSlug );
 
 	});
 }
 
-function views_count()
+function views_play_download_count()
 {
 	$spanView = $('span.views_count');
+	$spanPlay = $('span.play_count');
+	$spanDownload = $('span.download_count');
 
 	param = {
 		id: $spanView.data('id'),
 		obj: $spanView.data('obj'),
-		fn: 'views_count'
+		fn: 'vpd_count'
 	};
 
 	$.post('/ajax', param, function( data )
 	{
-		$spanView.text( data );
-	});
-}
-
-function play_count()
-{
-	$spanPlay = $('span.play_count');
-
-	param = {
-		id: $spanPlay.data('id'),
-		obj: $spanPlay.data('obj'),
-		fn: 'play_count'
-	};
-
-	$.post('/ajax', param, function( data )
-	{
-		$spanPlay.text( data );
-	});
-}
-
-function download_count()
-{
-	$spanDownload = $('span.download_count');
-
-	param = {
-		id: $spanDownload.data('id'),
-		obj: $spanDownload.data('obj'),
-		fn: 'download_count'
-	};
-
-	$.post('/ajax', param, function( data )
-	{
-		$spanDownload.text( data );
+		$spanView.text( data.views );
+		if ( data.play !== '' ) $spanPlay.text( data.play );
+		$spanDownload.text( data.download );
 	});
 }
 
@@ -232,9 +204,7 @@ $(function()
 	new app.views.SearchViews();
 
 	/********** Views Count, Play Count & Download Count ********/
-	// views_count();
-	// play_count();
-	// download_count();
+	views_play_download_count();
 
 	vote();
 

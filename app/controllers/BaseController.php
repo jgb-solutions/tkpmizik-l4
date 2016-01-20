@@ -15,4 +15,8 @@ class BaseController extends Controller {
 		}
 	}
 
+	// public function __construct()
+	// {
+	// 	View::share('c_user', Auth::user());
+	// }
 }
