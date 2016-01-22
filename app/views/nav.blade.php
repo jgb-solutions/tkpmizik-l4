@@ -9,7 +9,7 @@
 		</button>
 		<a class="navbar-brand" href="/" title="{{ Config::get('site.name') }}">
 			<img width="50" src="{{ TKPM::asset('images/logo.png') }}" class="img-responsive hidden-xs" alt="{{ Config::get('site.name') }}">
-			<img class="logo-mizik lazy" data-original="{{ TKPM::asset('images/logo-mizik.png') }}" class="img-responsive visible-xs-block" alt="{{ Config::get('site.name') }}">
+			<img class="logo-mizik lazy" src="{{ TKPM::asset('images/logo-mizik.png') }}" class="img-responsive visible-xs-block" alt="{{ Config::get('site.name') }}">
 		</a>
 	</div>
 

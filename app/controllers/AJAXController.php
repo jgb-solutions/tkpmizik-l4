@@ -22,7 +22,7 @@ class AJAXController extends BaseController
 		return $this->$fn($id, $obj, $query);
 	}
 
-	private function vpd_count($id, $o)
+	private function vpd_count($id, $o, $action = null)
 	{
 		$obj = $o::find($id);
 		$obj->views += 1;

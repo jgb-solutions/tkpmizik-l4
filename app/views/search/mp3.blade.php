@@ -4,11 +4,13 @@
 
 	<div class="col-sm-8">
 
-		@if( count( $mp3s ) > 0 )
+		@if( count($mp3s) )
 
-		<h2 class="text-center">
-			Nou jwenn {{ $mp3s->count() }} Mizik pou: "{{ $query }}"
-		</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">
+				Nou jwenn {{ $mp3s->count() }} Mizik pou: "{{ $query }}"
+			</h2>
+		</div>
 		<hr>
 
 		@include('mp3.grid-12')

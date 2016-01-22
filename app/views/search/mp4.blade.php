@@ -4,9 +4,15 @@
 
 	<div class="col-sm-8">
 
-		@if( count( $results ) > 0 )
+		@if( count($mp4s) )
 
-		<h2 class="text-center">Nou jwenn {{ $results->count() }} Videyo pou: "{{ $query }}"</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">
+				Nou jwenn {{ $mp4s->count() }} Videyo pou: "{{ $query }}"
+			</h2>
+		</div>
+
+		<hr>
 
 		@include('mp4.grid-12')
 
@@ -17,7 +23,7 @@
 		@endif
 
 		<div class="text-center">
-			{{ $results->links() }}
+			{{ $mp4s->links() }}
 		</div>
 
 

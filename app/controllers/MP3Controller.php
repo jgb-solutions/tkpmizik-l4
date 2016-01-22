@@ -25,8 +25,6 @@ class MP3Controller extends BaseController
 
 	public function store()
 	{
-		Cache::flush();
-
 		$rules = [
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
@@ -58,6 +56,23 @@ class MP3Controller extends BaseController
 			}
 
 			return Redirect::to('/mp3/up')->withErrors( $validator )->withInput();
+		}
+
+		$storedMP3 = MP3::whereName(Input::get('name'))->first();
+
+		if ($storedMP3)
+		{
+			if ( Request::ajax() )
+	        {
+	        	$response = [];
+
+	        	$response['success']  = true;
+	        	$response['url'] = $storedMP3->price == 'paid' ? "/mp3/{$storedMP3->id}/edit" : "/mp3/{$storedMP3->id}";
+
+	        	return $response;
+	        }
+
+			return Redirect::to("mp3/{$storedMP3->id}");
 		}
 
 
@@ -124,6 +139,30 @@ class MP3Controller extends BaseController
 
 			/*********** GETID3 **************/
 			TKPM::tag($mp3, $imagename, $img_type);
+
+			/******* Flush the cache ********/
+			Cache::flush();
+
+			if ($mp3->price == 'paid')
+			{
+				// Send a  email to the new user letting them know their music has been uploaded
+				$data = [
+					'mp3' 		=> $mp3,
+					'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik pou vann.'
+				];
+
+				TKPM::sendMail('emails.user.buy', $data, 'mp3');
+			} else
+			{
+				// Send a  email to the new user letting them know their music has been uploaded
+				$data = [
+					'mp3' 		=> $mp3,
+					'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
+				];
+
+				TKPM::sendMail('emails.user.mp3', $data, 'mp3');
+			}
+
 
 			if ( App::environment() == 'production')
 			{

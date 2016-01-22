@@ -4,6 +4,12 @@
 // 	var_dump($query);
 // });
 
+// Route::get('/mails', function()
+// {
+// 	$data = ['user' => User::first()];
+// 	return View::make('emails.user.welcome')->with($data);
+// });
+
 Route::get('/', 'PageController@getIndex');
 Route::get('/p/{slug}', 'PageController@getPage');
 Route::get('/search', 'SearchController@getIndex');

@@ -107,7 +107,7 @@ class UserController extends BaseController
 			// Welcoming the user for the first time in our app
 			$message = 'Byenvini, ' . TKPM::firstName(Auth::user()->name) . '! <small>Ajoute yon <a href="/user/edit">foto pwofil</a></small>';
 
-			return Redirect::to( '/user' )
+			return Redirect::to('/user')
 							->withMessage($message);
 		} else
 		{

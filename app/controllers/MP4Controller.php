@@ -62,6 +62,23 @@ class MP4Controller extends BaseController
 							->withMessage( Config::get('site.message.youtube-failed'));
 		}
 
+		$storedMP4 = MP4::whereName(Input::get('name'))->first();
+
+		if ($storedMP4)
+		{
+			if ( Request::ajax() )
+	        {
+	        	$response = [];
+
+	        	$response['success']  = true;
+	        	$response['url'] = "/mp4/{$storedMP3->id}";
+
+	        	return $response;
+	        }
+
+			return Redirect::to("mp4/{$storedMP4->id}");
+		}
+
 		// Check if there's a user logged in. If not, use the admin ID.
 		$admin_id = User::whereAdmin(1)->first()->id;
 		$user_id = ( Auth::check() ) ? Auth::user()->id : $admin_id;
@@ -80,6 +97,14 @@ class MP4Controller extends BaseController
 		{
 			TKPM::tweet($mp4, 'mp4');
 		}
+
+		// Send a  email to the new user letting them know their video has been uploaded
+		$data = [
+			'mp4' 		=> $mp4,
+			'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo videyo'
+		];
+
+		TKPM::sendMail('emails.user.mp4', $data, 'mp4');
 
 		return Redirect::to('mp4/' . $mp4->id );
 	}

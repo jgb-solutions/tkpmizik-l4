@@ -161,17 +161,37 @@ class TKPM
 
 	public static function sendMail($view, 	$data, $type)
 	{
-		if ($type == 'user')
+		Mail::queue($view, $data, function($m) use ($data, $type)
 		{
-			Mail::queue($view, $data, function($m) use ($data)
-			{
-				extract($data);
+			extract($data);
 
-				$m->to($user->email, $user->name)
-					->subject($data['subject'])
-					->replyTo(Config::get('site.email'));
-			});
-		}
+			switch ($type)
+			{
+				case 'user':
+					$email = $user->email;
+					$name = $user->name;
+				break;
+
+				case 'mp3':
+					$email = $mp3->user->email;
+					$name = $mp3->name;
+				break;
+
+				case 'mp4':
+					$email = $mp4->user->email;
+					$name = $mp4->name;
+				break;
+
+				case 'buy':
+					$email = $mp3->user->email;
+					$name = $mp3->name;
+				break;
+			}
+
+			$m->to($email, $name)
+				->subject($data['subject'])
+				->replyTo(Config::get('site.email'));
+		});
 	}
 
 	public static function seo($object, $type, $author)
