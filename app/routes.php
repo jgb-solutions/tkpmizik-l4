@@ -6,8 +6,8 @@
 
 // Route::get('/mails', function()
 // {
-// 	$data = ['user' => User::first()];
-// 	return View::make('emails.user.welcome')->with($data);
+// 	$data = ['mp4' => MP4::first()];
+// 	return View::make('emails.user.guest4')->with($data);
 // });
 
 Route::get('/', 'PageController@getIndex');

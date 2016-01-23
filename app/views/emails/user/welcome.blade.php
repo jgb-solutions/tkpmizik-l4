@@ -6,7 +6,7 @@
 	<ul>
 		<li>Ou ka modifye <a href="{{Config::get('site.url')}}/mp3/up">mizik</a> ak <a href="{{Config::get('site.url')}}/mp4/up">videyo</a> ou mete yo.</li>
 		<li>Ou ka efase <a href="{{Config::get('site.url')}}/mp3/up">mizik</a> ak <a href="{{Config::get('site.url')}}/mp4/up">videyo</a> ou mete yo.</li>
-		<li>Ou ka <a href="{{Config::get('site.url')}}/mp3/buy">vann mizik</a> ou si w vle.</li>
+		<li>Ou ka <a href="{{Config::get('site.url')}}/mp3/buy">achte ak vann mizik</a> ou si w vle.</li>
 		<li>Ou ka vote <a href="{{Config::get('site.url')}}/mp3">mizik</a> ak <a href="{{Config::get('site.url')}}/mp4">videyo</a> pa w oubyen pa lòt moun.</li>
 		<li>W'ap jwenn lyen <a href="{{Config::get('site.url')}}/user/mp3">mizik</a> ak <a href="{{Config::get('site.url')}}/user/mp4">videyo</a> ou mete yo sou imel ou.</li>
 		<li>Ak lòt mesaj enpòtan nou gen pou kominike w lè sa nesesè.</li>

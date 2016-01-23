@@ -178,8 +178,7 @@ class AdminController extends BaseController
 		$page->content = $content;
 		$page->save();
 
-		Cache::forget('page_' . $slug);
-		Cache::forget('pages');
+		Cache::flush();
 
 		return Redirect::to('/admin/pages');
 	}

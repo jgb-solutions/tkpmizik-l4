@@ -27,6 +27,21 @@
 				@include('inc.free-paid')
 			@endif
 
+			@if ( Auth::guest() )
+			<div class="form-group">
+				<label for="email" class="col-sm-4 control-label">Ki Imel Ou?</label>
+				<div class="col-sm-8">
+					<input required
+						type="email"
+						name="email"
+						class="form-control"
+						id="name"
+						placeholder="Antre Imel Ou"
+						value="{{ Input::old('email') }}" >
+				</div>
+			</div>
+			@endif
+
 			<div class="form-group">
 				<label for="name" class="col-sm-4 control-label">Mete Non Mizik la</label>
 				<div class="col-sm-8">

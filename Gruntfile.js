@@ -4,21 +4,30 @@ module.exports = function(grunt)
 	{
 		jshint: [
 			'Gruntfile.js',
-			'public/js/source/bb-search.js',
-			'public/js/source/app.js'
+			'app/assets/js/source/bb-search.js',
+			'app/assets/js/source/contact.js',
+			'app/assets/js/source/app.js'
 		],
+
+		less: {
+			compile: {
+				files: {
+					'app/assets/css/source/style.css': 'app/assets/css/source/style.less'
+				}
+			}
+		},
 
 		concat: {
 			js: {
 				files: {
 					'public/js/app.min.js': [
-						'public/js/lib/jquery.min.js',
-						'public/js/lib/jquery.form.min.js',
-						'public/js/lib/bootstrap.min.js',
-						'public/js/lib/underscore.min.js',
-						'public/js/lib/backbone.min.js',
-						'public/js/lib/jquery.lazyload.min.js',
-						'public/js/compile.min.js'
+						'app/assets/js/lib/jquery.min.js',
+						'app/assets/js/lib/jquery.form.min.js',
+						'app/assets/js/lib/bootstrap.min.js',
+						'app/assets/js/lib/underscore.min.js',
+						'app/assets/js/lib/backbone.min.js',
+						'app/assets/js/lib/jquery.lazyload.min.js',
+						'app/assets/js/compile.min.js'
 					]
 				}
 			},
@@ -26,8 +35,8 @@ module.exports = function(grunt)
 			css: {
 				files: {
 					'public/css/app.css': [
-						'public/css/lib/bootstrap.min.css',
-						'public/css/compile.min.css'
+						'app/assets/css/lib/bootstrap.min.css',
+						'app/assets/css/compile.min.css'
 					]
 				}
 			},
@@ -35,9 +44,9 @@ module.exports = function(grunt)
 			css_all: {
 				files: {
 					'public/css/all.css': [
-						'public/css/lib/bootstrap.min.css',
-						'public/css/lib/font-awesome.min.css',
-						'public/css/compile.min.css'
+						'app/assets/css/lib/bootstrap.min.css',
+						'app/assets/css/lib/font-awesome.min.css',
+						'app/assets/css/compile.min.css'
 					]
 				}
 			}
@@ -46,12 +55,12 @@ module.exports = function(grunt)
 		uglify: {
 			js: {
 				files: {
-					'public/js/compile.min.js': [
-						'public/js/lib/berniecode-animator.js',
-						'public/js/lib/soundmanager2.js',
-						'public/js/lib/360player.js',
-						'public/js/source/bb-search.js',
-						'public/js/source/app.js',
+					'app/assets/js/compile.min.js': [
+						'app/assets/js/lib/berniecode-animator.js',
+						'app/assets/js/lib/soundmanager2.js',
+						'app/assets/js/lib/360player.js',
+						'app/assets/js/source/bb-search.js',
+						'app/assets/js/source/app.js',
 					]
 				}
 			}
@@ -60,28 +69,27 @@ module.exports = function(grunt)
 		cssmin: {
 			css: {
 				files: {
-					'public/css/compile.min.css': [
-						'public/css/lib/360player.css',
-						'public/css/lib/360player-visualization.css',
-						'public/css/source/style.css'
+					'app/assets/css/compile.min.css': [
+						'app/assets/css/lib/360player.css',
+						'app/assets/css/lib/360player-visualization.css',
+						'app/assets/css/source/style.css'
 					]
 				}
 			}
 		},
 
 		watch: {
-			files: ['public/js/source/*.js', 'public/css/source/*.css'],
-			tasks: ['jshint', 'uglify', 'cssmin', 'concat']
+			files: ['app/assets/js/source/*.js', 'app/assets/css/source/*.less'],
+			tasks: ['less', 'jshint', 'uglify', 'cssmin', 'concat']
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	//grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	//grunt.loadNpmTasks('grunt-uncss');
 
-	grunt.registerTask( 'default', ['jshint', 'uglify', 'cssmin', 'concat'] );
+	grunt.registerTask( 'default', ['jshint', 'less', 'uglify', 'cssmin', 'concat'] );
 };

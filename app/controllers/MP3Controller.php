@@ -25,10 +25,15 @@ class MP3Controller extends BaseController
 
 	public function store()
 	{
+		// return Input::all();
+
+		$emailRule = Auth::guest() ? 'required' : '';
+
 		$rules = [
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
-			'image' => 'required|image'
+			'image' => 'required|image',
+			'email'	=> $emailRule
 		];
 
 		$messages = [
@@ -38,7 +43,8 @@ class MP3Controller extends BaseController
 			'mp3.mimes' 		=> Config::get('site.validate.mp3.mimes'),
 			'mp3.size' 			=> Config::get('site.validate.mp3.size'),
 			'image.required' 	=> Config::get('site.validate.image.required'),
-			'image.image'		=> Config::get('site.validate.image.image')
+			'image.image'		=> Config::get('site.validate.image.image'),
+			'email.required' 	=> Config::get('site.validate.email.required'),
 		];
 
 		$validator = Validator::make( Input::all(), $rules, $messages );
@@ -152,7 +158,21 @@ class MP3Controller extends BaseController
 				];
 
 				TKPM::sendMail('emails.user.buy', $data, 'mp3');
-			} else
+			}
+
+			elseif ( Auth::guest() && Input::has('email') )
+			{
+				$mp3->userEmail = Input::get('email');
+
+				$data = [
+					'mp3' 		=> $mp3,
+					'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
+				];
+
+				TKPM::sendMail('emails.user.guest3', $data, 'guest3');
+			}
+
+			else
 			{
 				// Send a  email to the new user letting them know their music has been uploaded
 				$data = [

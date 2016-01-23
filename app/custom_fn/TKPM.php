@@ -72,7 +72,7 @@ class TKPM
 	{
 	    $sizes = [' B', ' KB', ' MB'];
 
-	    $total = count( $sizes ) - 1 ;
+	    $total = count($sizes) - 1 ;
 
 	    for ($i = 0; $size > 1024 && $i < $total; $i++)
 	    {
@@ -186,6 +186,16 @@ class TKPM
 					$email = $mp3->user->email;
 					$name = $mp3->name;
 				break;
+
+				case 'guest3':
+					$email = $mp3->userEmail;
+					$name = 'Envite';
+				break;
+
+				case 'guest4':
+					$email = $mp4->userEmail;
+					$name = 'Envite';
+				break;
 			}
 
 			$m->to($email, $name)
@@ -291,20 +301,4 @@ class TKPM
 
 		return url($cdnUrl . $relativeUrl);
 	}
-
-	// 	Event::listen('sendMail', function( $email )
-	// 	{
-	// 		$data['name'] 			= 'Ti Kwen Pam Mizik';
-	// 		$data['email'] 			= $email;
-	// 		$data['mailMessage'] 	= 'Message send from TKPMizik';
-
-	// 		Mail::queue('mail', $data, function( $message ) use ($data)
-	// 		{
-	// 			$message->to( Config::get('site.email'), Config::get('site.name') )
-	// 					->subject('Ou gen yon nouvo imel KG.')
-	// 					->replyTo( $data['email'] );
-	// 		});
-	// 	});
-	// }
-
 }

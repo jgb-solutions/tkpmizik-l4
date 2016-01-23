@@ -24,11 +24,14 @@ class MP4Controller extends BaseController
 
 	public function store()
 	{
-		Cache::flush();
 		// return Input::all();
+
+		$emailRule = Auth::guest() ? 'required' : '';
+
 		$rules = [
 			'name' 	=> 'required|min:6',
 			'url' 	=> 'required|url|min:11',
+			'email'	=> $emailRule
 		];
 
 		$messages = [
@@ -36,7 +39,8 @@ class MP4Controller extends BaseController
 			'name.min'			=> Config::get('site.validate.name.min'),
 			'url.required'		=> Config::get('site.validate.url.required'),
 			'url.url'			=> Config::get('site.validate.url.url'),
-			'url.min'			=> Config::get('site.validate.url.min')
+			'url.min'			=> Config::get('site.validate.url.min'),
+			'email.required' 	=> Config::get('site.validate.email.required')
 		];
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
@@ -98,13 +102,31 @@ class MP4Controller extends BaseController
 			TKPM::tweet($mp4, 'mp4');
 		}
 
-		// Send a  email to the new user letting them know their video has been uploaded
-		$data = [
-			'mp4' 		=> $mp4,
-			'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo videyo'
-		];
+		if ( Auth::guest() && Input::has('email') )
+		{
+			$mp4->userEmail = Input::get('email');
 
-		TKPM::sendMail('emails.user.mp4', $data, 'mp4');
+			$data = [
+				'mp4' 		=> $mp4,
+				'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
+			];
+
+			TKPM::sendMail('emails.user.guest4', $data, 'guest4');
+		}
+
+		else
+		{
+			// Send a  email to the new user letting them know their video has been uploaded
+			$data = [
+				'mp4' 		=> $mp4,
+				'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo videyo'
+			];
+
+			TKPM::sendMail('emails.user.mp4', $data, 'mp4');
+		}
+
+
+		Cache::flush();
 
 		return Redirect::to('mp4/' . $mp4->id );
 	}
