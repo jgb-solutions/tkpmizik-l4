@@ -73,6 +73,8 @@ Route::any('ajax', 'AJAXController@postIndex');
 
 Route::get('/u/{id}', 'UserController@getUserPublic');
 Route::get('/@{username}', 'UserController@getUserName');
+Route::get('/@{username}/mp3', 'UserController@getUserMP3s');
+Route::get('/@{username}/mp4', 'UserController@getUserMP4s');
 
 Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 {

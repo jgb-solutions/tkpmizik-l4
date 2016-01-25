@@ -162,12 +162,30 @@ class UserController extends BaseController
 		return View::make('user.profile')->with($data);
 	}
 
-	public function getUserMP3s()
+	public function getUserMP3s($username = null)
 	{
-		$user = Auth::user();
+		if ( isset($username) )
+		{
+			$u = User::byUsername($username)->first();
+			if ($u)
+			{
+				$user = $u;
+			} else {
+				return Redirect::to('/404');
+			}
+		}
+		else
+		{
+			$user = Auth::user();
+		}
 
 		$user_mp3s = $user->mp3s();
 		$user_mp4s = $user->mp4s();
+
+		$first_name = ucwords( TKPM::firstName($user->name) );
+		$title = 'Navige Tout Mizik ';
+		$title .= Auth::check() ? 'Ou ' :  $first_name;
+		$title .= ' Yo';
 
 		$data = [
 			'mp3s' 				=> $user->mp3s()->remember(5)->latest()->paginate(10),
@@ -179,20 +197,38 @@ class UserController extends BaseController
 			'mp3downloadcount' 	=> $user_mp3s->sum('download'),
 			'mp4downloadcount' 	=> $user_mp4s->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
-			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
-			'title'				=> 'Navige Tout Mizik Ou Yo',
+			'first_name' 		=> $first_name,
+			'title'				=> $title,
 			'user'				=> $user
 		];
 
 		return View::make('user.mp3')->with($data);
 	}
 
-	public function getUserMP4s()
+	public function getUserMP4s($username = null)
 	{
-		$user = Auth::user();
+		if ( isset($username) )
+		{
+			$u = User::byUsername($username)->first();
+			if ($u)
+			{
+				$user = $u;
+			} else {
+				return Redirect::to('/404');
+			}
+		}
+		else
+		{
+			$user = Auth::user();
+		}
 
 		$user_mp3s = $user->mp3s();
 		$user_mp4s = $user->mp4s();
+
+		$first_name = ucwords( TKPM::firstName($user->name) );
+		$title = 'Navige Tout Mizik ';
+		$title .= Auth::check() ? 'Ou ' :  $first_name;
+		$title .= ' Yo';
 
 		$data = [
 			'mp4s' 				=> $user->mp4s()->remember(5)->latest()->paginate(10),
@@ -204,8 +240,8 @@ class UserController extends BaseController
 			'mp3downloadcount' 	=> $user_mp3s->sum('download'),
 			'mp4downloadcount' 	=> $user_mp4s->sum('download'),
 			'bought_count' 		=> $user->bought()->count(),
-			'title'				=> 'Navige Tout Videyo Ou Yo',
-			'first_name' 		=> ucwords( TKPM::firstName($user->name) ),
+			'title'				=> $title,
+			'first_name' 		=> $first_name,
 			'user'				=> $user
 		];
 
@@ -372,8 +408,8 @@ class UserController extends BaseController
 		} else
 		{
 			$data = [
-				'mp3s' 				=> $user->mp3s()->published()->latest()->get(),
-				'mp4s'				=> $user->mp4s()->latest()->get(),
+				'mp3s' 				=> $user->mp3s()->published()->latest()->take(10)->get(),
+				'mp4s'				=> $user->mp4s()->latest()->take(10)->get(),
 				'mp3count' 			=> $user->mp3s()->count(),
 				'mp4count' 			=> $user->mp4s()->count(),
 				'mp3ViewsCount' 	=> $user->mp3s()->sum('views'),

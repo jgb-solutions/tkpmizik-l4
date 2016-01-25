@@ -57,6 +57,13 @@
 
 	@include('mp3.grid-12')
 
+	<p class="text-center">
+		<a href="{{ $user->username ? '/@' . $user->username : '/u/' . $user->id }}/mp3" class="btn btn-primary btn-lg">
+			<i class="fa fa-music"></i>
+			Tout Mizik {{ $first_name }} Yo
+		</a>
+	</p>
+
 	@else
 
 		<div class="row bg-black">
@@ -85,6 +92,13 @@
 		<hr>
 
 		@include('mp4.grid-12')
+
+		<p class="text-center">
+			<a href="{{ $user->username ? '/@' . $user->username : '/u/' . $user->id }}/mp4" class="btn btn-primary btn-lg">
+				<i class="fa fa-video-camera"></i>
+				Tout Videyo {{ $first_name }} Yo
+			</a>
+		</p>
 
 	@else
 		&nbsp;<hr>

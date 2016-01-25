@@ -64,4 +64,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return Auth::user()->id == $mp3Id;
 	}
+
+	public function scopeByUsername($query, $username)
+	{
+		$query->where('username', $username);
+	}
 }
