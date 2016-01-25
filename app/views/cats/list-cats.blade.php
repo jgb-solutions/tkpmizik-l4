@@ -1,5 +1,3 @@
-<?php $cats = Category::remember(999, 'categories')->orderBy('name')->get(); ?>
-
 @if ($role == 'nav')
 	@foreach($cats as $cat)
 

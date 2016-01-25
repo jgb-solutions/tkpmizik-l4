@@ -17,6 +17,7 @@
 </div>
 
 <div class="col-sm-8 col-sm-offset-2">
+	@include('inc.errors')
 
 	<div class="row">
 		<div class="col-sm-6">

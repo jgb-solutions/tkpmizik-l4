@@ -4,12 +4,6 @@
 // 	var_dump($query);
 // });
 
-// Route::get('/mails', function()
-// {
-// 	$data = ['mp4' => MP4::first()];
-// 	return View::make('emails.user.guest4')->with($data);
-// });
-
 Route::get('/', 'PageController@getIndex');
 Route::get('/p/{slug}', 'PageController@getPage');
 Route::get('/search', 'SearchController@getIndex');

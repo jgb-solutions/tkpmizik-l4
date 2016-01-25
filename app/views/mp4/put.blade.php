@@ -49,7 +49,11 @@
 		<div class="form-group">
 			<label for="description" class="control-label col-sm-4">Deskripsyon</label>
 			<div class="col-sm-8">
-				<textarea name="description" id="description" class="form-control">{{ $mp4->description }}</textarea>
+				<textarea
+					name="description"
+					id="description"
+					class="form-control"
+					placeholder="Bay kèk enfòmasyon sou videyo w la">{{ $mp4->description }}</textarea>
 			</div>
 		</div>
 

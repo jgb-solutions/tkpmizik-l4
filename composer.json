@@ -20,6 +20,8 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
 			"app/custom_fn",
+			"app/Providers",
+			"app/Composers",
 			"vendor/james-heinrich/getid3/getid3/write.php"
 		]
 	},

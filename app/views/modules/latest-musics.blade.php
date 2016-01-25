@@ -3,8 +3,6 @@
     	<h4><i class="fa fa-music"></i> Mizik Resan</h4>
   	</a>
 
-  	<?php $mp3s = MP3::remember(120)->latest()->take(5)->get(); ?>
-
 	@if ($mp3s && count($mp3s) )
 		<ul class="list-unstyled">
 

@@ -3,8 +3,6 @@
     	<h4><i class="fa fa-user"></i> Itilizatè Resan</h4>
   	</a>
 
-  	<?php $users = User::remember(120)->latest()->take(5)->get(); ?>
-
 	@if ($users && count($users) )
 		<ul class="list-unstyled">
 

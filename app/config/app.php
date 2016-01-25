@@ -122,7 +122,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'Thujohn\Twitter\TwitterServiceProvider'
+		'Thujohn\Twitter\TwitterServiceProvider',
+		'App\Providers\TKPMServiceProvider'
 
 	),
 

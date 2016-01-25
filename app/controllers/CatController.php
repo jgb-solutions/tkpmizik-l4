@@ -11,11 +11,12 @@ class CatController extends BaseController
 	{
 		if ( Auth::check() && User::is_Admin() )
 		{
-			$categories = Category::orderBy('name')->get();
+			$data = [
+				'categories' => Category::orderBy('name')->get(),
+				'title' => 'Kreye Yon Nouvo Kategori'
+			];
 
-			return View::make('cats.create')
-						->with('categories', $categories )
-						->with('title', 'Kreye Yon Nouvo Kategori');
+			return View::make('cats.create', $data);
 		}
 
 		return Redirect::to('/login')
@@ -39,59 +40,49 @@ class CatController extends BaseController
 							->withErrors( $validator );
 		}
 
-		$name = Input::get('name');
-		$slug = Str::slug( Input::get('slug', '-') );
+		Category::create([
+			'name' => Input::get('name'),
+			'slug' => Str::slug( Input::get('slug', '-') )
+		]);
 
-		$category 		= new Category;
-		$category->name = $name;
-		$category->slug = $slug;
-		$category->save();
-
-		Cache::forget('categories');
+		Cache::flush();
 
 		return Redirect::to('/admin/cat');
-
 	}
 
 	public function getShow($slug)
 	{
-		// $type = Input::get('type');
-
-		// if ( isset( $type ) && ! empty( $type ) )
-		// {
-		// 	$fn = 'cat' . $type;
-		// 	return $this->$fn($slug);
-		// }
-
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 
 		if ($cat)
 		{
-			$mp3s = MP3::remember(120)->published()->latest()->whereCategoryId($cat->id)->take(20)->get();
-			$mp4s = MP4::remember(120)->latest()->whereCategoryId($cat->id)->take(20)->get();
+			$mp3s = $cat->mp3s()->remember(120)->published()->latest()->take(20)->get();
+			$mp4s = $cat->mp4s()->remember(120)->latest()->take(20)->get();
 
-			$mp3s->each( function( $mp3 )
+			$mp3s->each( function($mp3)
 			{
 				$mp3->type = 'mp3';
 				$mp3->icon = 'music';
 			});
 
-			$mp4s->each( function( $mp4 )
+			$mp4s->each( function($mp4)
 			{
 				$mp4->type = 'mp4';
 				$mp4->icon = 'facetime-video';
 			});
 
-			$results = $mp3s->merge( $mp4s );
-			$results = $results->shuffle();
+			$merged = $mp3s->merge($mp4s);
 
-			return View::make('cats.show')
-						->with('results', $results )
-						->with('cat', $cat )
-						->with('title', "Navige Tout $cat->name Yo" )
-						->with('mp3count', $mp3s->count() )
-						->with('mp4count', $mp4s->count() )
-						->withAuthor('');
+			$data = [
+				'results' => $merged->shuffle(),
+				'cat' => $cat,
+				'title' => "Navige Tout $cat->name Yo",
+				'mp3count' => $mp3s->count(),
+				'mp4count' => $mp4s->count(),
+				'author' => ''
+			];
+
+			return View::make('cats.show', $data);
 		}
 
 		return Redirect::to('/');
@@ -101,56 +92,76 @@ class CatController extends BaseController
 	{
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp3s = MP3::remember(120)->published()->latest()->whereCategoryId($cat->id)->paginate(10);
+		$data = [
+			'cat' 	=> $cat,
+			'mp3s' 	=> $cat->mp3s()->remember(120)->published()->latest()->paginate(10),
+			'title' => $cat->name
+		];
 
-		return View::make('cats.mp3')
-					->with('cat', $cat )
-					->with('mp3s', $mp3s )
-					->with('title', $cat->name );
+		return View::make('cats.mp3', $data);
 	}
 
 	public function catMP4($slug)
 	{
 		$cat = Category::remember(120)->whereSlug($slug)->first();
 
-		$mp4s = MP4::remember(120)->latest()->whereCategoryId( $cat->id )->paginate(10);
+		$data = [
+			'cat' 	=> $cat,
+			'mp4s' 	=> $cat->mp4s()->remember(120)->latest()->paginate(10),
+			'title' => $cat->name
+		];
 
-		return View::make('cats.mp4')
-					->with('cat', $cat )
-					->with('mp4s', $mp4s )
-					->with('title', $cat->name );
+		return View::make('cats.mp4', $data);
 	}
 
 	public function getEdit($id)
 	{
-		$category 	= Category::find($id);
-		$categories = Category::orderBy('name')->get();
-		return View::make('cats.edit')
-						->with('category', $category )
-						->with('categories', $categories )
-						->with('title', 'Modifye Kategori ' . $category->name );
+		$category 	= Category::findOrFail($id);
+
+		$data = [
+			'category' 	 => $category,
+			'categories' => Category::orderBy('name')->get(),
+			'title' 	 => 'Modifye Kategori ' . $category->name
+		];
+
+		return View::make('cats.edit', $data);
 	}
 
 	public function putEdit()
 	{
-		$category = Category::find( Input::get('id') );
+		$id = Input::get('id');
+
+		$rules = ['name' => 'required', 'slug' => 'required'];
+
+		$messages = [
+			'name.required' => Config::get('site.validate.name.required'),
+			'slug.required' => Config::get('site.validate.slug.required')
+		];
+
+		$validator = Validator::make( Input::all(), $rules, $messages );
+
+		if ( $validator->fails() )
+		{
+			return Redirect::to('/admin/cat/edit/' . $id)
+							->withErrors($validator);
+		}
+
+		$category = Category::findOrFail($id);
 
 		$category->name = Input::get('name');
 		$category->slug = Str::slug( Input::get('slug'), '-');
 		$category->save();
 
-		Cache::forget('categories');
+		Cache::flush();
 
-		return Redirect::to('/cat/create');
+		return Redirect::to('/admin/cat');
 	}
 
 	public function getDelete($id)
 	{
-		Cache::flush();
-
 		Category::find($id)->delete();
 
-		Cache::forget('categories');
+		Cache::flush();
 
 		return Redirect::back();
 	}

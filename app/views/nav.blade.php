@@ -102,7 +102,6 @@
 				</a>
 
 				<ul class="dropdown-menu">
-					<?php $pages = Page::remember(999, 'pages')->get(); ?>
 
 					@foreach ($pages as $page)
 					<li>
@@ -121,8 +120,6 @@
 
 		<ul class="nav navbar-nav navbar-right">
 			@if ( Auth::check() )
-				<?php $user = Auth::user(); ?>
-
 				<li class="dropdown">
 					<a
 						href="#"
@@ -131,7 +128,7 @@
 					>
 
 					<i class="fa fa-user"></i>
-					Alo, {{ $user->name }} <b class="caret"></b></a>
+					Alo, {{ $cUser->name }} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="/user">
@@ -164,7 +161,7 @@
 							</a>
 						</li>
 
-						@if ( $user->is_admin() )
+						@if ( $cUser->is_admin() )
 						<li>
 							<a href="/admin">
 								<i class="fa fa-bar-chart-o"></i>
@@ -196,5 +193,5 @@
 
 			@endif
 		</ul>
-	</div><!-- /.navbar-collapse -->
+	</div>
 </nav>

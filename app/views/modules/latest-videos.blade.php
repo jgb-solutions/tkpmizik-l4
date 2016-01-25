@@ -2,7 +2,6 @@
   	<a href="/mp4" class="list-group-item active">
     	<h4><i class="fa fa-video-camera"></i> Videyo Resan</h4>
   	</a>
-  	<?php $mp4s = MP4::remember(120)->latest()->take(5)->get(); ?>
 
 	@if ($mp4s && count($mp4s))
 		<ul class="list-unstyled">

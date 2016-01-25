@@ -5,15 +5,6 @@
     	</h4>
   	</li>
 
-  	<?php
-  		$mp4s = MP4::remember(120, 'top.videos')
-  					->latest('download')
-					->latest('vote_up')
-					->latest('views')
-					->take(5)
-					->get();
-	?>
-
 	@if ( $mp4s && count($mp4s) > 0 )
 
 		@foreach($mp4s as $mp4)

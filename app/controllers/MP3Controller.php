@@ -9,7 +9,7 @@ class MP3Controller extends BaseController
 			'title'	=> 'Navige Tout Mizik Yo'
 		];
 
-		return View::make('mp3.index')->with($data);
+		return View::make('mp3.index', $data);
 	}
 
 	public function listBuy()
@@ -19,7 +19,7 @@ class MP3Controller extends BaseController
 			'title'	=> 'Mizik Pou Vann'
 		];
 
-		return View::make('mp3.list-buy')->with($data);
+		return View::make('mp3.list-buy', $data);
 
 	}
 
@@ -233,7 +233,7 @@ class MP3Controller extends BaseController
 		if (Cache::has($key))
 		{
 			$data = Cache::get($key);
-			return View::make('mp3.show')->with($data);
+			return View::make('mp3.show', $data);
 		}
 
 		$mp3 = MP3::with('user', 'category')->findOrFail($id);
@@ -273,7 +273,8 @@ class MP3Controller extends BaseController
 		];
 
 		Cache::put($key, $data, 120);
-		return View::make('mp3.show')->with($data);
+
+		return View::make('mp3.show', $data);
 	}
 
 	public function edit($id)
@@ -292,7 +293,7 @@ class MP3Controller extends BaseController
 						'cats'	=> Category::orderBy('name')->get()
 					];
 
-					return View::make('mp3.put')->with($data);
+					return View::make('mp3.put', $data);
 				}
 			}
 		}
@@ -524,7 +525,7 @@ class MP3Controller extends BaseController
 			'cats'	=> Category::remember(120, 'categories')->orderBy('name')->get()
 		];
 
-		return View::make('mp3.up')->with($data);
+		return View::make('mp3.up', $data);
 	}
 
 
@@ -535,7 +536,7 @@ class MP3Controller extends BaseController
 		if (Cache::has($key))
 		{
 			$data = Cache::get($key);
-			return View::make('mp3.buy')->with($data);
+			return View::make('mp3.buy', $data);
 		}
 
 		$mp3 = MP3::with('user', 'category')
@@ -565,7 +566,7 @@ class MP3Controller extends BaseController
 
 		Cache::put($key, $data, 120);
 
-		return View::make('mp3.buy')->with($data);
+		return View::make('mp3.buy', $data);
 	}
 
 	public function postBuy($id)

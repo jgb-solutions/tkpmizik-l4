@@ -4,22 +4,22 @@ class MP4Controller extends BaseController
 {
 	public function index()
 	{
-		$mp4s = MP4::remember(120)->latest()->paginate(10);
+		$data = [
+			'mp4s' => MP4::remember(120)->latest()->paginate(10),
+			'title'=> 'Navige Tout Videyo Yo'
+		];
 
-		return View::make('mp4.index')
-			->withMp4s($mp4s)
-			->withTitle('Navige Tout Videyo Yo');
+		return View::make('mp4.index', $data);
 	}
 
 	public function getCreate()
 	{
-		$categories = Category::remember(999, 'categories')->orderBy('name')->get();
+		$data = [
+			'categories' => Category::remember(999, 'categories')->orderBy('name')->get(),
+			'title' 	 => 'Mete Yon Videyo YouTube'
+		];
 
-		$title = 'Mete Yon Videyo YouTube';
-
-		$data = ['categories', 'title'];
-
-		return View::make('mp4.up', compact($data));
+		return View::make('mp4.up', $data);
 	}
 
 	public function store()
@@ -138,7 +138,7 @@ class MP4Controller extends BaseController
 		if (Cache::has($key))
 		{
 			$data = Cache::get($key);
-			return View::make('mp4.show')->with($data);
+			return View::make('mp4.show', $data);
 		}
 
 		$mp4 = MP4::with('user', 'category')->findOrFail($id);
@@ -161,7 +161,7 @@ class MP4Controller extends BaseController
 
 		Cache::put($key, $data, 120);
 
-		return View::make('mp4.show')->with($data);
+		return View::make('mp4.show', $data);
 	}
 
 	public function edit($id)
@@ -175,10 +175,13 @@ class MP4Controller extends BaseController
 
 			if ( $user->id == $mp4->user_id || $user->is_admin() )
 			{
-				return View::make('mp4.put')
-				    ->with( 'mp4', $mp4 )
-				    ->with( 'title', "Modifye $mp4->name")
-				    ->with( 'cats', $cats );
+				$data = [
+				    'mp4' => $mp4,
+				    'title' => "Modifye $mp4->name",
+				    'cats' => $cats
+				];
+
+				return View::make('mp4.put', $data);
 			} else
 			{
 				return Redirect::to('/mp4')
@@ -282,8 +285,8 @@ class MP4Controller extends BaseController
 
 		if ($mp4)
 		{
-			$yt_url = 'http://savefrom.net/#url=' . urlencode( 'https://www.youtube.com/watch?v=' . $mp4->youtube_id );
-			return Redirect::to($yt_url);
+			$youtube_url = 'http://savefrom.net/#url=' . urlencode('https://www.youtube.com/watch?v=' . $mp4->youtube_id);
+			return Redirect::to($youtube_url);
 		}
 		else
 		{

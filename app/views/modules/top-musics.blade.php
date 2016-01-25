@@ -4,16 +4,6 @@
     		<i class="fa fa-music"></i> Tòp Mizik Popilè
     	</h4>
   	</li>
-  	<?php
-
-  	$mp3s = MP3::remember(120, 'top.musics')
-				->latest('download')
-  				->latest('play')
-				->latest('vote_up')
-				->latest('views')
-				->take(5)
-				->get();
-  	?>
 
 	@if ( $mp3s && count($mp3s) > 0 )
 		<ul class="list-unstyled">
