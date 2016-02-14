@@ -8,7 +8,7 @@
 
 		<div class="row bg-black">
 			<h2 class="text-center">
-				Nou jwenn {{ $mp3s->count() }} Mizik pou: "{{ $query }}"
+				Nou jwenn {{ $mp3s->count() }} Mizik pou: "{{{ $query }}}"
 			</h2>
 		</div>
 		<hr>
@@ -17,7 +17,9 @@
 
 		@else
 
-		<h2 class="text-center">Nou pa jwenn mizik ki rele: "{{ $query }}"</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">Nou pa jwenn mizik ki rele: "{{ $query }}"</h2>
+		</div>
 
 		@endif
 

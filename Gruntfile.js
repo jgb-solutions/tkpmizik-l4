@@ -23,8 +23,8 @@ module.exports = function(grunt) {
 						'app/assets/js/lib/jquery.min.js',
 						'app/assets/js/lib/jquery.form.min.js',
 						'app/assets/js/lib/bootstrap.min.js',
-						'app/assets/js/lib/underscore.min.js',
-						'app/assets/js/lib/backbone.min.js',
+						//'app/assets/js/lib/underscore.min.js',
+						//'app/assets/js/lib/backbone.min.js',
 						'app/assets/js/lib/jquery.lazyload.min.js',
 						'app/assets/js/compile.min.js'
 					]
@@ -58,7 +58,8 @@ module.exports = function(grunt) {
 						'app/assets/js/lib/berniecode-animator.js',
 						'app/assets/js/lib/soundmanager2.js',
 						'app/assets/js/lib/360player.js',
-						'app/assets/js/source/bb-search.js',
+						//'app/assets/js/source/bb-search.js',
+						'app/assets/js/source/jquery-search.js',
 						'app/assets/js/source/app.js',
 					]
 				}

@@ -61,7 +61,7 @@
 			table-condensed">
 			<tbody id="searchResults">
 
-				@include('js-template.search-results-template')
+				{{-- @include('js-template.search-results-template') --}}
 
 			</tbody>
 		</table>

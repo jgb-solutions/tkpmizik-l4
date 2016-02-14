@@ -12,7 +12,7 @@
 
 		<div class="row bg-black">
 			<h2 class="text-center">
-				Nou jwenn {{ $results->count() }} rezilta pou: "{{ $query }}"
+				Nou jwenn {{ $results->count() }} rezilta pou: "{{{ $query }}}"
 			</h2>
 		</div>
 		<hr>
@@ -22,7 +22,7 @@
 		@else
 
 		<div class="row bg-black">
-			<h2 class="text-center">Nou pa jwenn anyen pou: "{{ $query }}"</h2>
+			<h2 class="text-center">Nou pa jwenn anyen pou: "{{{ $query }}}"</h2>
 		</div>
 
 		@endif

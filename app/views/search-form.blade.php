@@ -1,3 +1,4 @@
+
 <form role="search" action="/search" id="mainSearchForm" class="mainSearchForm">
 	<div class="input-group">
 		<input
@@ -6,7 +7,7 @@
 			type="text"
 			class="form-control"
 			placeholder="Chèche Mizik ak Videyo"
-			value="{{ Input::get('q') }}"
+			value="{{{ Input::get('q') }}}"
 		>
 		<input id="typeInput" type="hidden" name="type" value="">
 		<span class="input-group-btn">

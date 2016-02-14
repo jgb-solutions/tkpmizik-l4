@@ -35,12 +35,15 @@ function views_play_download_count()
 		fn: 'vpd_count'
 	};
 
-	$.post('/ajax', param, function( data )
+	if ( param.id !== undefined )
 	{
-		$spanView.text( data.views );
-		if ( data.play !== '' ) $spanPlay.text( data.play );
-		$spanDownload.text( data.download );
-	});
+		$.post('/ajax', param, function( data )
+		{
+			$spanView.text( data.views );
+			if ( data.play !== '' ) $spanPlay.text( data.play );
+			$spanDownload.text( data.download );
+		});
+	}
 }
 
 function vote()
@@ -201,7 +204,8 @@ function voteNull( ud )
 $(function()
 {
 	form_category_check();
-	new app.views.SearchViews();
+	//new app.views.SearchViews();
+	tmSearch.init();
 
 	/********** Views Count, Play Count & Download Count ********/
 	views_play_download_count();

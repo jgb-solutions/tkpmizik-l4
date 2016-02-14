@@ -20,11 +20,10 @@
 </div>
 
 <div class="col-sm-8 col-sm-offset-2">
-	
+
 	@include('inc.errors')
 
 	{{ Form::open(['method' => 'POST', 'url' => '/admin/pages', 'id' => 'form-page-create']) }}
-
 
 		<div class="form-group">
 			<input
@@ -64,3 +63,5 @@
 </div>
 
 @stop
+
+@include('inc.js.editor')

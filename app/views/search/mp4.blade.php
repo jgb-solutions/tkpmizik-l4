@@ -18,9 +18,11 @@
 
 		@else
 
-		<h2 class="text-center">Nou pa jwenn videyo ki rele: "{{ $query }}"</h2>
+		<div class="row bg-black">
+			<h2 class="text-center">Nou pa jwenn videyo ki rele: "{{ $query }}"</h2>
 
 		@endif
+		</div>
 
 		<div class="text-center">
 			{{ $mp4s->links() }}

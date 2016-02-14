@@ -1,8 +1,4 @@
 <?php
-// Event::listen('illuminate.query', function($query)
-// {
-// 	var_dump($query);
-// });
 
 Route::get('/', 'PageController@getIndex');
 Route::get('/p/{slug}', 'PageController@getPage');
@@ -91,3 +87,8 @@ Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 
 	Route::controller('/', 'AdminController');
 });
+
+// Event::listen('illuminate.query', function($query)
+// {
+// 	var_dump($query);
+// });

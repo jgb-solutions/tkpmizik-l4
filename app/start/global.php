@@ -53,8 +53,7 @@ App::error(function(Exception $exception, $code)
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e)
 {
-	return View::make('pages.404')
-				->with('title', 'Woy! Erè 404.');
+	return View::make('pages.404');
 });
 
 /*
@@ -75,8 +74,7 @@ App::down(function()
 
 App::missing(function()
 {
-	return View::make('pages.404')
-				->with('title', 'Woy! Erè 404.');
+	return View::make('pages.404');
 });
 
 /*

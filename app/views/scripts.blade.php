@@ -9,3 +9,6 @@
 	@include('inc.ga')
 
 @endunless
+
+@section('scripts')
+@show
