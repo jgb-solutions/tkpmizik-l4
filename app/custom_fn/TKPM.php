@@ -297,7 +297,7 @@ class TKPM
 			return asset($relativeUrl);
 		}
 
-		$cdnUrl = 'http://tkpmizik.jgbcdn.ml/';
+		$cdnUrl = 'http://tkpm.cdn.tikwenpam.net/';
 
 		return url($cdnUrl . $relativeUrl);
 	}
