@@ -43,7 +43,7 @@ return array(
 		],
 		'mp3'		=> [
 			'required'	=> 'Fòk ou chwazi yon fichye MP3.',
-			'mimes'		=> 'Fòk fòma mizik la MP3. Tanpri chwazi yon bon fòma.',
+			'mimes'		=> 'Fòk fòma mizik la MP3. Tanpri chwazi yon bon fòma. Sa ka rive tou mizik ou a gen yon gwo imaj ladan l ki anpeche sit la aksepte li. Nan ka sa a retire imaj la epi aprè eseye ankò.',
 			'size'		=> 'Fòk mizik la pa depase 100 MB.'
 		],
 		'slug'		=> [
