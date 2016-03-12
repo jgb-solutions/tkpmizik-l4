@@ -27,31 +27,31 @@ class MP3Controller extends BaseController
 	{
 		// return Input::all();
 
-		$emailRule = Auth::guest() ? 'required' : '';
+		$email_rule = Auth::guest() ? 'required' : '';
 
 		$rules = [
 			'name' 	=> 'required|min:6',
 			'mp3' 	=> 'required|mimes:mpga|max:100000000',
 			'image' => 'required|image',
-			'email'	=> $emailRule
+			'email'	=> $email_rule
 		];
 
 		$messages = [
-			'name.required' 	=> Config::get('site.validate.name.required'),
-			'name.min'			=> Config::get('site.validate.name.min'),
-			'mp3.required' 		=> Config::get('site.validate.mp3.required'),
-			'mp3.mimes' 		=> Config::get('site.validate.mp3.mimes'),
-			'mp3.size' 			=> Config::get('site.validate.mp3.size'),
-			'image.required' 	=> Config::get('site.validate.image.required'),
-			'image.image'		=> Config::get('site.validate.image.image'),
-			'email.required' 	=> Config::get('site.validate.email.required'),
+			'name.required'  => Config::get('site.validate.name.required'),
+			'name.min'		 => Config::get('site.validate.name.min'),
+			'mp3.required' 	 => Config::get('site.validate.mp3.required'),
+			'mp3.mimes' 	 => Config::get('site.validate.mp3.mimes'),
+			'mp3.size' 		 => Config::get('site.validate.mp3.size'),
+			'image.required' => Config::get('site.validate.image.required'),
+			'image.image'	 => Config::get('site.validate.image.image'),
+			'email.required' => Config::get('site.validate.email.required'),
 		];
 
-		$validator = Validator::make( Input::all(), $rules, $messages );
+		$validator = Validator::make(Input::all(), $rules, $messages);
 
-		if ( $validator->fails() )
+		if ($validator->fails())
 		{
-			if ( Request::ajax() )
+			if (Request::ajax())
 			{
 				$response = [];
 
@@ -61,14 +61,16 @@ class MP3Controller extends BaseController
 	        	return $response;
 			}
 
-			return Redirect::to('/mp3/up')->withErrors( $validator )->withInput();
+			return Redirect::to('/mp3/up')
+							->withErrors($validator)
+							->withInput();
 		}
 
 		$storedMP3 = MP3::whereName(Input::get('name'))->first();
 
 		if ($storedMP3)
 		{
-			if ( Request::ajax() )
+			if (Request::ajax())
 	        {
 	        	$response = [];
 
@@ -86,46 +88,47 @@ class MP3Controller extends BaseController
 		$price 			= Input::get('price');
 		$name 			= Input::get('name');
 		$mp3 			= Input::file('mp3');
-		$mp3size 		= TKPM::size($mp3->getClientsize());
-		$mp3ext 		= $mp3->getClientOriginalExtension();
-		$mp3name 		= Str::slug( $name, '-') . '-' . Str::random( 32 ) . '.' . $mp3ext;
-		$mp3uploadpath 	= Config::get('site.mp3_upload_path');
+		$mp3_size 		= TKPM::size($mp3->getClientsize());
+		$mp3_ext 		= $mp3->getClientOriginalExtension();
+		$mp3_name 		= Str::slug($name, '-') . '-' . Str::random(32) . '.' . $mp3_ext;
+		$mp3_upload_path= Config::get('site.mp3_upload_path');
 
-		$mp3success 	= $mp3->move( $mp3uploadpath, $mp3name );
+		$mp3_success 	= $mp3->move($mp3_upload_path, $mp3_name);
 
 		/************ Image Uploading *****************/
-		$image 			 = Input::file('image');
-		$img_type		= $image->getMimeType();
-		$imageext 		 = $image->getClientOriginalExtension();
-		$imagename 		 = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
-		$imageuploadpath = Config::get('site.image_upload_path');
-		$imagesuccess 	 = $image->move($imageuploadpath, $imagename);
+		$img 		= Input::file('image');
+		$img_type	= $img->getMimeType();
+		$img_ext 	= $img->getClientOriginalExtension();
+		$img_name 	= Str::slug($name, '-') . '-' . Str::random(32) . '.' . $img_ext;
+		$img_upload_path = Config::get('site.image_upload_path');
+		$img_success 	 = $img->move($img_upload_path, $img_name);
 
-		if ($imagesuccess)
+		if ($img_success)
 		{
-			TKPM::image($imagename, 250, 250, 'thumbs');
-			TKPM::image($imagename, 100, null, 'thumbs/tiny');
-			TKPM::image($imagename, 640, 360, 'show');
+			TKPM::image($img_name, 250, 250, 'thumbs');
+			TKPM::image($img_name, 100, null, 'thumbs/tiny');
+			TKPM::image($img_name, 640, 360, 'show');
 		}
 
 		$admin_id = User::whereAdmin(1)->first()->id;
-		$user_id  = ( Auth::check() ) ? Auth::user()->id : $admin_id;
+		$user_id  = (Auth::check()) ? Auth::user()->id : $admin_id;
 
-		if ( $mp3success && $imagesuccess )
+		if ($mp3_success && $img_success)
 		{
 			$mp3 			 = new MP3;
 			$mp3->name 		 = ucwords($name);
-			$mp3->mp3name	 = $mp3name;
-			$mp3->image 	 = $imagename;
+			$mp3->mp3name	 = $mp3_name;
+			$mp3->image 	 = $img_name;
 			$mp3->user_id 	 = $user_id;
 			$mp3->category_id = Input::get('cat');
-			$mp3->size 		 = $mp3size;
+			$mp3->size 		 = $mp3_size;
 
 			if ($price == 'free')
 			{
 				$mp3->publish = 1;
-				$mp3->price = $price;
 			}
+
+			$mp3->price = $price;
 
 			if (! $price)
 			{
@@ -133,25 +136,20 @@ class MP3Controller extends BaseController
 				$mp3->price = 'free';
 			}
 
-			if ($price == 'paid')
-			{
-				$mp3->price = $price;
-			}
-
 			$mp3->description = Input::get('description');
 
 			$mp3->save();
 
 
-			/*********** GETID3 **************/
-			TKPM::tag($mp3, $imagename, $img_type);
+			/************** GETID3 **************/
+			TKPM::tag($mp3, $img_name, $img_type);
 
 			/******* Flush the cache ********/
 			Cache::flush();
 
 			if ($mp3->price == 'paid')
 			{
-				// Send a  email to the new user letting them know their music has been uploaded
+				// Send an email to the new user letting them know their music has been uploaded
 				$data = [
 					'mp3' 		=> $mp3,
 					'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik pou vann.'
@@ -160,7 +158,7 @@ class MP3Controller extends BaseController
 				TKPM::sendMail('emails.user.buy', $data, 'mp3');
 			}
 
-			elseif ( Auth::guest() && Input::has('email') )
+			elseif (Auth::guest() && Input::has('email'))
 			{
 				$mp3->userEmail = Input::get('email');
 
@@ -174,7 +172,7 @@ class MP3Controller extends BaseController
 
 			else
 			{
-				// Send a  email to the new user letting them know their music has been uploaded
+				// Send an email to the new user letting them know their music has been uploaded
 				$data = [
 					'mp3' 		=> $mp3,
 					'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
@@ -183,13 +181,12 @@ class MP3Controller extends BaseController
 				TKPM::sendMail('emails.user.mp3', $data, 'mp3');
 			}
 
-
-			if ( App::environment() == 'production')
+			if (! App::isLocal())
 			{
 				TKPM::tweet($mp3, 'mp3');
 			}
 
-	        if ( Request::ajax() )
+	        if (Request::ajax())
 	        {
 	        	$response = [];
 
@@ -199,28 +196,27 @@ class MP3Controller extends BaseController
 	        	return $response;
 	        }
 
-	        if ( $price == 'paid')
+	        Cache::forget('latest.musics');
+
+	        if ($price == 'paid')
 	        {
 				return Redirect::to("mp3/{$mp3->id}/edit");
 	        }
 
-	        Cache::forget('latest.musics');
-
 			return Redirect::to('mp3/' . $mp3->id );
-
 		} else
 		{
-			if ( Request::ajax() )
+			if (Request::ajax())
 	        {
 	        	$response = [];
 
 	        	$response['success'] = false;
-	        	$response['message']	= 'Nou regrèt men nou pa reyisi mete mizik ou a. Eseye ankò.';
+	        	$response['message'] = 'Nou regrèt men nou pa reyisi mete mizik ou a. Eseye ankò.';
 
 	        	return $response;
 	        }
 
-			return Redirect::to( Request::url() )
+			return Redirect::to(Request::url())
 				->with('message', 'Nou regrèt men nou pa reyisi mete mizik ou a. Eseye ankò.');
 		}
 
@@ -363,16 +359,16 @@ class MP3Controller extends BaseController
 
 		if ( isset($image) )
 		{
-			$imageext = $image->getClientOriginalExtension();
-			$imagename = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $imageext;
-			$imageuploadpath = Config::get('site.image_upload_path');
-			$imagesuccess = $image->move( $imageuploadpath, $imagename );
+			$img_ext = $image->getClientOriginalExtension();
+			$img_name = Str::slug( $name, '-' ) . '-' . Str::random( 32 ) . '.' . $img_ext;
+			$img_upload_path = Config::get('site.image_upload_path');
+			$imagesuccess = $image->move( $img_upload_path, $img_name );
 
 			if ($imagesuccess)
 			{
-				TKPM::image($imagename, 250, 250, 'thumbs');
-				TKPM::image($imagename, 100, null, 'thumbs/tiny');
-				TKPM::image($imagename, 640, 360, 'show');
+				TKPM::image($img_name, 250, 250, 'thumbs');
+				TKPM::image($img_name, 100, null, 'thumbs/tiny');
+				TKPM::image($img_name, 640, 360, 'show');
 			}
 		}
 
@@ -386,7 +382,7 @@ class MP3Controller extends BaseController
 
 		if ( !empty( $image ) )
 		{
-			$mp3->image = $imagename;
+			$mp3->image = $img_name;
 		}
 
 		if ( !empty( $category) )
