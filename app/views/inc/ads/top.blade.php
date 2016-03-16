@@ -1,3 +1,4 @@
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Ti Kwen Pam Mizik Top -->
 <ins class="adsbygoogle"
      style="display:block"
