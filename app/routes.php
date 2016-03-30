@@ -88,6 +88,8 @@ Route::group(['prefix' => 'admin', 'before' => 'auth.admin'], function()
 	Route::controller('/', 'AdminController');
 });
 
+Route::controller('password', 'RemindersController');
+
 // Event::listen('illuminate.query', function($query)
 // {
 // 	var_dump($query);
