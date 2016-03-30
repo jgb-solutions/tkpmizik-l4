@@ -16,64 +16,20 @@
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
-			<li class="dropdown">
+			<li>
 				<a
-					href="#"
-					class="dropdown-toggle"
-					data-toggle="dropdown">
+					href="/mp3"
 					<i class="fa fa-music"></i>
 					Mizik
-					<b class="caret"></b>
 				</a>
-
-				<ul class="dropdown-menu">
-					<li>
-						<a
-							href="/mp3">
-							<i class="fa fa-music"></i>
-							Tout Mizik Yo
-						</a>
-					</li>
-					<li>
-						<a href="/mp3/buy">
-							<i class="fa fa-music"></i>
-							Mizik Pou Vann
-							<i class="fa fa-dollar"></i>
-						</a>
-					</li>
-					<li>
-						<a href="/mp3/up">
-							<i class="fa fa-cloud-upload"></i>
-							Mete Mizik
-						</a>
-					</li>
-				</ul>
 			</li>
 
-			<li class="dropdown">
+			<li>
 				<a
-					href="#"
-					class="dropdown-toggle"
-					data-toggle="dropdown">
+					href="/mp4"
 					<i class="fa fa-video-camera"></i>
 					Videyo
-					<b class="caret"></b>
 				</a>
-
-				<ul class="dropdown-menu">
-					<li>
-						<a href="/mp4">
-							<i class="fa fa-video-camera"></i>
-							Tout Videyo Yo
-						</a>
-					</li>
-					<li>
-						<a href="/mp4/up">
-							<i class="fa fa-cloud-upload"></i>
-							Mete Videyo
-						</a>
-					</li>
-				</ul>
 			</li>
 
 			<li class="dropdown">
