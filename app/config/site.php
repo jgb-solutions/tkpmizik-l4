@@ -82,6 +82,10 @@ return array(
 		'cant-play' => 'Ou pa ka jwe yon mizik peye. Achte li pou w ka telechaje li epi aprè w\'ap ka tande li sou telefòn ou oubyen lòt aparèy.',
 		'errors'	=> [
 			'login'	=> 'Imel oubyen Modpas la pa kòrèk. Tanpri rantre yo epi eseye ankò. Si w pa gen yon kont sou sit la ou ka jis <a href="/register">kreye youn</a>.'
+		],
+		'passwordchange' => [
+			'success' => 'Ou reyisi chanje modpas ou a avèk siksè.',
+			'fail' => 'Nou regrèt, men nou pa reyisi chanje modpas ou a.'
 		]
 	]
 );
