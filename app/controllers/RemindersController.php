@@ -10,7 +10,7 @@ class RemindersController extends Controller {
 	public function getRemind()
 	{
 		$data = [
-			'title' => 'Riset Modpas ou'
+			'title' => 'Reyinisyalize Modpas ou'
 		];
 
 		return View::make('password.remind', $data);
@@ -43,7 +43,11 @@ class RemindersController extends Controller {
 	{
 		if (is_null($token)) App::abort(404);
 
-		return View::make('password.reset')->with('token', $token);
+		$data = [
+			'title' => 'Chanje Modpas Ou'
+		];
+
+		return View::make('password.reset')->with('token', $token)->with($data);
 	}
 
 	/**

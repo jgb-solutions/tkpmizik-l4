@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<meta charset="utf-8">
-	</head>
-	<body>
-		<h2>Password Reset</h2>
+@include('emails.user.header')
+	<h2>Reyinisyalizasyon modpas</h2>
 
-		<div>
-			To reset your password, complete this form: {{ URL::to('password/reset', array($token)) }}.<br/>
-			This link will expire in {{ Config::get('auth.reminder.expire', 60) }} minutes.
-		</div>
-	</body>
-</html>
+	<div>
+		Pou Reyinisyalize modpas ou a klike sou lyen sa a:
+		{{ URL::to('password/reset', array($token)) }}.<br/>
+		Lyen sa a ap ekpire nan {{ Config::get('auth.reminder.expire', 120) }} minit.
+	</div>
+@include('emails.user.footer')

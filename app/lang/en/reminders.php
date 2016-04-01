@@ -13,12 +13,12 @@ return array(
 	|
 	*/
 
-	"password" => "Passwords must be at least six characters and match the confirmation.",
+	"password" => "Fòk kòd la plis pase 6 karaktè e li dwe menm ak kòd konfimasyon an.",
 
-	"user" => "We can't find a user with that e-mail address.",
+	"user" => "Imel ou mete a pa gen yon kont sou sit la.",
 
-	"token" => "This password reset token is invalid.",
+	"token" => "Kòd pou reyinisyalize modpas ou a envalid oubyen ekspire.",
 
-	"sent" => "Password reminder sent!",
+	"sent" => "Nou voye yon kòd pou w ka reyinisyalize modpas ou a sou imel ou!",
 
 );

@@ -29,23 +29,36 @@
 
 			@if ( Auth::guest() )
 			<div class="form-group">
-				<label for="email" class="col-sm-4 control-label">Ki Imel Ou?</label>
+				<label
+					for="useremail"
+					class="col-sm-4 control-label">Ki Imel Ou?
+				</label>
 				<div class="col-sm-8">
 					<input required
 						type="email"
 						name="email"
 						class="form-control"
-						id="name"
+						id="useremail"
 						placeholder="Antre Imel Ou"
-						value="{{ Input::old('email') }}" >
+						value="{{ Input::old('email') }}">
 				</div>
 			</div>
 			@endif
 
 			<div class="form-group">
-				<label for="name" class="col-sm-4 control-label">Mete Non Mizik la</label>
+				<label
+					for="name"
+					class="col-sm-4 control-label">Mete Non Mizik la
+				</label>
 				<div class="col-sm-8">
-					<input required type="text" name="name" class="form-control" id="name" placeholder="Bay mizik la yon tit" value="{{ Input::old('name') }}" >
+					<input
+						required
+						type="text"
+						name="name"
+						class="form-control"
+						id="name"
+						placeholder="Bay mizik la yon tit"
+						value="{{ Input::old('name') }}">
 				</div>
 			</div>
 
@@ -89,7 +102,8 @@
 						name="description"
 						class="form-control"
 						id="description"
-						placeholder="Bay kèk enfòmasyon sou mizik la" >{{ Input::old('description') }}</textarea>
+						placeholder="Bay kèk enfòmasyon sou mizik la">{{
+							Input::old('description') }}</textarea>
 				</div>
 			</div>
 

@@ -11,11 +11,21 @@
 			<input name="password" type="password" class="form-control" id="password" placeholder="Antre Modpas Ou" required>
 		</div>
 	</div>
-  <div class="form-group">
-    <div class="col-sm-offset-4 col-sm-8">
-      <button type="submit" class="btn btn-primary btn-lg">
-		<i class="fa fa-sign-in"></i> Koneksyon
-	</button>
-    </div>
-  </div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-8">
+		  	<button type="submit" class="btn btn-primary btn-lg">
+				<i class="fa fa-sign-in"></i> Koneksyon
+			</button>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-8">
+			<p>
+				<a href="{{ action('RemindersController@postRemind') }}">
+					Ou bliye modpas ou?
+				</a>
+			</p>
+
+		</div>
+	</div>
 </form>
