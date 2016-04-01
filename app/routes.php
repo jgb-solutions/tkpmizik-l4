@@ -20,7 +20,7 @@ Route::group(array(
 	'before' => 'auth'),
 	function()
 	{
-		Route::get('/', 'UserController@getuser');
+		Route::get('/', 'UserController@getUser');
 		Route::get('/mp3', 'UserController@getUserMP3s');
 		Route::get('/mp4', 'UserController@getUserMP4s');
 		Route::get('/edit', 'UserController@getUserEdit');
