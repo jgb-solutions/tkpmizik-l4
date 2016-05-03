@@ -31,7 +31,7 @@ class MP3Controller extends BaseController
 
 		$rules = [
 			'name' 	=> 'required|min:6',
-			'mp3' 	=> 'required|mimes:mpga|max:100000000',
+			'mp3' 	=> 'required|mimes:mpga|max:150000000',
 			'image' => 'required|image',
 			'email'	=> $email_rule
 		];

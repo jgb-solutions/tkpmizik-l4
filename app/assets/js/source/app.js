@@ -280,6 +280,14 @@ $(function()
 	    				messages += '<li class="list-group-item transparent">' + val + '</li>';
 	        		});
     			}
+				
+				if ( res.errors.size )
+    			{
+    				$.each( res.errors.size, function(index, val) {
+		    			// console.log( val );
+	    				messages += '<li class="list-group-item transparent">' + val + '</li>';
+	        		});
+    			}
 
         		$('#upMessage').html( messages );
 	        }
