@@ -94,3 +94,10 @@ Route::controller('password', 'RemindersController');
 // {
 // 	var_dump($query);
 // });
+
+Route::get('tnt', function()
+{
+	$indexer = TNTSearch::createIndex('mp3s.index');
+        // $indexer->query('SELECT id, name, description, price, FROM mp3s;');
+        // $indexer->run();
+});
