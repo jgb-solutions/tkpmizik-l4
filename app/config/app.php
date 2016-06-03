@@ -124,7 +124,6 @@ return array(
 		'Intervention\Image\ImageServiceProvider',
 		'Thujohn\Twitter\TwitterServiceProvider',
 		'App\Providers\TKPMServiceProvider',
-		'TeamTNT\TNTSearch\TNTSearchServiceProvider'
 
 	),
 
@@ -194,7 +193,6 @@ return array(
 		'View'            	=> 'Illuminate\Support\Facades\View',
 		'Image'		=> 'Intervention\Image\Facades\Image',
 		'Twitter' 		=> 'Thujohn\Twitter\Facades\Twitter',
-		// 'TNTSearch'	=> 'TeamTNT\TNTSearch\TNTSearchServiceProvider'
 
 	),
 
