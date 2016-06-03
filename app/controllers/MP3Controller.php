@@ -186,15 +186,15 @@ class MP3Controller extends BaseController
 				TKPM::tweet($mp3, 'mp3');
 			}
 
-	        // if (Request::ajax())
-	        // {
+	        if (Request::ajax())
+	        {
 	        	$response = [];
 
 	        	$response['success']  = true;
 	        	$response['url'] = $price == 'paid' ? "/mp3/{$mp3->id}/edit" : "/mp3/{$mp3->id}";
 
 	        	return $response;
-	        // }
+	        }
 
 	        Cache::forget('latest.musics');
 
