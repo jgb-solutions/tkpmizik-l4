@@ -31,7 +31,7 @@ class MP3Controller extends BaseController
 
 		$rules = [
 			'name' 	=> 'required|min:6',
-			'mp3' 	=> 'required|mimes:mpga|max:150000000',
+			'mp3' 	=> 'required|mimes:mpga|max:64000000',
 			'image' => 'required|image',
 			'email'	=> $email_rule
 		];
@@ -181,10 +181,10 @@ class MP3Controller extends BaseController
 				TKPM::sendMail('emails.user.mp3', $data, 'mp3');
 			}
 
-			if (! App::isLocal())
-			{
-				TKPM::tweet($mp3, 'mp3');
-			}
+			// if (! App::isLocal())
+			// {
+			// 	TKPM::tweet($mp3, 'mp3');
+			// }
 
 	        if (Request::ajax())
 	        {
