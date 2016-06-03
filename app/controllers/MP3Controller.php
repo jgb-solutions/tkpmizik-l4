@@ -190,8 +190,11 @@ class MP3Controller extends BaseController
 	        {
 	        	$response = [];
 
+	        	$linkID = "/mp3/{$mp3->id}";
+
 	        	$response['success']  = true;
-	        	$response['url'] = $price == 'paid' ? "/mp3/{$mp3->id}/edit" : "/mp3/{$mp3->id}";
+	 
+	        	$response['url'] = $price == 'paid' ? $linkID . "/edit" : $linkID;
 
 	        	return $response;
 	        }
