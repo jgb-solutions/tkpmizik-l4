@@ -21,7 +21,7 @@
 		@include('inc.errors')
 
 
-		{{ Form::open(['method' => 'POST', 'url' => '/mp3', 'files' => true, 'class' => 'form-horizontal', 'id' => 'upFormm']) }}
+		{{ Form::open(['method' => 'POST', 'url' => '/mp3', 'files' => true, 'class' => 'form-horizontal', 'id' => 'upForm']) }}
 
 			@if ( Auth::user() )
 				@include('inc.free-paid')
