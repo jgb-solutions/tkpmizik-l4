@@ -49,6 +49,7 @@ Route::get('/mp3/play/{id}', 'MP3Controller@getPlayMP3');
 Route::get('/mp3/buy', 'MP3Controller@listBuy');
 Route::get('/mp3/buy/{id}', 'MP3Controller@getBuy');
 Route::post('/mp3/buy/{id}', 'MP3Controller@postBuy');
+Route::post('mp3', 'MP3Controller@store');
 Route::resource('mp3', 'MP3Controller');
 
 Route::get('/mp4/get/{id}', 'MP4Controller@getMP4')->where('id', '[0-9]+');
