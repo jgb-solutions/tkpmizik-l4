@@ -194,7 +194,7 @@ return array(
 		'View'            	=> 'Illuminate\Support\Facades\View',
 		'Image'		=> 'Intervention\Image\Facades\Image',
 		'Twitter' 		=> 'Thujohn\Twitter\Facades\Twitter',
-		'TNTSearch'	=> 'TeamTNT\TNTSearch\TNTSearchServiceProvider'
+		// 'TNTSearch'	=> 'TeamTNT\TNTSearch\TNTSearchServiceProvider'
 
 	),
 

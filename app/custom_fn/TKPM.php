@@ -72,7 +72,7 @@ class TKPM
 	{
 	    $sizes = [' B', ' KB', ' MB'];
 
-	    $total = count($sizes) - 1 ;
+	    $total = count($sizes) - 1 ; 
 
 	    for ($i = 0; $size > 1024 && $i < $total; $i++)
 	    {
@@ -87,7 +87,7 @@ class TKPM
 		$mp3_handler = new \getID3;
         $mp3_handler->setOption(['encoding'=> 'UTF-8']);
 
-        $mp3_writter 					= new \getid3_writetags;
+        $mp3_writter = new \getid3_writetags;
 
         $mp3_writter->filename          = Config::get('site.mp3_upload_path') . '/' . $mp3->mp3name;
         $mp3_writter->tagformats        = array('id3v1', 'id3v2.3');
