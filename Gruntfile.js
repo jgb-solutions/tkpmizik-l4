@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 		concat: {
 			js: {
 				files: {
-					'public/js/app.cool.js': [
+					'public/js/app.nice.js': [
 						'app/assets/js/lib/jquery.min.js',
 						'app/assets/js/lib/jquery.form.min.js',
 						'app/assets/js/lib/bootstrap.min.js',

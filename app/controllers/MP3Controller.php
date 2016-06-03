@@ -181,10 +181,10 @@ class MP3Controller extends BaseController
 				TKPM::sendMail('emails.user.mp3', $data, 'mp3');
 			}
 
-			// if (! App::isLocal())
-			// {
-			// 	TKPM::tweet($mp3, 'mp3');
-			// }
+			if (! App::isLocal())
+			{
+				TKPM::tweet($mp3, 'mp3');
+			}
 
 	        if (Request::ajax())
 	        {
