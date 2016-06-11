@@ -229,4 +229,45 @@ class AJAXController extends BaseController
 
 		}
 	}
+
+	private function tweetMail($id, $obj, $action = null)
+	{
+		if ($mp3->price == 'paid')
+		{
+			// Send an email to the new user letting them know their music has been uploaded
+			$data = [
+				'mp3' 		=> $mp3,
+				'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik pou vann.'
+			];
+
+			TKPM::sendMail('emails.user.buy', $data, 'mp3');
+		}
+
+		elseif (Auth::guest() && Input::has('email'))
+		{
+			$mp3->userEmail = Input::get('email');
+
+			$data = [
+				'mp3' 		=> $mp3,
+				'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
+			];
+
+			TKPM::sendMail('emails.user.guest3', $data, 'guest3');
+		}
+
+		{
+			// Send an email to the new user letting them know their music has been uploaded
+			$data = [
+				'mp3' 		=> $mp3,
+				'subject' 	=> 'Felisitasyon!!! Ou fèk mete yon nouvo mizik'
+			];
+
+			TKPM::sendMail('emails.user.mp3', $data, 'mp3');
+		}
+
+		if (! App::isLocal())
+		{
+			TKPM::tweet($mp3, 'mp3');
+		}
+	}
 }
